@@ -25,7 +25,7 @@ class InfotainmentManufacturerController extends Controller
     public function create(): View
     {
         return view('infotainment_manufacturers.create-or-edit', [
-            'infotainment_manufacturers' => new InfotainmentManufacturer,
+            'infotainmentManufacturer' => new InfotainmentManufacturer,
         ]);
     }
 
@@ -52,7 +52,9 @@ class InfotainmentManufacturerController extends Controller
      */
     public function edit(InfotainmentManufacturer $infotainmentManufacturer): View
     {
-        return view('infotainment_manufacturers.create-or-edit', ['infotainment_manufacturers' => $infotainmentManufacturer]);
+        return view('infotainment_manufacturers.create-or-edit', [
+            'infotainmentManufacturer' => $infotainmentManufacturer
+        ]);
     }
 
     /**

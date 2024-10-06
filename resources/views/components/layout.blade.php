@@ -44,8 +44,13 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2" href="#">
+                                <a class="nav-link d-flex align-items-center gap-2" href="{{ route('serializer_manufacturers.index') }}">
                                     Serializer manufacturers
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center gap-2" href="#">
+                                    Infotainments
                                 </a>
                             </li>
                             <li class="nav-item">

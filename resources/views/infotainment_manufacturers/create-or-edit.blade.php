@@ -23,7 +23,7 @@
                    value="{{ old('name', $infotainmentManufacturer->name) }}"
                    id="name"
                    @class(['form-control', 'is-invalid' => $errors->has('name')])
-                   maxlength="150" required>
+                   maxlength="255" required>
             @error('name')
             <div class="invalid-feedback">
                 {{ $message }}
