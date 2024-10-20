@@ -18,14 +18,14 @@
                     <tr>
                         <td>{{ $infotainmentManufacturer->name }}</td>
                         <td>
-                            <a href="{{ route('infotainment_manufacturers.edit', $infotainmentManufacturer) }}" class="btn btn-primary">
+                            <a href="{{ route('infotainment_manufacturers.edit', $infotainmentManufacturer) }}" class="btn btn-primary btn-sm   ">
                                 Edit
                             </a>
 
                             <form action="{{ route('infotainment_manufacturers.destroy', $infotainmentManufacturer) }}" method="POST" class="d-inline-block">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                             </form>
                         </td>
                     </tr>

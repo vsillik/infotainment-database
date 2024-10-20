@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InfotainmentController;
 use App\Http\Controllers\InfotainmentManufacturerController;
 use App\Http\Controllers\SerializerManufacturerController;
 use Illuminate\Support\Facades\Route;
@@ -13,3 +14,5 @@ Route::resource('infotainment_manufacturers', InfotainmentManufacturerController
 
 Route::resource('serializer_manufacturers', SerializerManufacturerController::class)
     ->except(['show']);
+
+Route::resource('infotainments', InfotainmentController::class);

@@ -20,12 +20,12 @@
                     <td>{{ $serializerManufacturer->id }}</td>
                     <td>{{ $serializerManufacturer->name }}</td>
                     <td>
-                        <a href="{{ route('serializer_manufacturers.edit', $serializerManufacturer) }}" class="btn btn-primary">Edit</a>
+                        <a href="{{ route('serializer_manufacturers.edit', $serializerManufacturer) }}" class="btn btn-primary btn-sm">Edit</a>
 
                         <form action="{{ route('serializer_manufacturers.destroy', $serializerManufacturer) }}" method="POST" class="d-inline-block">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                         </form>
                     </td>
                 </tr>
