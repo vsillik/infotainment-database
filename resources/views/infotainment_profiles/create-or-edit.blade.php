@@ -1,20 +1,35 @@
 <x-layout>
     <x-slot:title>
-        @if($infotainmentProfile->exists)
-            Edit infotainment profile
-        @else
-            Create infotainment profile
-        @endif
+        @switch($mode)
+            @case('edit')
+                Edit infotainment profile
+                @break
+            @case('approve')
+                Approving infotainment profile
+                @break
+            @default
+                Create infotainment profile
+        @endswitch
     </x-slot:title>
 
-    <form action="@if($infotainmentProfile->exists)
-                    {{ route('infotainments.profiles.update', [$infotainment, $infotainmentProfile]) }}
-                  @else
-                    {{ route('infotainments.profiles.store', $infotainment) }}
-                  @endif" method="POST">
+    <form action="
+        @switch($mode)
+            @case('edit')
+            @case('approve')
+                {{ route('infotainments.profiles.update', [$infotainment, $infotainmentProfile]) }}
+                @break
+            @default
+                {{ route('infotainments.profiles.store', $infotainment) }}
+        @endswitch
+        " method="POST">
+
         @csrf
-        @if($infotainmentProfile->exists)
+        @if($mode === 'edit' || $mode === 'approve')
             @method('PATCH')
+        @endif
+
+        @if($mode === 'approve')
+            <input type="hidden" name="approving_infotainment_profile" value="1">
         @endif
 
         <div class="mb-3">
@@ -409,8 +424,7 @@
                     <input type="number" name="extra_pixel_clock"
                            value="{{ old('extra_pixel_clock', $extraTiming->pixel_clock) }}"
                            id="extra_pixel_clock"
-                           @class(['form-control', 'is-invalid' => $errors->has('extra_pixel_clock')])
-                           required>
+                           @class(['form-control', 'is-invalid' => $errors->has('extra_pixel_clock')])>
                     @error('extra_pixel_clock')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -423,8 +437,7 @@
                             <input type="number" name="extra_horizontal_pixels"
                                    value="{{ old('extra_horizontal_pixels', $extraTiming->horizontal_pixels) }}"
                                    id="extra_horizontal_pixels"
-                                   @class(['form-control', 'is-invalid' => $errors->has('extra_horizontal_pixels')])
-                                   required>
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_horizontal_pixels')])>
                             @error('extra_horizontal_pixels')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -435,8 +448,7 @@
                             <input type="number" name="extra_horizontal_blank"
                                    value="{{ old('extra_horizontal_blank', $extraTiming->horizontal_blank) }}"
                                    id="extra_horizontal_blank"
-                                   @class(['form-control', 'is-invalid' => $errors->has('extra_horizontal_blank')])
-                                   required>
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_horizontal_blank')])>
                             @error('extra_horizontal_blank')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -448,8 +460,7 @@
                             <input type="number" name="extra_horizontal_front_porch"
                                    value="{{ old('extra_horizontal_front_porch', $extraTiming->horizontal_front_porch) }}"
                                    id="extra_horizontal_front_porch"
-                                   @class(['form-control', 'is-invalid' => $errors->has('extra_horizontal_front_porch')])
-                                   required>
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_horizontal_front_porch')])>
                             @error('extra_horizontal_front_porch')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -461,8 +472,7 @@
                             <input type="number" name="extra_horizontal_sync_width"
                                    value="{{ old('extra_horizontal_sync_width', $extraTiming->horizontal_sync_width) }}"
                                    id="extra_horizontal_sync_width"
-                                   @class(['form-control', 'is-invalid' => $errors->has('extra_horizontal_sync_width')])
-                                   required>
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_horizontal_sync_width')])>
                             @error('extra_horizontal_sync_width')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -474,8 +484,7 @@
                             <input type="number" name="extra_horizontal_image_size"
                                    value="{{ old('extra_horizontal_image_size', $extraTiming->horizontal_image_size) }}"
                                    id="extra_horizontal_image_size"
-                                   @class(['form-control', 'is-invalid' => $errors->has('extra_horizontal_image_size')])
-                                   required>
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_horizontal_image_size')])>
                             @error('extra_horizontal_image_size')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -486,8 +495,7 @@
                             <input type="number" name="extra_horizontal_border"
                                    value="{{ old('extra_horizontal_border', $extraTiming->horizontal_border) }}"
                                    id="extra_horizontal_border"
-                                   @class(['form-control', 'is-invalid' => $errors->has('extra_horizontal_border')])
-                                   required>
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_horizontal_border')])>
                             @error('extra_horizontal_border')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -509,8 +517,7 @@
                             <input type="number" name="extra_vertical_lines"
                                    value="{{ old('extra_vertical_lines', $extraTiming->vertical_lines) }}"
                                    id="extra_vertical_lines"
-                                   @class(['form-control', 'is-invalid' => $errors->has('extra_vertical_lines')])
-                                   required>
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_vertical_lines')])>
                             @error('extra_vertical_lines')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -521,8 +528,7 @@
                             <input type="number" name="extra_vertical_blank"
                                    value="{{ old('extra_vertical_blank', $extraTiming->vertical_blank) }}"
                                    id="extra_vertical_blank"
-                                   @class(['form-control', 'is-invalid' => $errors->has('extra_vertical_blank')])
-                                   required>
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_vertical_blank')])>
                             @error('extra_vertical_blank')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -533,8 +539,7 @@
                             <input type="number" name="extra_vertical_front_porch"
                                    value="{{ old('extra_vertical_front_porch', $extraTiming->vertical_front_porch) }}"
                                    id="extra_vertical_front_porch"
-                                   @class(['form-control', 'is-invalid' => $errors->has('extra_vertical_front_porch')])
-                                   required>
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_vertical_front_porch')])>
                             @error('extra_vertical_front_porch')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -545,8 +550,7 @@
                             <input type="number" name="extra_vertical_sync_width"
                                    value="{{ old('extra_vertical_sync_width', $extraTiming->vertical_sync_width) }}"
                                    id="extra_vertical_sync_width"
-                                   @class(['form-control', 'is-invalid' => $errors->has('extra_vertical_sync_width')])
-                                   required>
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_vertical_sync_width')])>
                             @error('extra_vertical_sync_width')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -557,8 +561,7 @@
                             <input type="number" name="extra_vertical_image_size"
                                    value="{{ old('extra_vertical_image_size', $extraTiming->vertical_image_size) }}"
                                    id="extra_vertical_image_size"
-                                   @class(['form-control', 'is-invalid' => $errors->has('extra_vertical_image_size')])
-                                   required>
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_vertical_image_size')])>
                             @error('extra_vertical_image_size')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -569,8 +572,7 @@
                             <input type="number" name="extra_vertical_border"
                                    value="{{ old('extra_vertical_border', $extraTiming->vertical_border) }}"
                                    id="extra_vertical_border"
-                                   @class(['form-control', 'is-invalid' => $errors->has('extra_vertical_border')])
-                                   required>
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_vertical_border')])>
                             @error('extra_vertical_border')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -591,7 +593,12 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Save</button>
+                @if($mode === 'approve')
+                    <button type="submit" class="btn btn-primary">Approve</button>
+                    <a href="{{ route('infotainments.show', $infotainment) }}" class="btn btn-outline-danger">Cancel</a>
+                @else
+                    <button type="submit" class="btn btn-primary">Save</button>
+                @endif
         </div>
     </form>
 </x-layout>
