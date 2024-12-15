@@ -59,6 +59,7 @@ class InfotainmentController extends Controller
     {
         return view('infotainments.show', [
             'infotainment' => $infotainment,
+           'infotainmentProfiles' => $infotainment->profiles,
         ]);
     }
 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\InfotainmentController;
 use App\Http\Controllers\InfotainmentManufacturerController;
+use App\Http\Controllers\InfotainmentProfileController;
 use App\Http\Controllers\SerializerManufacturerController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,3 +17,6 @@ Route::resource('serializer_manufacturers', SerializerManufacturerController::cl
     ->except(['show']);
 
 Route::resource('infotainments', InfotainmentController::class);
+
+Route::resource('infotainments.profiles', InfotainmentProfileController::class)
+    ->except(['show', 'index']);

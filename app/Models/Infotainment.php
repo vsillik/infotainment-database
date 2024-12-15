@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int id
@@ -37,5 +38,10 @@ class Infotainment extends Model
     public function serializerManufacturer(): BelongsTo
     {
         return $this->belongsTo(SerializerManufacturer::class);
+    }
+
+    public function profiles(): HasMany
+    {
+        return $this->hasMany(InfotainmentProfile::class);
     }
 }

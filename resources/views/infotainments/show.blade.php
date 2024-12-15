@@ -30,19 +30,39 @@
     <h3>Infotainment profiles</h3>
     <hr />
 
+    <a href="{{ route('infotainments.profiles.create', $infotainment) }}" class="btn btn-primary">Create infotainment manufacturer</a>
+
     <table class="table">
         <thead>
             <tr>
-                <th>Field 1</th>
+                <th>Profile ID</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td colspan="2">
-                    No infotainment profile found.
-                </td>
-            </tr>
+            @forelse($infotainmentProfiles as $infotainmentProfile)
+                <tr>
+                    <td>{{ $infotainmentProfile->id }}</td>
+                    <td>
+                        <a href="{{ route('infotainments.profiles.edit', [$infotainment, $infotainmentProfile]) }}" class="btn btn-primary btn-sm">
+                            Edit
+                        </a>
+
+                        <form action="{{ route('infotainments.profiles.destroy', [$infotainment, $infotainmentProfile]) }}" method="POST" class="d-inline-block">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="2">
+                        No infotainment profile found.
+                        <a href="{{ route('infotainments.profiles.create', $infotainment) }}">Add infotainment profile</a>
+                    </td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 </x-layout>
