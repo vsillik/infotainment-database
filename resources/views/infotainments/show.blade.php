@@ -42,8 +42,17 @@
         <tbody>
             @forelse($infotainmentProfiles as $infotainmentProfile)
                 <tr>
-                    <td>{{ $infotainmentProfile->id }}</td>
                     <td>
+                        {{ $infotainmentProfile->id }}
+                        @if($infotainmentProfile->extraTiming)
+                            <span class="badge rounded-pill text-bg-info">Extra timing</span>
+                        @endif
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-success btn-sm disabled" aria-disabled="true">
+                            Download EDID
+                        </a>
+
                         <a href="{{ route('infotainments.profiles.edit', [$infotainment, $infotainmentProfile]) }}" class="btn btn-primary btn-sm">
                             Edit
                         </a>

@@ -22,7 +22,8 @@ class InfotainmentProfileController extends Controller
            'interfaces' => DisplayInterface::labels(),
            'infotainment' => $infotainment,
            'infotainmentProfile' => new InfotainmentProfile,
-           'timing' => new InfotainmentProfileTimingBlock
+           'timing' => new InfotainmentProfileTimingBlock,
+           'extraTiming' => new InfotainmentProfileTimingBlock,
        ]);
     }
 
@@ -42,12 +43,19 @@ class InfotainmentProfileController extends Controller
         $this->setInfotainmentProfileValues($infotainmentProfile, $request, $validated);
 
         $timingBlock = new InfotainmentProfileTimingBlock;
-
-        $this->setTimingBlockValues($timingBlock, $request, $validated);
+        $this->setTimingBlockValues($timingBlock, $request, $validated, false);
 
         $timingBlock->save();
-
         $infotainmentProfile->timing()->associate($timingBlock);
+
+        if ($request->has('extra_timing_block')) {
+            $extraTimingBlock = new InfotainmentProfileTimingBlock;
+            $this->setTimingBlockValues($extraTimingBlock, $request, $validated, true);
+
+            $extraTimingBlock->save();
+            $infotainmentProfile->extraTiming()->associate($extraTimingBlock);
+        }
+
         $infotainmentProfile->save();
 
         return redirect()
@@ -65,7 +73,8 @@ class InfotainmentProfileController extends Controller
             'interfaces' => DisplayInterface::labels(),
             'infotainment' => $infotainment,
             'infotainmentProfile' => $profile,
-            'timing' => $profile->timing
+            'timing' => $profile->timing,
+            'extraTiming' => $profile->extraTiming ?? new InfotainmentProfileTimingBlock,
         ]);
     }
 
@@ -77,11 +86,23 @@ class InfotainmentProfileController extends Controller
         $validated = $request->validated();
 
         $this->setInfotainmentProfileValues($profile, $request, $validated);
-        $profile->save();
 
         $timingBlock = $profile->timing;
-        $this->setTimingBlockValues($timingBlock, $request, $validated);
+        $this->setTimingBlockValues($timingBlock, $request, $validated, false);
         $timingBlock->save();
+
+        if ($request->has('extra_timing_block')) {
+            $extraTimingBlock = $profile->extraTiming ?? new InfotainmentProfileTimingBlock;
+            $this->setTimingBlockValues($extraTimingBlock, $request, $validated, true);
+
+            $extraTimingBlock->save();
+            $profile->extraTiming()->associate($extraTimingBlock);
+        } else {
+            $profile->extraTiming()->dissociate();
+            $profile->extraTiming?->delete();
+        }
+
+        $profile->save();
 
         return redirect()
             ->route('infotainments.show', ['infotainment' => $infotainment->id])
@@ -95,6 +116,7 @@ class InfotainmentProfileController extends Controller
     {
         $profile->delete();
         $profile->timing->delete();
+        $profile->extraTiming?->delete();
 
         return redirect()
             ->route('infotainments.show', $infotainment)
@@ -118,22 +140,24 @@ class InfotainmentProfileController extends Controller
         $infotainmentProfile->vendor_block_3 = $validated['vendor_block_3'];
     }
 
-    private function setTimingBlockValues(InfotainmentProfileTimingBlock $timingBlock, InfotainmentProfileRequest $request, mixed $validated): void
+    private function setTimingBlockValues(InfotainmentProfileTimingBlock $timingBlock, InfotainmentProfileRequest $request, mixed $validated, bool $isExtra): void
     {
-        $timingBlock->pixel_clock = $validated['pixel_clock'];
-        $timingBlock->horizontal_pixels = $validated['horizontal_pixels'];
-        $timingBlock->vertical_lines = $validated['vertical_lines'];
-        $timingBlock->horizontal_blank = $validated['horizontal_blank'];
-        $timingBlock->horizontal_front_porch = $validated['horizontal_front_porch'];
-        $timingBlock->horizontal_sync_width = $validated['horizontal_sync_width'];
-        $timingBlock->horizontal_image_size = $validated['horizontal_image_size'];
-        $timingBlock->horizontal_border = $validated['horizontal_border'];
-        $timingBlock->vertical_blank = $validated['vertical_blank'];
-        $timingBlock->vertical_front_porch = $validated['vertical_front_porch'];
-        $timingBlock->vertical_sync_width = $validated['vertical_sync_width'];
-        $timingBlock->vertical_image_size = $validated['vertical_image_size'];
-        $timingBlock->vertical_border = $validated['vertical_border'];
-        $timingBlock->signal_horizontal_sync_positive = $request->has('signal_horizontal_sync_positive');
-        $timingBlock->signal_vertical_sync_positive = $request->has('signal_vertical_sync_positive');
+        $prefix = $isExtra ? 'extra_' : '';
+
+        $timingBlock->pixel_clock = $validated[$prefix . 'pixel_clock'];
+        $timingBlock->horizontal_pixels = $validated[$prefix . 'horizontal_pixels'];
+        $timingBlock->vertical_lines = $validated[$prefix . 'vertical_lines'];
+        $timingBlock->horizontal_blank = $validated[$prefix . 'horizontal_blank'];
+        $timingBlock->horizontal_front_porch = $validated[$prefix . 'horizontal_front_porch'];
+        $timingBlock->horizontal_sync_width = $validated[$prefix . 'horizontal_sync_width'];
+        $timingBlock->horizontal_image_size = $validated[$prefix . 'horizontal_image_size'];
+        $timingBlock->horizontal_border = $validated[$prefix . 'horizontal_border'];
+        $timingBlock->vertical_blank = $validated[$prefix . 'vertical_blank'];
+        $timingBlock->vertical_front_porch = $validated[$prefix . 'vertical_front_porch'];
+        $timingBlock->vertical_sync_width = $validated[$prefix . 'vertical_sync_width'];
+        $timingBlock->vertical_image_size = $validated[$prefix . 'vertical_image_size'];
+        $timingBlock->vertical_border = $validated[$prefix . 'vertical_border'];
+        $timingBlock->signal_horizontal_sync_positive = $request->has($prefix . 'signal_horizontal_sync_positive');
+        $timingBlock->signal_vertical_sync_positive = $request->has($prefix . 'signal_vertical_sync_positive');
     }
 }

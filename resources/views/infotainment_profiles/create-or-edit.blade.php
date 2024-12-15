@@ -20,18 +20,36 @@
         <div class="mb-3">
             <ul class="nav nav-tabs" id="profile-tab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="base-tab" data-bs-toggle="tab" data-bs-target="#base-tab-pane" type="button" role="tab" aria-controls="base-tab-pane" aria-selected="true">Base information</button>
+                    <button class="nav-link active" id="base-tab" data-bs-toggle="tab" data-bs-target="#base-tab-pane"
+                            type="button" role="tab" aria-controls="base-tab-pane" aria-selected="true">
+                        Base information
+                    </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="additional-tab" data-bs-toggle="tab" data-bs-target="#additional-tab-pane" type="button" role="tab" aria-controls="additional-tab-pane" aria-selected="false">Additional information</button>
+                    <button class="nav-link" id="additional-tab" data-bs-toggle="tab"
+                            data-bs-target="#additional-tab-pane" type="button" role="tab"
+                            aria-controls="additional-tab-pane" aria-selected="false">
+                        Additional information
+                    </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="timing-tab" data-bs-toggle="tab" data-bs-target="#timing-tab-pane" type="button" role="tab" aria-controls="timing-tab-pane" aria-selected="false">Timing</button>
+                    <button class="nav-link" id="timing-tab" data-bs-toggle="tab" data-bs-target="#timing-tab-pane"
+                            type="button" role="tab" aria-controls="timing-tab-pane" aria-selected="false">
+                        Timing
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="extra-timing-tab" data-bs-toggle="tab"
+                            data-bs-target="#extra-timing-tab-pane" type="button" role="tab"
+                            aria-controls="extra-timing-tab-pane" aria-selected="false">
+                        Extra Timing
+                    </button>
                 </li>
             </ul>
 
             <div class="tab-content">
-                <div class="tab-pane fade show active" id="base-tab-pane" role="tabpanel" aria-labelledby="base-tab" tabindex="0">
+                <div class="tab-pane fade show active" id="base-tab-pane" role="tabpanel" aria-labelledby="base-tab"
+                     tabindex="0">
                     <label for="color_bit_depth" class="form-label">Color bit depth</label>
                     <select name="color_bit_depth" id="color_bit_depth"
                             @class(['form-select', 'is-invalid' => $errors->has('color_bit_depth')])
@@ -129,7 +147,8 @@
                         </label>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="additional-tab-pane" role="tabpanel" aria-labelledby="additional-tab" tabindex="0">
+                <div class="tab-pane fade" id="additional-tab-pane" role="tabpanel" aria-labelledby="additional-tab"
+                     tabindex="0">
                     <label for="hw_version" class="form-label">HW version</label>
                     <input type="text" name="hw_version"
                            value="{{ old('hw_version', $infotainmentProfile->hw_version) }}"
@@ -190,7 +209,8 @@
                     </div>
                     @enderror
                 </div>
-                <div class="tab-pane fade" id="timing-tab-pane" role="tabpanel" aria-labelledby="timing-tab" tabindex="0">
+                <div class="tab-pane fade" id="timing-tab-pane" role="tabpanel" aria-labelledby="timing-tab"
+                     tabindex="0">
                     <label for="pixel_clock" class="form-label">Pixel clock</label>
                     <input type="number" name="pixel_clock"
                            value="{{ old('pixel_clock', $timing->pixel_clock) }}"
@@ -372,9 +392,206 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+                <div class="tab-pane fade" id="extra-timing-tab-pane" role="tabpanel"
+                     aria-labelledby="extra-timing-tab" tabindex="0">
+                    <div class="form-check">
+                        <input type="checkbox" name="extra_timing_block"
+                               value="1" id="extra_timing_block"
+                               class="form-check-input"
+                            @checked(old('extra_timing_block', $extraTiming->exists))>
+                        <label for="extra_timing_block" class="form-check-label">
+                            Enable extra timing (if you uncheck this, you will loose the extra timing settings after
+                            save)
+                        </label>
+                    </div>
 
-        <button type="submit" class="btn btn-primary">Save</button>
+                    <label for="extra_pixel_clock" class="form-label">Pixel clock</label>
+                    <input type="number" name="extra_pixel_clock"
+                           value="{{ old('extra_pixel_clock', $extraTiming->pixel_clock) }}"
+                           id="extra_pixel_clock"
+                           @class(['form-control', 'is-invalid' => $errors->has('extra_pixel_clock')])
+                           required>
+                    @error('extra_pixel_clock')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="extra_horizontal_pixels" class="form-label">Horizontal pixels</label>
+                            <input type="number" name="extra_horizontal_pixels"
+                                   value="{{ old('extra_horizontal_pixels', $extraTiming->horizontal_pixels) }}"
+                                   id="extra_horizontal_pixels"
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_horizontal_pixels')])
+                                   required>
+                            @error('extra_horizontal_pixels')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+
+                            <label for="extra_horizontal_blank" class="form-label">Horizontal pixels</label>
+                            <input type="number" name="extra_horizontal_blank"
+                                   value="{{ old('extra_horizontal_blank', $extraTiming->horizontal_blank) }}"
+                                   id="extra_horizontal_blank"
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_horizontal_blank')])
+                                   required>
+                            @error('extra_horizontal_blank')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+
+                            <label for="extra_horizontal_front_porch" class="form-label">Horizontal front
+                                porch</label>
+                            <input type="number" name="extra_horizontal_front_porch"
+                                   value="{{ old('extra_horizontal_front_porch', $extraTiming->horizontal_front_porch) }}"
+                                   id="extra_horizontal_front_porch"
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_horizontal_front_porch')])
+                                   required>
+                            @error('extra_horizontal_front_porch')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+
+                            <label for="extra_horizontal_sync_width" class="form-label">Horizontal sync
+                                width</label>
+                            <input type="number" name="extra_horizontal_sync_width"
+                                   value="{{ old('extra_horizontal_sync_width', $extraTiming->horizontal_sync_width) }}"
+                                   id="extra_horizontal_sync_width"
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_horizontal_sync_width')])
+                                   required>
+                            @error('extra_horizontal_sync_width')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+
+                            <label for="extra_horizontal_image_size" class="form-label">Horizontal image
+                                size</label>
+                            <input type="number" name="extra_horizontal_image_size"
+                                   value="{{ old('extra_horizontal_image_size', $extraTiming->horizontal_image_size) }}"
+                                   id="extra_horizontal_image_size"
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_horizontal_image_size')])
+                                   required>
+                            @error('extra_horizontal_image_size')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+
+                            <label for="extra_horizontal_border" class="form-label">Horizontal border</label>
+                            <input type="number" name="extra_horizontal_border"
+                                   value="{{ old('extra_horizontal_border', $extraTiming->horizontal_border) }}"
+                                   id="extra_horizontal_border"
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_horizontal_border')])
+                                   required>
+                            @error('extra_horizontal_border')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+
+                            <div class="form-check">
+                                <input type="checkbox" name="extra_signal_horizontal_sync_positive"
+                                       value="1" id="extra_signal_horizontal_sync_positive"
+                                       class="form-check-input"
+                                    @checked(old('extra_signal_horizontal_sync_positive', $extraTiming->signal_horizontal_sync_positive))>
+                                <label for="extra_signal_horizontal_sync_positive" class="form-check-label">
+                                    Horizontal signal sync polarity (+)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="extra_vertical_lines" class="form-label">Vertical lines</label>
+                            <input type="number" name="extra_vertical_lines"
+                                   value="{{ old('extra_vertical_lines', $extraTiming->vertical_lines) }}"
+                                   id="extra_vertical_lines"
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_vertical_lines')])
+                                   required>
+                            @error('extra_vertical_lines')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+
+                            <label for="extra_vertical_blank" class="form-label">Vertical pixels</label>
+                            <input type="number" name="extra_vertical_blank"
+                                   value="{{ old('extra_vertical_blank', $extraTiming->vertical_blank) }}"
+                                   id="extra_vertical_blank"
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_vertical_blank')])
+                                   required>
+                            @error('extra_vertical_blank')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+
+                            <label for="extra_vertical_front_porch" class="form-label">Vertical front porch</label>
+                            <input type="number" name="extra_vertical_front_porch"
+                                   value="{{ old('extra_vertical_front_porch', $extraTiming->vertical_front_porch) }}"
+                                   id="extra_vertical_front_porch"
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_vertical_front_porch')])
+                                   required>
+                            @error('extra_vertical_front_porch')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+
+                            <label for="extra_vertical_sync_width" class="form-label">Vertical sync width</label>
+                            <input type="number" name="extra_vertical_sync_width"
+                                   value="{{ old('extra_vertical_sync_width', $extraTiming->vertical_sync_width) }}"
+                                   id="extra_vertical_sync_width"
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_vertical_sync_width')])
+                                   required>
+                            @error('extra_vertical_sync_width')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+
+                            <label for="extra_vertical_image_size" class="form-label">Vertical image size</label>
+                            <input type="number" name="extra_vertical_image_size"
+                                   value="{{ old('extra_vertical_image_size', $extraTiming->vertical_image_size) }}"
+                                   id="extra_vertical_image_size"
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_vertical_image_size')])
+                                   required>
+                            @error('extra_vertical_image_size')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+
+                            <label for="extra_vertical_border" class="form-label">Vertical border</label>
+                            <input type="number" name="extra_vertical_border"
+                                   value="{{ old('extra_vertical_border', $extraTiming->vertical_border) }}"
+                                   id="extra_vertical_border"
+                                   @class(['form-control', 'is-invalid' => $errors->has('extra_vertical_border')])
+                                   required>
+                            @error('extra_vertical_border')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+
+                            <div class="form-check">
+                                <input type="checkbox" name="extra_signal_vertical_sync_positive"
+                                       value="1" id="extra_signal_vertical_sync_positive"
+                                       class="form-check-input"
+                                    @checked(old('extra_signal_vertical_sync_positive', $extraTiming->signal_vertical_sync_positive))>
+                                <label for="extra_signal_vertical_sync_positive" class="form-check-label">
+                                    Vertical signal sync polarity (+)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
     </form>
 </x-layout>

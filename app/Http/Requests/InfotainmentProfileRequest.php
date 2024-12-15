@@ -102,6 +102,50 @@ class InfotainmentProfileRequest extends FormRequest
             'vertical_border' => [
                 'integer',
             ],
+            'extra_pixel_clock' => [
+                'required_if_accepted:extra_timing_block',
+                'numeric',
+            ],
+            'extra_horizontal_pixels' => [
+                'required_if_accepted:extra_timing_block',
+                'integer'
+            ],
+            'extra_vertical_lines' => [
+                'required_if_accepted:extra_timing_block',
+                'integer'
+            ],
+            'extra_horizontal_blank' => [
+                'required_if_accepted:extra_timing_block',
+                'integer',
+            ],
+            'extra_horizontal_front_porch' => [
+                'integer',
+            ],
+            'extra_horizontal_sync_width' => [
+                'integer',
+            ],
+            'extra_horizontal_image_size' => [
+                'integer',
+            ],
+            'extra_horizontal_border' => [
+                'integer',
+            ],
+            'extra_vertical_blank' => [
+                'required_if_accepted:extra_timing_block',
+                'integer',
+            ],
+            'extra_vertical_front_porch' => [
+                'integer',
+            ],
+            'extra_vertical_sync_width' => [
+                'integer',
+            ],
+            'extra_vertical_image_size' => [
+                'integer',
+            ],
+            'extra_vertical_border' => [
+                'integer',
+            ],
         ];
     }
 }

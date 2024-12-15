@@ -44,4 +44,9 @@ class InfotainmentProfile extends Model
     {
         return $this->belongsTo(InfotainmentProfileTimingBlock::class, 'timing_block_id');
     }
+
+    public function extraTiming(): BelongsTo
+    {
+        return $this->belongsTo(InfotainmentProfileTimingBlock::class, 'extra_timing_block_id');
+    }
 }
