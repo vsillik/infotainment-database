@@ -3,7 +3,7 @@
         Serializer manufacturers
     </x-slot:title>
 
-    <a href="{{ route('serializer_manufacturers.create') }}" class="btn btn-primary">Create serializer manufacturer</a>
+    <a href="{{ route('serializer_manufacturers.create') }}" class="btn btn-primary mb-3">Create serializer manufacturer</a>
 
     <div class="table-responsive">
         <table class="table">

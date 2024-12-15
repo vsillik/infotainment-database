@@ -20,8 +20,8 @@
         <div class="mb-3">
             <label for="infotainment_manufacturer_id" class="form-label">Infotainment manufacturer</label>
             <select name="infotainment_manufacturer_id" id="infotainment_manufacturer_id"
-                   @class(['form-select', 'is-invalid' => $errors->has('infotainment_manufacturer_id')])
-                   required>
+                    @class(['form-select', 'is-invalid' => $errors->has('infotainment_manufacturer_id')])
+                    required>
                 @foreach($infotainmentManufacturers as $infotainmentManufacturer)
                     <option value="{{ $infotainmentManufacturer->id }}"
                         @selected(old('infotainment_manufacturer_id', $infotainment->infotainment_manufacturer_id) == $infotainmentManufacturer->id)>
@@ -34,7 +34,8 @@
                 {{ $message }}
             </div>
             @enderror
-
+        </div>
+        <div class="mb-3">
             <label for="serializer_manufacturer_id" class="form-label">Serializer manufacturer</label>
             <select name="serializer_manufacturer_id" id="serializer_manufacturer_id"
                     @class(['form-select', 'is-invalid' => $errors->has('serializer_manufacturer_id')])
@@ -51,7 +52,8 @@
                 {{ $message }}
             </div>
             @enderror
-
+        </div>
+        <div class="mb-3">
             <label for="product_id" class="form-label">Product ID</label>
             <input type="text" name="product_id"
                    value="{{ old('product_id', $infotainment->product_id) }}"
@@ -63,7 +65,8 @@
                 {{ $message }}
             </div>
             @enderror
-
+        </div>
+        <div class="mb-3">
             <label for="model_year" class="form-label">Model year</label>
             <input type="number" name="model_year"
                    value="{{ old('model_year', $infotainment->model_year) }}"
@@ -75,7 +78,8 @@
                 {{ $message }}
             </div>
             @enderror
-
+        </div>
+        <div class="mb-3">
             <label for="part_number" class="form-label">Part number</label>
             <input type="text" name="part_number"
                    value="{{ old('part_number', $infotainment->part_number) }}"
@@ -87,18 +91,20 @@
                 {{ $message }}
             </div>
             @enderror
-
+        </div>
+        <div class="mb-3">
             <label for="compatible_platforms" class="form-label">Compatible platforms</label>
             <textarea name="compatible_platforms"
-                   id="compatible_platforms"
-                   @class(['form-control', 'is-invalid' => $errors->has('compatible_platforms')])
-                   maxlength="1500">{{ old('compatible_platforms', $infotainment->compatible_platforms) }}</textarea>
+                      id="compatible_platforms"
+                      @class(['form-control', 'is-invalid' => $errors->has('compatible_platforms')])
+                      maxlength="1500">{{ old('compatible_platforms', $infotainment->compatible_platforms) }}</textarea>
             @error('compatible_platforms')
             <div class="invalid-feedback">
                 {{ $message }}
             </div>
             @enderror
-
+        </div>
+        <div class="mb-3">
             <label for="internal_code" class="form-label">Internal code</label>
             <input type="text" name="internal_code"
                    value="{{ old('internal_code', $infotainment->internal_code) }}"
@@ -110,7 +116,8 @@
                 {{ $message }}
             </div>
             @enderror
-
+        </div>
+        <div class="mb-3">
             <label for="internal_notes" class="form-label">Internal notes</label>
             <textarea name="internal_notes"
                       id="internal_notes"

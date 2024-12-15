@@ -3,7 +3,7 @@
         Infotainment manufacturers
     </x-slot:title>
 
-    <a href="{{ route('infotainment_manufacturers.create') }}" class="btn btn-primary">Create infotainment manufacturer</a>
+    <a href="{{ route('infotainment_manufacturers.create') }}" class="btn btn-primary mb-2">Create infotainment manufacturer</a>
 
     <div class="table-responsive">
         <table class="table">

@@ -3,7 +3,7 @@
         Infotainments
     </x-slot:title>
 
-    <a href="{{ route('infotainments.create') }}" class="btn btn-primary">Create infotainment</a>
+    <a href="{{ route('infotainments.create') }}" class="btn btn-primary mb-3">Create infotainment</a>
 
     <div class="table-responsive">
         <table class="table">

@@ -30,7 +30,7 @@
     <h3>Infotainment profiles</h3>
     <hr/>
 
-    <a href="{{ route('infotainments.profiles.create', $infotainment) }}" class="btn btn-primary">
+    <a href="{{ route('infotainments.profiles.create', $infotainment) }}" class="btn btn-primary mb-3">
         Create infotainment manufacturer
     </a>
 
@@ -48,7 +48,7 @@
                     {{ $infotainmentProfile->id }}
 
                     @if($infotainmentProfile->extraTiming)
-                        <span class="badge rounded-pill text-bg-info">Extra timing</span>
+                        <span class="badge rounded-pill text-bg-primary">Extra timing</span>
                     @endif
 
                     @if($infotainmentProfile->is_approved)
@@ -62,7 +62,7 @@
                         </a>
                     @else
                         <a href="{{ route('infotainments.profiles.approve', [$infotainment, $infotainmentProfile]) }}"
-                           class="btn btn-success btn-sm">
+                           class="btn btn-outline-success btn-sm">
                             Approve
                         </a>
 
