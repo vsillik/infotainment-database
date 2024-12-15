@@ -24,6 +24,7 @@ class InfotainmentProfileController extends Controller
            'infotainmentProfile' => new InfotainmentProfile,
            'timing' => new InfotainmentProfileTimingBlock,
            'extraTiming' => new InfotainmentProfileTimingBlock,
+           'mode' => 'create',
        ]);
     }
 
@@ -68,6 +69,12 @@ class InfotainmentProfileController extends Controller
      */
     public function edit(Infotainment $infotainment, InfotainmentProfile $profile)
     {
+        if ($profile->is_approved) {
+            return redirect()
+                ->route('infotainments.show', ['infotainment' => $infotainment->id])
+                ->with('error', 'Cannot edit approved profile');
+        }
+
         return view('infotainment_profiles.create-or-edit', [
             'colorBitDepths' => ColorBitDepth::labels(),
             'interfaces' => DisplayInterface::labels(),
@@ -75,6 +82,26 @@ class InfotainmentProfileController extends Controller
             'infotainmentProfile' => $profile,
             'timing' => $profile->timing,
             'extraTiming' => $profile->extraTiming ?? new InfotainmentProfileTimingBlock,
+            'mode' => 'edit',
+        ]);
+    }
+
+    public function approve(Infotainment $infotainment, InfotainmentProfile $profile)
+    {
+        if ($profile->is_approved) {
+            return redirect()
+                ->route('infotainments.show', ['infotainment' => $infotainment->id])
+                ->with('error', 'Infotainment profile is already approved');
+        }
+
+        return view('infotainment_profiles.create-or-edit', [
+            'colorBitDepths' => ColorBitDepth::labels(),
+            'interfaces' => DisplayInterface::labels(),
+            'infotainment' => $infotainment,
+            'infotainmentProfile' => $profile,
+            'timing' => $profile->timing,
+            'extraTiming' => $profile->extraTiming ?? new InfotainmentProfileTimingBlock,
+            'mode' => 'approve',
         ]);
     }
 
@@ -83,7 +110,23 @@ class InfotainmentProfileController extends Controller
      */
     public function update(InfotainmentProfileRequest $request, Infotainment $infotainment, InfotainmentProfile $profile)
     {
+        $successMessage = 'Infotainment profile updated';
         $validated = $request->validated();
+
+        if ($request->has('approving_infotainment_profile')) {
+            if ($profile->is_approved) {
+                return redirect()
+                    ->route('infotainments.show', ['infotainment' => $infotainment->id])
+                    ->with('error', 'Infotainment profile is already approved');
+            } else {
+                $profile->is_approved = true;
+                $successMessage = 'Infotainment profile approved';
+            }
+        } else if ($profile->is_approved) {
+            return redirect()
+                ->route('infotainments.show', ['infotainment' => $infotainment->id])
+                ->with('error', 'Cannot edit approved profile');
+        }
 
         $this->setInfotainmentProfileValues($profile, $request, $validated);
 
@@ -106,7 +149,7 @@ class InfotainmentProfileController extends Controller
 
         return redirect()
             ->route('infotainments.show', ['infotainment' => $infotainment->id])
-            ->with('success', 'Infotainment profile updated');
+            ->with('success', $successMessage);
     }
 
     /**

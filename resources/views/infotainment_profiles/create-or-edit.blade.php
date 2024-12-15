@@ -1,20 +1,35 @@
 <x-layout>
     <x-slot:title>
-        @if($infotainmentProfile->exists)
-            Edit infotainment profile
-        @else
-            Create infotainment profile
-        @endif
+        @switch($mode)
+            @case('edit')
+                Edit infotainment profile
+                @break
+            @case('approve')
+                Approving infotainment profile
+                @break
+            @default
+                Create infotainment profile
+        @endswitch
     </x-slot:title>
 
-    <form action="@if($infotainmentProfile->exists)
-                    {{ route('infotainments.profiles.update', [$infotainment, $infotainmentProfile]) }}
-                  @else
-                    {{ route('infotainments.profiles.store', $infotainment) }}
-                  @endif" method="POST">
+    <form action="
+        @switch($mode)
+            @case('edit')
+            @case('approve')
+                {{ route('infotainments.profiles.update', [$infotainment, $infotainmentProfile]) }}
+                @break
+            @default
+                {{ route('infotainments.profiles.store', $infotainment) }}
+        @endswitch
+        " method="POST">
+
         @csrf
-        @if($infotainmentProfile->exists)
+        @if($mode === 'edit' || $mode === 'approve')
             @method('PATCH')
+        @endif
+
+        @if($mode === 'approve')
+            <input type="hidden" name="approving_infotainment_profile" value="1">
         @endif
 
         <div class="mb-3">
@@ -591,7 +606,12 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Save</button>
+                @if($mode === 'approve')
+                    <button type="submit" class="btn btn-primary">Approve</button>
+                    <a href="{{ route('infotainments.show', $infotainment) }}" class="btn btn-outline-danger">Cancel</a>
+                @else
+                    <button type="submit" class="btn btn-primary">Save</button>
+                @endif
         </div>
     </form>
 </x-layout>
