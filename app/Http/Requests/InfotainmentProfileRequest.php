@@ -75,15 +75,19 @@ class InfotainmentProfileRequest extends FormRequest
                 'integer',
             ],
             'horizontal_front_porch' => [
+                'nullable',
                 'integer',
             ],
             'horizontal_sync_width' => [
+                'nullable',
                 'integer',
             ],
             'horizontal_image_size' => [
+                'nullable',
                 'integer',
             ],
             'horizontal_border' => [
+                'nullable',
                 'integer',
             ],
             'vertical_blank' => [
@@ -91,59 +95,76 @@ class InfotainmentProfileRequest extends FormRequest
                 'integer',
             ],
             'vertical_front_porch' => [
+                'nullable',
                 'integer',
             ],
             'vertical_sync_width' => [
+                'nullable',
                 'integer',
             ],
             'vertical_image_size' => [
+                'nullable',
                 'integer',
             ],
             'vertical_border' => [
+                'nullable',
                 'integer',
             ],
             'extra_pixel_clock' => [
                 'required_if_accepted:extra_timing_block',
+                'nullable',
                 'numeric',
             ],
             'extra_horizontal_pixels' => [
                 'required_if_accepted:extra_timing_block',
+                'nullable',
                 'integer'
             ],
             'extra_vertical_lines' => [
                 'required_if_accepted:extra_timing_block',
+                'nullable',
                 'integer'
             ],
             'extra_horizontal_blank' => [
                 'required_if_accepted:extra_timing_block',
+                'nullable',
                 'integer',
             ],
             'extra_horizontal_front_porch' => [
+                'nullable',
                 'integer',
             ],
             'extra_horizontal_sync_width' => [
+                'nullable',
                 'integer',
             ],
             'extra_horizontal_image_size' => [
+                'nullable',
                 'integer',
             ],
             'extra_horizontal_border' => [
+                'nullable',
                 'integer',
             ],
             'extra_vertical_blank' => [
                 'required_if_accepted:extra_timing_block',
+                'nullable',
                 'integer',
             ],
             'extra_vertical_front_porch' => [
+                'nullable',
                 'integer',
             ],
             'extra_vertical_sync_width' => [
+                'nullable',
                 'integer',
             ],
             'extra_vertical_image_size' => [
+                'nullable',
                 'integer',
             ],
             'extra_vertical_border' => [
+                'nullable',
                 'integer',
             ],
         ];
