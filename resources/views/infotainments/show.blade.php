@@ -31,7 +31,7 @@
     <hr/>
 
     <a href="{{ route('infotainments.profiles.create', $infotainment) }}" class="btn btn-primary mb-3">
-        Create infotainment manufacturer
+        Create infotainment profile
     </a>
 
     <table class="table">

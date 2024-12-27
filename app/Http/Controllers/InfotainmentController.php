@@ -32,7 +32,7 @@ class InfotainmentController extends Controller
         return view('infotainments.create-or-edit', [
             'infotainment' => new Infotainment,
             'infotainmentManufacturers' => InfotainmentManufacturer::all(),
-            'serializerManufacturers' => SerializerManufacturer::all()
+            'serializerManufacturers' => SerializerManufacturer::all(),
         ]);
     }
 
@@ -71,7 +71,7 @@ class InfotainmentController extends Controller
         return view('infotainments.create-or-edit', [
             'infotainment' => $infotainment,
             'infotainmentManufacturers' => InfotainmentManufacturer::all(),
-            'serializerManufacturers' => SerializerManufacturer::all()
+            'serializerManufacturers' => SerializerManufacturer::all(),
         ]);
     }
 

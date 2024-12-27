@@ -17,33 +17,26 @@
             @method('PATCH')
         @endif
 
-        <div class="mb-3">
-            <label for="id" class="form-label">Identifier</label>
-            <input type="text" name="id"
-                   value="{{ old('id', $serializerManufacturer->id) }}"
-                   id="id"
-                   @class(['form-control', 'is-invalid' => $errors->has('name')])
-                   minlength="3" maxlength="3" required>
-            @error('id')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-            @enderror
-        </div>
+        <x-forms.errors-alert :errors="$errors" />
 
-        <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" name="name"
-                   value="{{ old('name', $serializerManufacturer->name) }}"
-                   id="name"
-                   @class(['form-control', 'is-invalid' => $errors->has('name')])
-                   maxlength="255" required>
-            @error('name')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-            @enderror
-        </div>
+        <x-forms.input
+            name="id"
+            label="Identifier"
+            :defaultValue="$serializerManufacturer->id"
+            required="true"
+            minLength="3"
+            maxLength="3"
+            />
+
+        <x-forms.input
+            name="name"
+            label="Name"
+            :defaultValue="$serializerManufacturer->name"
+            required="true"
+            maxLength="255"
+            />
+
+        <x-forms.required-note />
 
         <button type="submit" class="btn btn-primary">Save</button>
     </form>

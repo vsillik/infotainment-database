@@ -17,118 +17,75 @@
             @method('PATCH')
         @endif
 
-        <div class="mb-3">
-            <label for="infotainment_manufacturer_id" class="form-label">Infotainment manufacturer</label>
-            <select name="infotainment_manufacturer_id" id="infotainment_manufacturer_id"
-                    @class(['form-select', 'is-invalid' => $errors->has('infotainment_manufacturer_id')])
-                    required>
-                @foreach($infotainmentManufacturers as $infotainmentManufacturer)
-                    <option value="{{ $infotainmentManufacturer->id }}"
-                        @selected(old('infotainment_manufacturer_id', $infotainment->infotainment_manufacturer_id) == $infotainmentManufacturer->id)>
-                        {{ $infotainmentManufacturer->name }}
-                    </option>
-                @endforeach
-            </select>
-            @error('infotainment_manufacturer_id')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-            @enderror
-        </div>
-        <div class="mb-3">
-            <label for="serializer_manufacturer_id" class="form-label">Serializer manufacturer</label>
-            <select name="serializer_manufacturer_id" id="serializer_manufacturer_id"
-                    @class(['form-select', 'is-invalid' => $errors->has('serializer_manufacturer_id')])
-                    required>
-                @foreach($serializerManufacturers as $serializerManufacturer)
-                    <option value="{{ $serializerManufacturer->id }}"
-                        @selected(old('serializer_manufacturer_id', $infotainment->serializer_manufacturer_id) == $serializerManufacturer->id)>
-                        {{ $serializerManufacturer->name }}
-                    </option>
-                @endforeach
-            </select>
-            @error('serializer_manufacturer_id')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-            @enderror
-        </div>
-        <div class="mb-3">
-            <label for="product_id" class="form-label">Product ID</label>
-            <input type="text" name="product_id"
-                   value="{{ old('product_id', $infotainment->product_id) }}"
-                   id="product_id"
-                   @class(['form-control', 'is-invalid' => $errors->has('product_id')])
-                   minlength="4" maxlength="4" required>
-            @error('product_id')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-            @enderror
-        </div>
-        <div class="mb-3">
-            <label for="model_year" class="form-label">Model year</label>
-            <input type="number" name="model_year"
-                   value="{{ old('model_year', $infotainment->model_year) }}"
-                   id="model_year"
-                   @class(['form-control', 'is-invalid' => $errors->has('model_year')])
-                   required>
-            @error('model_year')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-            @enderror
-        </div>
-        <div class="mb-3">
-            <label for="part_number" class="form-label">Part number</label>
-            <input type="text" name="part_number"
-                   value="{{ old('part_number', $infotainment->part_number) }}"
-                   id="part_number"
-                   @class(['form-control', 'is-invalid' => $errors->has('part_number')])
-                   maxlength="13" required>
-            @error('part_number')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-            @enderror
-        </div>
-        <div class="mb-3">
-            <label for="compatible_platforms" class="form-label">Compatible platforms</label>
-            <textarea name="compatible_platforms"
-                      id="compatible_platforms"
-                      @class(['form-control', 'is-invalid' => $errors->has('compatible_platforms')])
-                      maxlength="1500">{{ old('compatible_platforms', $infotainment->compatible_platforms) }}</textarea>
-            @error('compatible_platforms')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-            @enderror
-        </div>
-        <div class="mb-3">
-            <label for="internal_code" class="form-label">Internal code</label>
-            <input type="text" name="internal_code"
-                   value="{{ old('internal_code', $infotainment->internal_code) }}"
-                   id="internal_code"
-                   @class(['form-control', 'is-invalid' => $errors->has('internal_code')])
-                   maxlength="150">
-            @error('internal_code')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-            @enderror
-        </div>
-        <div class="mb-3">
-            <label for="internal_notes" class="form-label">Internal notes</label>
-            <textarea name="internal_notes"
-                      id="internal_notes"
-                      @class(['form-control', 'is-invalid' => $errors->has('internal_notes')])
-                      maxlength="1500">{{ old('internal_notes', $infotainment->internal_notes) }}</textarea>
-            @error('internal_notes')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-            @enderror
-        </div>
+        <x-forms.errors-alert :errors="$errors" />
+
+        <x-forms.select
+            name="infotainment_manufacturer_id"
+            label="Infotainment manufacturer"
+            :options="$infotainmentManufacturers->mapWithKeys(
+                fn (\App\Models\InfotainmentManufacturer $manufacturer) => [$manufacturer->id => $manufacturer->name]
+            )->toArray()"
+            :defaultValue="$infotainment->infotainment_manufacturer_id"
+            required="true"
+            />
+
+        <x-forms.select
+            name="serializer_manufacturer_id"
+            label="Serializer manufacturer"
+            :options="$serializerManufacturers->mapWithKeys(
+                fn (\App\Models\SerializerManufacturer $manufacturer) => [$manufacturer->id => $manufacturer->name]
+            )->toArray()"
+            :defaultValue="$infotainment->serializer_manufacturer_id"
+            required="true"
+            />
+
+        <x-forms.input
+            name="product_id"
+            label="Product ID"
+            :defaultValue="$infotainment->product_id"
+            required="true"
+            minLength="4"
+            maxLength="4"
+            />
+
+        <x-forms.input
+            name="model_year"
+            type="number"
+            label="Model year"
+            :defaultValue="$infotainment->model_year"
+            required="true"
+            />
+
+        <x-forms.input
+            name="part_number"
+            label="Part number"
+            :defaultValue="$infotainment->part_number"
+            required="true"
+            maxLength="13"
+            />
+
+        <x-forms.textarea
+            name="compatible_platforms"
+            label="Compatible platforms"
+            :defaultValue="$infotainment->compatible_platforms"
+            maxLength="1500"
+            />
+
+        <x-forms.input
+            name="internal_code"
+            label="Internal code"
+            :defaultValue="$infotainment->internal_code"
+            maxLength="150"
+            />
+
+        <x-forms.textarea
+            name="internal_notes"
+            label="Internal notes"
+            :defaultValue="$infotainment->internal_notes"
+            maxLength="1500"
+            />
+
+        <x-forms.required-note />
 
         <button type="submit" class="btn btn-primary">Save</button>
     </form>

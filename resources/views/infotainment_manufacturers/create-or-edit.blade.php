@@ -17,19 +17,17 @@
             @method('PATCH')
         @endif
 
-        <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" name="name"
-                   value="{{ old('name', $infotainmentManufacturer->name) }}"
-                   id="name"
-                   @class(['form-control', 'is-invalid' => $errors->has('name')])
-                   maxlength="255" required>
-            @error('name')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-            @enderror
-        </div>
+        <x-forms.errors-alert :errors="$errors" />
+
+        <x-forms.input
+            name="name"
+            label="Name"
+            :defaultValue="$infotainmentManufacturer->name"
+            required="true"
+            maxLength="255"
+            />
+
+        <x-forms.required-note />
 
         <button type="submit" class="btn btn-primary">Save</button>
     </form>
