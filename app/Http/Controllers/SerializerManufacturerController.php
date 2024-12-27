@@ -80,6 +80,12 @@ class SerializerManufacturerController extends Controller
      */
     public function destroy(SerializerManufacturer $serializerManufacturer): RedirectResponse
     {
+        if ($serializerManufacturer->infotainments->isNotEmpty()) {
+            return redirect()
+                ->route('serializer_manufacturers.index')
+                ->with('error', sprintf('Serializer manufacturer %s can\'t be deleted because it is assigned to infotainments', $serializerManufacturer->name));
+        }
+
         $serializerManufacturer->delete();
 
         return redirect()

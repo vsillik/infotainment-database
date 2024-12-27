@@ -94,6 +94,12 @@ class InfotainmentController extends Controller
      */
     public function destroy(Infotainment $infotainment): RedirectResponse
     {
+        if ($infotainment->profiles->isNotEmpty()) {
+            return redirect()
+                ->route('infotainments.index')
+                ->with('error', sprintf('Infotainment ID: %s can\'t be deleted because it has profiles assigned', $infotainment->id));
+        }
+
         $infotainment->delete();
 
         return redirect()

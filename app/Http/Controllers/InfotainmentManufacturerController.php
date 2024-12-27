@@ -78,6 +78,12 @@ class InfotainmentManufacturerController extends Controller
      */
     public function destroy(InfotainmentManufacturer $infotainmentManufacturer): RedirectResponse
     {
+        if ($infotainmentManufacturer->infotainments->isNotEmpty()) {
+            return redirect()
+                ->route('infotainment_manufacturers.index')
+                ->with('error', sprintf('Infotainment manufacturer %s can\'t be deleted because it is assigned to infotainments', $infotainmentManufacturer->name));
+        }
+
         $infotainmentManufacturer->delete();
 
         return redirect()
