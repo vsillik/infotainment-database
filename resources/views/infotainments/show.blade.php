@@ -62,6 +62,8 @@
                         <x-action-buttons.edit :targetUrl="route('infotainments.profiles.edit', [$infotainment, $infotainmentProfile])" />
                     @endif
 
+                    <x-action-buttons.copy :targetUrl="route('infotainments.profiles.copy', [$infotainment, $infotainmentProfile])" />
+
                     <x-action-buttons.delete :targetUrl="route('infotainments.profiles.destroy', [$infotainment, $infotainmentProfile])" />
                 </td>
             </tr>

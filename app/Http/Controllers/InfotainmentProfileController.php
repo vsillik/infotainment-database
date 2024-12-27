@@ -105,6 +105,19 @@ class InfotainmentProfileController extends Controller
         ]);
     }
 
+    public function copy(Infotainment $infotainment, InfotainmentProfile $profile)
+    {
+        return view('infotainment_profiles.create-or-edit', [
+            'colorBitDepths' => ColorBitDepth::labels(),
+            'interfaces' => DisplayInterface::labels(),
+            'infotainment' => $infotainment,
+            'infotainmentProfile' => $profile,
+            'timing' => $profile->timing,
+            'extraTiming' => $profile->extraTiming ?? new InfotainmentProfileTimingBlock,
+            'mode' => 'copy',
+        ]);
+    }
+
     /**
      * Update the specified resource in storage.
      */
