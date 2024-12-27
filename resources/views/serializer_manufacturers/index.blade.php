@@ -3,7 +3,7 @@
         Serializer manufacturers
     </x-slot:title>
 
-    <a href="{{ route('serializer_manufacturers.create') }}" class="btn btn-primary mb-3">Create serializer manufacturer</a>
+    <x-action-buttons.create :targetUrl="route('serializer_manufacturers.create')" label="Create serializer manufacturer" />
 
     <div class="table-responsive">
         <table class="table">
@@ -20,13 +20,8 @@
                     <td>{{ $serializerManufacturer->id }}</td>
                     <td>{{ $serializerManufacturer->name }}</td>
                     <td>
-                        <a href="{{ route('serializer_manufacturers.edit', $serializerManufacturer) }}" class="btn btn-primary btn-sm">Edit</a>
-
-                        <form action="{{ route('serializer_manufacturers.destroy', $serializerManufacturer) }}" method="POST" class="d-inline-block">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                        </form>
+                        <x-action-buttons.edit :targetUrl="route('serializer_manufacturers.edit', $serializerManufacturer)" />
+                        <x-action-buttons.delete :targetUrl="route('serializer_manufacturers.destroy', $serializerManufacturer)" />
                     </td>
                 </tr>
             @empty

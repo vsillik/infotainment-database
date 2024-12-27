@@ -3,7 +3,7 @@
         Infotainment manufacturers
     </x-slot:title>
 
-    <a href="{{ route('infotainment_manufacturers.create') }}" class="btn btn-primary mb-2">Create infotainment manufacturer</a>
+    <x-action-buttons.create :targetUrl="route('infotainment_manufacturers.create')" label="Create infotainment manufacturer" />
 
     <div class="table-responsive">
         <table class="table">
@@ -18,15 +18,8 @@
                     <tr>
                         <td>{{ $infotainmentManufacturer->name }}</td>
                         <td>
-                            <a href="{{ route('infotainment_manufacturers.edit', $infotainmentManufacturer) }}" class="btn btn-primary btn-sm   ">
-                                Edit
-                            </a>
-
-                            <form action="{{ route('infotainment_manufacturers.destroy', $infotainmentManufacturer) }}" method="POST" class="d-inline-block">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                            </form>
+                            <x-action-buttons.edit :targetUrl="route('infotainment_manufacturers.edit', $infotainmentManufacturer)" />
+                            <x-action-buttons.delete :targetUrl="route('infotainment_manufacturers.destroy', $infotainmentManufacturer)" />
                         </td>
                     </tr>
                 @empty

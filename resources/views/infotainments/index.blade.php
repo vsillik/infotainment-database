@@ -3,7 +3,7 @@
         Infotainments
     </x-slot:title>
 
-    <a href="{{ route('infotainments.create') }}" class="btn btn-primary mb-3">Create infotainment</a>
+    <x-action-buttons.create :targetUrl="route('infotainments.create')" label="Create infotainment" />
 
     <div class="table-responsive">
         <table class="table">
@@ -26,18 +26,9 @@
                     <td>{{ $infotainment->model_year }}</td>
                     <td>{{ $infotainment->part_number }}</td>
                     <td>
-                        <a href="{{ route('infotainments.show', $infotainment) }}" class="btn btn-outline-primary btn-sm">
-                            Show
-                        </a>
-                        <a href="{{ route('infotainments.edit', $infotainment) }}" class="btn btn-primary btn-sm">
-                            Edit
-                        </a>
-
-                        <form action="{{ route('infotainments.destroy', $infotainment) }}" method="POST" class="d-inline-block">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                        </form>
+                        <x-action-buttons.show :targetUrl="route('infotainments.show', $infotainment)" />
+                        <x-action-buttons.edit :targetUrl="route('infotainments.edit', $infotainment)" />
+                        <x-action-buttons.delete :targetUrl="route('infotainments.destroy', $infotainment)" />
                     </td>
                 </tr>
             @empty

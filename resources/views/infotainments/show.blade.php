@@ -30,9 +30,7 @@
     <h3>Infotainment profiles</h3>
     <hr/>
 
-    <a href="{{ route('infotainments.profiles.create', $infotainment) }}" class="btn btn-primary mb-3">
-        Create infotainment profile
-    </a>
+    <x-action-buttons.create :targetUrl="route('infotainments.profiles.create', $infotainment)" label="Create infotainment profile" />
 
     <table class="table">
         <thead>
@@ -57,27 +55,14 @@
                 </td>
                 <td>
                     @if($infotainmentProfile->is_approved)
-                        <a href="#" class="btn btn-success btn-sm disabled" aria-disabled="true">
-                            Download EDID
-                        </a>
+                        <x-action-buttons.download targetUrl="#" label="Download EDID" />
                     @else
-                        <a href="{{ route('infotainments.profiles.approve', [$infotainment, $infotainmentProfile]) }}"
-                           class="btn btn-outline-success btn-sm">
-                            Approve
-                        </a>
+                        <x-action-buttons.approve :targetUrl="route('infotainments.profiles.approve', [$infotainment, $infotainmentProfile])" />
 
-                        <a href="{{ route('infotainments.profiles.edit', [$infotainment, $infotainmentProfile]) }}"
-                           class="btn btn-primary btn-sm">
-                            Edit
-                        </a>
+                        <x-action-buttons.edit :targetUrl="route('infotainments.profiles.edit', [$infotainment, $infotainmentProfile])" />
                     @endif
 
-                    <form action="{{ route('infotainments.profiles.destroy', [$infotainment, $infotainmentProfile]) }}"
-                          method="POST" class="d-inline-block">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                    </form>
+                    <x-action-buttons.delete :targetUrl="route('infotainments.profiles.destroy', [$infotainment, $infotainmentProfile])" />
                 </td>
             </tr>
         @empty
