@@ -24,3 +24,5 @@ Route::controller(InfotainmentProfileController::class)->group(function () {
     Route::get('/infotainments/{infotainment}/profiles/{profile}/approve', 'approve')->name('infotainments.profiles.approve');
     Route::get('/infotainments/{infotainment}/profiles/{profile}/copy', 'copy')->name('infotainments.profiles.copy');
 });
+
+require __DIR__.'/auth.php';
