@@ -1,18 +1,35 @@
 <x-base-layout>
     <header class="navbar bg-dark flex-md-nowrap p-1 shadow" data-bs-theme="dark">
-        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="#">{{ config('app.name') }}</a>
+        <div class="container-fluid">
+            <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="#">{{ config('app.name') }}</a>
 
-        <ul class="navbar-nav flex-row d-md-none">
-            <li class="nav-item text-nowrap">
-                <button class="nav-link px-3 text-white" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                    <svg class="bi">
-                        <use xlink:href="#list"/>
-                    </svg>
-                </button>
-            </li>
-        </ul>
+            <ul class="navbar-nav flex-row d-md-none">
+                <li class="nav-item text-nowrap">
+                    <button class="nav-link px-3 text-white" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <svg class="bi">
+                            <use xlink:href="#list"/>
+                        </svg>
+                    </button>
+                </li>
+            </ul>
+
+            <div class="dropdown text-end">
+                <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ Auth::user()->name }}
+                </a>
+                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser">
+                    <li>
+                        <form action="{{ route('logout') }}" method="POST" class="d-inline-block">
+                            @csrf
+
+                            <button type="submit" class="btn btn-sm">Log out</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </header>
 
     <div class="container-fluid h-100 flex-grow-1">
