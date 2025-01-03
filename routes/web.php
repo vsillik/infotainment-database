@@ -7,7 +7,7 @@ use App\Http\Controllers\SerializerManufacturerController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'approved'])->group(function () {
     Route::get('/', function () {
         return view('welcome');
     })->name('index');

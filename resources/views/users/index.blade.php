@@ -26,14 +26,17 @@
                     </td>
                     <td>{{ $user->name }}</td>
                     <td>
-                        @if($user->is_approved)
-                            <x-action-buttons.unapprove :targetUrl="route('users.unapprove', $user)" />
-                        @else
-                            <x-action-buttons.approve :targetUrl="route('users.approve', $user)" />
+                        @if ($user->id !== 1)
+                            @if($user->is_approved)
+                                <x-action-buttons.unapprove :targetUrl="route('users.unapprove', $user)" />
+                            @else
+                                <x-action-buttons.approve :targetUrl="route('users.approve', $user)" />
+                            @endif
                         @endif
+
                         <x-action-buttons.edit :targetUrl="route('users.edit', $user)" />
 
-                        @if(count($users) > 1)
+                        @if($user->id !== 1)
                             <x-action-buttons.delete :targetUrl="route('users.destroy', $user)" />
                         @endif
                     </td>
