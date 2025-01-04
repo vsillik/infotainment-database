@@ -1,5 +1,6 @@
 <?php
 
+use App\UserRole;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -19,8 +20,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->rememberToken();
+            $table->smallInteger('role')->default(UserRole::GUEST);
             $table->boolean('is_approved')->default(false);
+            $table->rememberToken();
             $table->timestamps();
         });
 
@@ -29,6 +31,7 @@ return new class extends Migration
             'email' => 'admin@example.com',
             'email_verified_at' => null,
             'password' => Hash::make('SuperAdminPassword'),
+            'role' => UserRole::ADMINISTRATOR,
             'is_approved' => true,
             'created_at' => now(),
             'updated_at' => now(),

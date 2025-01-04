@@ -3,9 +3,11 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
+use App\UserRole;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules;
+use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\Rules\Password;
 
 class UserRequest extends FormRequest
 {
@@ -41,8 +43,12 @@ class UserRequest extends FormRequest
             ],
             'password' => [
                 $passwordRule,
-                Rules\Password::defaults(),
+                Password::defaults(),
             ],
+            'role' => [
+                'required',
+                new Enum(UserRole::class),
+            ]
         ];
     }
 }

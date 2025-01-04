@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Models\User;
+use App\UserRole;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -25,6 +26,7 @@ class UserController extends Controller
     {
         return view('users.create-or-edit', [
             'user' => new User,
+            'roles' => UserRole::labels(),
         ]);
     }
 
@@ -40,6 +42,7 @@ class UserController extends Controller
         $user->name = $validated['name'];
         $user->email = $validated['email'];
         $user->password = Hash::make($validated['password']);
+        $user->role = $validated['role'];
         $user->is_approved = false;
 
         $user->save();
@@ -88,6 +91,7 @@ class UserController extends Controller
     {
         return view('users.create-or-edit', [
             'user' => $user,
+            'roles' => UserRole::labels(),
         ]);
     }
 
@@ -104,6 +108,8 @@ class UserController extends Controller
         if ($request->has('password') && $validated['password'] !== null) {
             $user->password = Hash::make($validated['password']);
         }
+
+        $user->role = $validated['role'];
 
         $user->save();
 

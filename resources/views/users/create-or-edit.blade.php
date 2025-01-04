@@ -41,6 +41,14 @@
             :required="!$user->exists"
             minLength="8" />
 
+        <x-forms.select
+            name="role"
+            label="Role"
+            :options="$roles"
+            :defaultValue="$user->role?->value"
+            required="true"
+        />
+
         <x-forms.required-note />
 
         <button type="submit" class="btn btn-primary">Save</button>
