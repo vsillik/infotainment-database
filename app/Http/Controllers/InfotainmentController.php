@@ -6,7 +6,9 @@ use App\Http\Requests\InfotainmentRequest;
 use App\Models\Infotainment;
 use App\Models\InfotainmentManufacturer;
 use App\Models\SerializerManufacturer;
+use App\UserRole;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
@@ -15,15 +17,24 @@ class InfotainmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
         Gate::authorize('viewAny', Infotainment::class);
 
-        return view('infotainments.index', [
-            'infotainments' => Infotainment::with([
+        if ($request->user()->role === UserRole::GUEST) {
+            $infotainments = $request->user()->infotainments->load([
                 'infotainmentManufacturer',
-                'serializerManufacturer'
-            ])->get()
+                'serializerManufacturer',
+            ]);
+        } else {
+            $infotainments = Infotainment::with([
+                'infotainmentManufacturer',
+                'serializerManufacturer',
+            ])->get();
+        }
+
+        return view('infotainments.index', [
+            'infotainments' => $infotainments,
         ]);
     }
 
@@ -68,7 +79,7 @@ class InfotainmentController extends Controller
 
         return view('infotainments.show', [
             'infotainment' => $infotainment,
-           'infotainmentProfiles' => $infotainment->profiles,
+            'infotainmentProfiles' => $infotainment->profiles,
         ]);
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Models\Infotainment;
 use App\Models\User;
 use App\UserRole;
 use Illuminate\Support\Facades\Gate;
@@ -18,7 +19,7 @@ class UserController extends Controller
         Gate::authorize('viewAny', User::class);
 
         return view('users.index', [
-            'users' => User::all()
+            'users' => User::all(),
         ]);
     }
 
@@ -32,6 +33,8 @@ class UserController extends Controller
         return view('users.create-or-edit', [
             'user' => new User,
             'roles' => UserRole::labels(),
+            'infotainments' => Infotainment::all()->pluck('product_id', 'id')->toArray(),
+            'selectedInfotainments' => [],
         ]);
     }
 
@@ -53,6 +56,8 @@ class UserController extends Controller
         $user->is_approved = false;
 
         $user->save();
+
+        $user->infotainments()->sync($validated['infotainments']);
 
         return redirect()
             ->route('users.index')
@@ -105,6 +110,8 @@ class UserController extends Controller
         return view('users.create-or-edit', [
             'user' => $user,
             'roles' => UserRole::labels(),
+            'infotainments' => Infotainment::all()->pluck('product_id', 'id')->toArray(),
+            'selectedInfotainments' => $user->infotainments->pluck('id')->toArray(),
         ]);
     }
 
@@ -127,6 +134,8 @@ class UserController extends Controller
         $user->role = $validated['role'];
 
         $user->save();
+
+        $user->infotainments()->sync($validated['infotainments']);
 
         return redirect()
             ->route('users.index')
