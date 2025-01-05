@@ -30,7 +30,7 @@ class InfotainmentProfilePolicy
      */
     public function delete(User $user, InfotainmentProfile $infotainmentProfile): bool
     {
-        return $this->create($user);
+        return $user->role->value >= UserRole::ADMINISTRATOR->value;
     }
 
     public function approve(User $user, InfotainmentProfile $infotainmentProfile): bool

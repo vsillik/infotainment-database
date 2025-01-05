@@ -21,7 +21,7 @@ class InfotainmentManufacturerPolicy
      */
     public function create(User $user): bool
     {
-        return $user->role->value >= UserRole::OPERATOR->value;
+        return $user->role->value >= UserRole::ADMINISTRATOR->value;
     }
 
     /**

@@ -45,7 +45,7 @@ class InfotainmentPolicy
      */
     public function delete(User $user, Infotainment $infotainment): bool
     {
-        return $this->create($user);
+        return $user->role->value >= UserRole::ADMINISTRATOR->value;
     }
 
 }
