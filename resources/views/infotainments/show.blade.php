@@ -30,7 +30,9 @@
     <h3>Infotainment profiles</h3>
     <hr/>
 
-    <x-action-buttons.create :targetUrl="route('infotainments.profiles.create', $infotainment)" label="Create infotainment profile" />
+    @can('create', \App\Models\InfotainmentProfile::class)
+        <x-action-buttons.create :targetUrl="route('infotainments.profiles.create', $infotainment)" label="Create infotainment profile" />
+    @endcan
 
     <table class="table">
         <thead>
@@ -57,21 +59,31 @@
                     @if($infotainmentProfile->is_approved)
                         <x-action-buttons.download targetUrl="#" label="Download EDID" />
                     @else
-                        <x-action-buttons.approve :targetUrl="route('infotainments.profiles.approve', [$infotainment, $infotainmentProfile])" />
+                        @can('approve', $infotainmentProfile)
+                            <x-action-buttons.approve :targetUrl="route('infotainments.profiles.approve', [$infotainment, $infotainmentProfile])" />
+                        @endcan
 
-                        <x-action-buttons.edit :targetUrl="route('infotainments.profiles.edit', [$infotainment, $infotainmentProfile])" />
+                        @can('update', $infotainmentProfile)
+                            <x-action-buttons.edit :targetUrl="route('infotainments.profiles.edit', [$infotainment, $infotainmentProfile])" />
+                        @endcan
                     @endif
 
-                    <x-action-buttons.copy :targetUrl="route('infotainments.profiles.copy', [$infotainment, $infotainmentProfile])" />
+                    @can('create', \App\Models\InfotainmentProfile::class)
+                        <x-action-buttons.copy :targetUrl="route('infotainments.profiles.copy', [$infotainment, $infotainmentProfile])" />
+                    @endcan
 
-                    <x-action-buttons.delete :targetUrl="route('infotainments.profiles.destroy', [$infotainment, $infotainmentProfile])" />
+                    @can('delete', $infotainmentProfile)
+                        <x-action-buttons.delete :targetUrl="route('infotainments.profiles.destroy', [$infotainment, $infotainmentProfile])" />
+                    @endcan
                 </td>
             </tr>
         @empty
             <tr>
                 <td colspan="2">
                     No infotainment profile found.
-                    <a href="{{ route('infotainments.profiles.create', $infotainment) }}">Add infotainment profile</a>
+                    @can('create', \App\Models\InfotainmentProfile::class)
+                        <a href="{{ route('infotainments.profiles.create', $infotainment) }}">Add infotainment profile</a>
+                    @endcan
                 </td>
             </tr>
         @endforelse

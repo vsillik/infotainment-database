@@ -3,7 +3,9 @@
         Infotainments
     </x-slot:title>
 
-    <x-action-buttons.create :targetUrl="route('infotainments.create')" label="Create infotainment" />
+    @can('create', \App\Models\Infotainment::class)
+        <x-action-buttons.create :targetUrl="route('infotainments.create')" label="Create infotainment" />
+    @endcan
 
     <div class="table-responsive">
         <table class="table">
@@ -26,16 +28,26 @@
                     <td>{{ $infotainment->model_year }}</td>
                     <td>{{ $infotainment->part_number }}</td>
                     <td>
-                        <x-action-buttons.show :targetUrl="route('infotainments.show', $infotainment)" />
-                        <x-action-buttons.edit :targetUrl="route('infotainments.edit', $infotainment)" />
-                        <x-action-buttons.delete :targetUrl="route('infotainments.destroy', $infotainment)" />
+                        @can('view', $infotainment)
+                            <x-action-buttons.show :targetUrl="route('infotainments.show', $infotainment)" />
+                        @endcan
+
+                        @can('update', $infotainment)
+                            <x-action-buttons.edit :targetUrl="route('infotainments.edit', $infotainment)" />
+                        @endcan
+
+                        @can('delete', $infotainment)
+                            <x-action-buttons.delete :targetUrl="route('infotainments.destroy', $infotainment)" />
+                        @endcan
                     </td>
                 </tr>
             @empty
                 <tr>
                     <td colspan="6">
                         No infotainment found.
-                        <a href="{{ route('infotainments.create') }}">Add infotainment</a>
+                        @can('create', \App\Models\Infotainment::class)
+                            <a href="{{ route('infotainments.create') }}">Add infotainment</a>
+                        @endcan
                     </td>
                 </tr>
             @endforelse

@@ -1,3 +1,4 @@
+@php use App\Models\InfotainmentManufacturer;use App\Models\SerializerManufacturer; @endphp
 <x-base-layout>
     <header class="navbar bg-dark flex-md-nowrap p-1 shadow" data-bs-theme="dark">
         <div class="container-fluid">
@@ -16,7 +17,8 @@
             </ul>
 
             <div class="dropdown text-end">
-                <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser"
+                   data-bs-toggle="dropdown" aria-expanded="false">
                     {{ Auth::user()->name }}
                 </a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser">
@@ -50,30 +52,44 @@
                                     Home
                                 </a>
                             </li>
+
+                            @can('viewAny', InfotainmentManufacturer::class)
+                                <li class="nav-item">
+                                    <a class="nav-link d-flex align-items-center gap-2"
+                                       href="{{ route('infotainment_manufacturers.index') }}">
+                                        Infotainment manufacturers
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('viewAny', SerializerManufacturer::class)
+                                <li class="nav-item">
+                                    <a class="nav-link d-flex align-items-center gap-2"
+                                       href="{{ route('serializer_manufacturers.index') }}">
+                                        Serializer manufacturers
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('viewAny', \App\Models\Infotainment::class)
+                                <li class="nav-item">
+                                    <a class="nav-link d-flex align-items-center gap-2"
+                                       href="{{ route('infotainments.index') }}">
+                                        Infotainments
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('viewAny', \App\Models\User::class)
                             <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center gap-2"
-                                   href="{{ route('infotainment_manufacturers.index') }}">
-                                    Infotainment manufacturers
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2"
-                                   href="{{ route('serializer_manufacturers.index') }}">
-                                    Serializer manufacturers
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2"
-                                   href="{{ route('infotainments.index') }}">
-                                    Infotainments
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2"
-                                    href="{{ route('users.index') }}">
+                                   href="{{ route('users.index') }}">
                                     Users
                                 </a>
                             </li>
+                            @endcan
+
+                            <!--
                             <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center gap-2" href="#">
                                     Preferences
@@ -84,6 +100,7 @@
                                     Site settings
                                 </a>
                             </li>
+                            -->
                         </ul>
                     </div>
                 </div>

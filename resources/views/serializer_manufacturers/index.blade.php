@@ -3,7 +3,9 @@
         Serializer manufacturers
     </x-slot:title>
 
-    <x-action-buttons.create :targetUrl="route('serializer_manufacturers.create')" label="Create serializer manufacturer" />
+    @can('create', \App\Models\SerializerManufacturer::class)
+        <x-action-buttons.create :targetUrl="route('serializer_manufacturers.create')" label="Create serializer manufacturer" />
+    @endcan
 
     <div class="table-responsive">
         <table class="table">
@@ -20,15 +22,22 @@
                     <td>{{ $serializerManufacturer->id }}</td>
                     <td>{{ $serializerManufacturer->name }}</td>
                     <td>
-                        <x-action-buttons.edit :targetUrl="route('serializer_manufacturers.edit', $serializerManufacturer)" />
-                        <x-action-buttons.delete :targetUrl="route('serializer_manufacturers.destroy', $serializerManufacturer)" />
+                        @can('update', $serializerManufacturer)
+                            <x-action-buttons.edit :targetUrl="route('serializer_manufacturers.edit', $serializerManufacturer)" />
+                        @endcan
+
+                        @can('delete', $serializerManufacturer)
+                            <x-action-buttons.delete :targetUrl="route('serializer_manufacturers.destroy', $serializerManufacturer)" />
+                        @endcan
                     </td>
                 </tr>
             @empty
                 <tr>
                     <td colspan="3">
                         No serializer manufacturer found.
-                        <a href="{{ route('serializer_manufacturers.create') }}">Add serializer manufacturer</a>
+                        @can('create', \App\Models\SerializerManufacturer::class)
+                            <a href="{{ route('serializer_manufacturers.create') }}">Add serializer manufacturer</a>
+                        @endcan
                     </td>
                 </tr>
             @endforelse

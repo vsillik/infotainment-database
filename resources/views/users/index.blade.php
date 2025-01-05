@@ -3,7 +3,9 @@
         Users
     </x-slot:title>
 
-    <x-action-buttons.create :targetUrl="route('users.create')" label="Create user"/>
+    @can('create', \App\Models\User::class)
+        <x-action-buttons.create :targetUrl="route('users.create')" label="Create user"/>
+    @endcan
 
     <div class="table-responsive">
         <table class="table">
@@ -28,16 +30,24 @@
                     <td>
                         @if ($user->id !== 1)
                             @if($user->is_approved)
-                                <x-action-buttons.unapprove :targetUrl="route('users.unapprove', $user)" />
+                                @can('unapprove', $user)
+                                    <x-action-buttons.unapprove :targetUrl="route('users.unapprove', $user)" />
+                                @endcan
                             @else
-                                <x-action-buttons.approve :targetUrl="route('users.approve', $user)" />
+                                @can('approve', $user)
+                                    <x-action-buttons.approve :targetUrl="route('users.approve', $user)" />
+                                @endcan
                             @endif
                         @endif
 
-                        <x-action-buttons.edit :targetUrl="route('users.edit', $user)" />
+                        @can('update', $user)
+                            <x-action-buttons.edit :targetUrl="route('users.edit', $user)" />
+                        @endcan
 
                         @if($user->id !== 1)
-                            <x-action-buttons.delete :targetUrl="route('users.destroy', $user)" />
+                            @can('delete', $user)
+                                <x-action-buttons.delete :targetUrl="route('users.destroy', $user)" />
+                            @endcan
                         @endif
                     </td>
                 </tr>
@@ -45,7 +55,9 @@
                 <tr>
                     <td colspan="3">
                         No user found.
-                        <a href="{{ route('users.create') }}">Add user</a>
+                        @can('create', \App\Models\User::class)
+                            <a href="{{ route('users.create') }}">Add user</a>
+                        @endcan
                     </td>
                 </tr>
             @endforelse

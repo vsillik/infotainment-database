@@ -3,7 +3,9 @@
         Infotainment manufacturers
     </x-slot:title>
 
-    <x-action-buttons.create :targetUrl="route('infotainment_manufacturers.create')" label="Create infotainment manufacturer" />
+    @can('create', \App\Models\InfotainmentManufacturer::class)
+        <x-action-buttons.create :targetUrl="route('infotainment_manufacturers.create')" label="Create infotainment manufacturer" />
+    @endcan
 
     <div class="table-responsive">
         <table class="table">
@@ -18,15 +20,22 @@
                     <tr>
                         <td>{{ $infotainmentManufacturer->name }}</td>
                         <td>
-                            <x-action-buttons.edit :targetUrl="route('infotainment_manufacturers.edit', $infotainmentManufacturer)" />
-                            <x-action-buttons.delete :targetUrl="route('infotainment_manufacturers.destroy', $infotainmentManufacturer)" />
+                            @can('update', $infotainmentManufacturer)
+                                <x-action-buttons.edit :targetUrl="route('infotainment_manufacturers.edit', $infotainmentManufacturer)" />
+                            @endcan
+
+                            @can('delete', $infotainmentManufacturer)
+                                <x-action-buttons.delete :targetUrl="route('infotainment_manufacturers.destroy', $infotainmentManufacturer)" />
+                            @endcan
                         </td>
                     </tr>
                 @empty
                     <tr>
                         <td colspan="2">
                             No infotainment manufacturer found.
-                            <a href="{{ route('infotainment_manufacturers.create') }}">Add infotainment manufacturer</a>
+                            @can('create', \App\Models\InfotainmentManufacturer::class)
+                                <a href="{{ route('infotainment_manufacturers.create') }}">Add infotainment manufacturer</a>
+                            @endcan
                         </td>
                     </tr>
                 @endforelse
