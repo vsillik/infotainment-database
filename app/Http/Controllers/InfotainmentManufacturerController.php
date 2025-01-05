@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\InfotainmentManufacturerRequest;
 use App\Models\InfotainmentManufacturer;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class InfotainmentManufacturerController extends Controller
@@ -14,6 +15,8 @@ class InfotainmentManufacturerController extends Controller
      */
     public function index(): View
     {
+        Gate::authorize('viewAny', InfotainmentManufacturer::class);
+
         return view('infotainment_manufacturers.index', [
             'infotainmentManufacturers' => InfotainmentManufacturer::all()
         ]);
@@ -24,6 +27,8 @@ class InfotainmentManufacturerController extends Controller
      */
     public function create(): View
     {
+        Gate::authorize('create', InfotainmentManufacturer::class);
+
         return view('infotainment_manufacturers.create-or-edit', [
             'infotainmentManufacturer' => new InfotainmentManufacturer,
         ]);
@@ -34,6 +39,8 @@ class InfotainmentManufacturerController extends Controller
      */
     public function store(InfotainmentManufacturerRequest $request): RedirectResponse
     {
+        Gate::authorize('create', InfotainmentManufacturer::class);
+
         $validated = $request->validated();
 
         $infotainmentManufacturer = new InfotainmentManufacturer;
@@ -52,6 +59,8 @@ class InfotainmentManufacturerController extends Controller
      */
     public function edit(InfotainmentManufacturer $infotainmentManufacturer): View
     {
+        Gate::authorize('update', $infotainmentManufacturer);
+
         return view('infotainment_manufacturers.create-or-edit', [
             'infotainmentManufacturer' => $infotainmentManufacturer
         ]);
@@ -62,6 +71,8 @@ class InfotainmentManufacturerController extends Controller
      */
     public function update(InfotainmentManufacturerRequest $request, InfotainmentManufacturer $infotainmentManufacturer): RedirectResponse
     {
+        Gate::authorize('update', $infotainmentManufacturer);
+
         $validated = $request->validated();
 
         $infotainmentManufacturer->name = $validated['name'];
@@ -78,6 +89,8 @@ class InfotainmentManufacturerController extends Controller
      */
     public function destroy(InfotainmentManufacturer $infotainmentManufacturer): RedirectResponse
     {
+        Gate::authorize('delete', $infotainmentManufacturer);
+
         if ($infotainmentManufacturer->infotainments->isNotEmpty()) {
             return redirect()
                 ->route('infotainment_manufacturers.index')

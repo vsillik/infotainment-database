@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SerializerManufacturerRequest;
 use App\Models\SerializerManufacturer;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class SerializerManufacturerController extends Controller
@@ -14,8 +15,10 @@ class SerializerManufacturerController extends Controller
      */
     public function index(): View
     {
+        Gate::authorize('viewAny', SerializerManufacturer::class);
+
         return view('serializer_manufacturers.index', [
-            'serializerManufacturers' => SerializerManufacturer::all()
+            'serializerManufacturers' => SerializerManufacturer::all(),
         ]);
     }
 
@@ -24,8 +27,10 @@ class SerializerManufacturerController extends Controller
      */
     public function create(): View
     {
+        Gate::authorize('create', SerializerManufacturer::class);
+
         return view('serializer_manufacturers.create-or-edit', [
-           'serializerManufacturer' => new SerializerManufacturer,
+            'serializerManufacturer' => new SerializerManufacturer,
         ]);
     }
 
@@ -34,18 +39,20 @@ class SerializerManufacturerController extends Controller
      */
     public function store(SerializerManufacturerRequest $request): RedirectResponse
     {
-       $validated = $request->validated();
+        Gate::authorize('create', SerializerManufacturer::class);
 
-       $serializerManufacturer = new SerializerManufacturer;
+        $validated = $request->validated();
 
-       $serializerManufacturer->id = $validated['id'];
-       $serializerManufacturer->name = $validated['name'];
+        $serializerManufacturer = new SerializerManufacturer;
 
-       $serializerManufacturer->save();
+        $serializerManufacturer->id = $validated['id'];
+        $serializerManufacturer->name = $validated['name'];
 
-       return redirect()
-           ->route('serializer_manufacturers.index')
-           ->with('success', sprintf('Serializer manufacturer %s created', $serializerManufacturer->name));
+        $serializerManufacturer->save();
+
+        return redirect()
+            ->route('serializer_manufacturers.index')
+            ->with('success', sprintf('Serializer manufacturer %s created', $serializerManufacturer->name));
     }
 
     /**
@@ -53,6 +60,8 @@ class SerializerManufacturerController extends Controller
      */
     public function edit(SerializerManufacturer $serializerManufacturer): View
     {
+        Gate::authorize('update', $serializerManufacturer);
+
         return view('serializer_manufacturers.create-or-edit', [
             'serializerManufacturer' => $serializerManufacturer,
         ]);
@@ -63,6 +72,8 @@ class SerializerManufacturerController extends Controller
      */
     public function update(SerializerManufacturerRequest $request, SerializerManufacturer $serializerManufacturer): RedirectResponse
     {
+        Gate::authorize('update', $serializerManufacturer);
+
         $validated = $request->validated();
 
         $serializerManufacturer->id = $validated['id'];
@@ -80,6 +91,8 @@ class SerializerManufacturerController extends Controller
      */
     public function destroy(SerializerManufacturer $serializerManufacturer): RedirectResponse
     {
+        Gate::authorize('delete', $serializerManufacturer);
+
         if ($serializerManufacturer->infotainments->isNotEmpty()) {
             return redirect()
                 ->route('serializer_manufacturers.index')

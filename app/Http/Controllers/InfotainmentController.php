@@ -7,6 +7,7 @@ use App\Models\Infotainment;
 use App\Models\InfotainmentManufacturer;
 use App\Models\SerializerManufacturer;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class InfotainmentController extends Controller
@@ -16,6 +17,8 @@ class InfotainmentController extends Controller
      */
     public function index(): View
     {
+        Gate::authorize('viewAny', Infotainment::class);
+
         return view('infotainments.index', [
             'infotainments' => Infotainment::with([
                 'infotainmentManufacturer',
@@ -29,6 +32,8 @@ class InfotainmentController extends Controller
      */
     public function create(): View
     {
+        Gate::authorize('create', Infotainment::class);
+
         return view('infotainments.create-or-edit', [
             'infotainment' => new Infotainment,
             'infotainmentManufacturers' => InfotainmentManufacturer::all(),
@@ -41,6 +46,8 @@ class InfotainmentController extends Controller
      */
     public function store(InfotainmentRequest $request): RedirectResponse
     {
+        Gate::authorize('create', Infotainment::class);
+
         $validated = $request->validated();
 
         $infotainment = new Infotainment;
@@ -57,6 +64,8 @@ class InfotainmentController extends Controller
      */
     public function show(Infotainment $infotainment): View
     {
+        Gate::authorize('view', $infotainment);
+
         return view('infotainments.show', [
             'infotainment' => $infotainment,
            'infotainmentProfiles' => $infotainment->profiles,
@@ -68,6 +77,8 @@ class InfotainmentController extends Controller
      */
     public function edit(Infotainment $infotainment): View
     {
+        Gate::authorize('update', $infotainment);
+
         return view('infotainments.create-or-edit', [
             'infotainment' => $infotainment,
             'infotainmentManufacturers' => InfotainmentManufacturer::all(),
@@ -80,6 +91,8 @@ class InfotainmentController extends Controller
      */
     public function update(InfotainmentRequest $request, Infotainment $infotainment): RedirectResponse
     {
+        Gate::authorize('update', $infotainment);
+
         $validated = $request->validated();
 
         $this->setInfotainmentValidatedValues($infotainment, $validated);
@@ -94,6 +107,8 @@ class InfotainmentController extends Controller
      */
     public function destroy(Infotainment $infotainment): RedirectResponse
     {
+        Gate::authorize('delete', $infotainment);
+
         if ($infotainment->profiles->isNotEmpty()) {
             return redirect()
                 ->route('infotainments.index')

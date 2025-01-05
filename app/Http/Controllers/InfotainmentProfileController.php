@@ -8,6 +8,7 @@ use App\Http\Requests\InfotainmentProfileRequest;
 use App\Models\Infotainment;
 use App\Models\InfotainmentProfile;
 use App\Models\InfotainmentProfileTimingBlock;
+use Illuminate\Support\Facades\Gate;
 
 class InfotainmentProfileController extends Controller
 {
@@ -17,15 +18,17 @@ class InfotainmentProfileController extends Controller
      */
     public function create(Infotainment $infotainment)
     {
-       return view('infotainment_profiles.create-or-edit', [
-           'colorBitDepths' => ColorBitDepth::labels(),
-           'interfaces' => DisplayInterface::labels(),
-           'infotainment' => $infotainment,
-           'infotainmentProfile' => new InfotainmentProfile,
-           'timing' => new InfotainmentProfileTimingBlock,
-           'extraTiming' => new InfotainmentProfileTimingBlock,
-           'mode' => 'create',
-       ]);
+        Gate::authorize('create', InfotainmentProfile::class);
+
+        return view('infotainment_profiles.create-or-edit', [
+            'colorBitDepths' => ColorBitDepth::labels(),
+            'interfaces' => DisplayInterface::labels(),
+            'infotainment' => $infotainment,
+            'infotainmentProfile' => new InfotainmentProfile,
+            'timing' => new InfotainmentProfileTimingBlock,
+            'extraTiming' => new InfotainmentProfileTimingBlock,
+            'mode' => 'create',
+        ]);
     }
 
     /**
@@ -33,6 +36,8 @@ class InfotainmentProfileController extends Controller
      */
     public function store(InfotainmentProfileRequest $request, Infotainment $infotainment)
     {
+        Gate::authorize('create', InfotainmentProfile::class);
+
         $validated = $request->validated();
 
         $infotainmentProfile = new InfotainmentProfile;
@@ -69,6 +74,8 @@ class InfotainmentProfileController extends Controller
      */
     public function edit(Infotainment $infotainment, InfotainmentProfile $profile)
     {
+        Gate::authorize('update', $profile);
+
         if ($profile->is_approved) {
             return redirect()
                 ->route('infotainments.show', ['infotainment' => $infotainment->id])
@@ -88,6 +95,8 @@ class InfotainmentProfileController extends Controller
 
     public function approve(Infotainment $infotainment, InfotainmentProfile $profile)
     {
+        Gate::authorize('approve', $profile);
+
         if ($profile->is_approved) {
             return redirect()
                 ->route('infotainments.show', ['infotainment' => $infotainment->id])
@@ -107,6 +116,8 @@ class InfotainmentProfileController extends Controller
 
     public function copy(Infotainment $infotainment, InfotainmentProfile $profile)
     {
+        Gate::authorize('create', $profile);
+
         return view('infotainment_profiles.create-or-edit', [
             'colorBitDepths' => ColorBitDepth::labels(),
             'interfaces' => DisplayInterface::labels(),
@@ -123,6 +134,12 @@ class InfotainmentProfileController extends Controller
      */
     public function update(InfotainmentProfileRequest $request, Infotainment $infotainment, InfotainmentProfile $profile)
     {
+        if ($request->has('approving_infotainment_profile')) {
+            Gate::authorize('approve', $profile);
+        } else {
+            Gate::authorize('update', $profile);
+        }
+
         $successMessage = 'Infotainment profile updated';
         $validated = $request->validated();
 
@@ -170,6 +187,8 @@ class InfotainmentProfileController extends Controller
      */
     public function destroy(Infotainment $infotainment, InfotainmentProfile $profile)
     {
+        Gate::authorize('delete', $profile);
+
         $profile->delete();
         $profile->timing->delete();
         $profile->extraTiming?->delete();
@@ -200,20 +219,20 @@ class InfotainmentProfileController extends Controller
     {
         $prefix = $isExtra ? 'extra_' : '';
 
-        $timingBlock->pixel_clock = $validated[$prefix . 'pixel_clock'];
-        $timingBlock->horizontal_pixels = $validated[$prefix . 'horizontal_pixels'];
-        $timingBlock->vertical_lines = $validated[$prefix . 'vertical_lines'];
-        $timingBlock->horizontal_blank = $validated[$prefix . 'horizontal_blank'];
-        $timingBlock->horizontal_front_porch = $validated[$prefix . 'horizontal_front_porch'];
-        $timingBlock->horizontal_sync_width = $validated[$prefix . 'horizontal_sync_width'];
-        $timingBlock->horizontal_image_size = $validated[$prefix . 'horizontal_image_size'];
-        $timingBlock->horizontal_border = $validated[$prefix . 'horizontal_border'];
-        $timingBlock->vertical_blank = $validated[$prefix . 'vertical_blank'];
-        $timingBlock->vertical_front_porch = $validated[$prefix . 'vertical_front_porch'];
-        $timingBlock->vertical_sync_width = $validated[$prefix . 'vertical_sync_width'];
-        $timingBlock->vertical_image_size = $validated[$prefix . 'vertical_image_size'];
-        $timingBlock->vertical_border = $validated[$prefix . 'vertical_border'];
-        $timingBlock->signal_horizontal_sync_positive = $request->has($prefix . 'signal_horizontal_sync_positive');
-        $timingBlock->signal_vertical_sync_positive = $request->has($prefix . 'signal_vertical_sync_positive');
+        $timingBlock->pixel_clock = $validated[$prefix.'pixel_clock'];
+        $timingBlock->horizontal_pixels = $validated[$prefix.'horizontal_pixels'];
+        $timingBlock->vertical_lines = $validated[$prefix.'vertical_lines'];
+        $timingBlock->horizontal_blank = $validated[$prefix.'horizontal_blank'];
+        $timingBlock->horizontal_front_porch = $validated[$prefix.'horizontal_front_porch'];
+        $timingBlock->horizontal_sync_width = $validated[$prefix.'horizontal_sync_width'];
+        $timingBlock->horizontal_image_size = $validated[$prefix.'horizontal_image_size'];
+        $timingBlock->horizontal_border = $validated[$prefix.'horizontal_border'];
+        $timingBlock->vertical_blank = $validated[$prefix.'vertical_blank'];
+        $timingBlock->vertical_front_porch = $validated[$prefix.'vertical_front_porch'];
+        $timingBlock->vertical_sync_width = $validated[$prefix.'vertical_sync_width'];
+        $timingBlock->vertical_image_size = $validated[$prefix.'vertical_image_size'];
+        $timingBlock->vertical_border = $validated[$prefix.'vertical_border'];
+        $timingBlock->signal_horizontal_sync_positive = $request->has($prefix.'signal_horizontal_sync_positive');
+        $timingBlock->signal_vertical_sync_positive = $request->has($prefix.'signal_vertical_sync_positive');
     }
 }

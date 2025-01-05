@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\UserRole;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -14,6 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
+        Gate::authorize('viewAny', User::class);
+
         return view('users.index', [
             'users' => User::all()
         ]);
@@ -24,6 +27,8 @@ class UserController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create', User::class);
+
         return view('users.create-or-edit', [
             'user' => new User,
             'roles' => UserRole::labels(),
@@ -35,6 +40,8 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
+        Gate::authorize('create', User::class);
+
         $validated = $request->validated();
 
         $user = new User;
@@ -54,6 +61,8 @@ class UserController extends Controller
 
     public function approve(User $user)
     {
+        Gate::authorize('approve', $user);
+
         if ($user->is_approved) {
             return redirect()
                 ->route('users.index')
@@ -70,6 +79,8 @@ class UserController extends Controller
 
     public function unapprove(User $user)
     {
+        Gate::authorize('unapprove', $user);
+
         if (!$user->is_approved) {
             return redirect()
                 ->route('users.index')
@@ -89,6 +100,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        Gate::authorize('update', $user);
+
         return view('users.create-or-edit', [
             'user' => $user,
             'roles' => UserRole::labels(),
@@ -100,6 +113,8 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
+        Gate::authorize('update', $user);
+
         $validated = $request->validated();
 
         $user->name = $validated['name'];
@@ -123,6 +138,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        Gate::authorize('delete', $user);
+
         $user->delete();
 
         return redirect()
