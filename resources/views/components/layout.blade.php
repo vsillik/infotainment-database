@@ -4,29 +4,26 @@
         <div class="container-fluid">
             <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="#">{{ config('app.name') }}</a>
 
-            <ul class="navbar-nav flex-row d-md-none">
-                <li class="nav-item text-nowrap">
-                    <button class="nav-link px-3 text-white" type="button" data-bs-toggle="offcanvas"
-                            data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
-                            aria-label="Toggle navigation">
-                        <svg class="bi">
-                            <use xlink:href="#list"/>
-                        </svg>
-                    </button>
-                </li>
-            </ul>
-
-            <div class="dropdown text-end">
+            <div class="dropdown">
                 <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser"
                    data-bs-toggle="dropdown" aria-expanded="false">
                     {{ Auth::user()->name }}
                 </a>
-                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser">
+                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end text-small" aria-labelledby="dropdownUser">
                     <li>
-                        <form action="{{ route('logout') }}" method="POST" class="d-inline-block">
+                        <a href="{{ route('profile.edit') }}" class="dropdown-item link-light">Profile settings</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('profile.password.edit') }}" class="dropdown-item link-light">Change password</a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <form action="{{ route('logout') }}" method="POST">
                             @csrf
 
-                            <button type="submit" class="btn btn-sm">Log out</button>
+                            <button type="submit" class="dropdown-item link-light">Log out</button>
                         </form>
                     </li>
                 </ul>

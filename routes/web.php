@@ -5,12 +5,20 @@ use App\Http\Controllers\InfotainmentManufacturerController;
 use App\Http\Controllers\InfotainmentProfileController;
 use App\Http\Controllers\SerializerManufacturerController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'approved'])->group(function () {
     Route::get('/', function () {
         return view('welcome');
     })->name('index');
+
+    Route::controller(UserProfileController::class)->group(function () {
+       Route::get('/profile', 'edit')->name('profile.edit');
+       Route::patch('/profile', 'update')->name('profile.update');
+       Route::get('/profile/password', 'editPassword')->name('profile.password.edit');
+       Route::patch('/profile/password', 'updatePassword')->name('profile.password.update');
+    });
 
     Route::resource('infotainment_manufacturers', InfotainmentManufacturerController::class)
         ->except(['show']);
