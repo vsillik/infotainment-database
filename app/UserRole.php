@@ -20,9 +20,14 @@ enum UserRole: int
         $labels = [];
 
         foreach (self::cases() as $case) {
-            $labels[$case->value] = ucfirst(strtolower($case->name));
+            $labels[$case->value] = $case->toHumanReadable();
         }
 
         return $labels;
+    }
+
+    public function toHumanReadable(): string
+    {
+        return ucfirst(strtolower($this->name));
     }
 }

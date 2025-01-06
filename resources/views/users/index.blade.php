@@ -13,6 +13,7 @@
             <tr>
                 <th>Email</th>
                 <th>Name</th>
+                <th>Role</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -27,6 +28,7 @@
                         @endif
                     </td>
                     <td>{{ $user->name }}</td>
+                    <td>{{ $user->role->toHumanReadable() }}</td>
                     <td>
                         @if ($user->id !== 1)
                             @if($user->is_approved)
