@@ -7,6 +7,7 @@
     </label>
     <select name="{{ $name }}" id="{{ $name }}"
             @class(['form-select', 'is-invalid' => $errors->has($name)])
+            {{ $attributes }}
             @required($required)>
         @foreach($options as $key => $option)
             <option value="{{ $key }}"

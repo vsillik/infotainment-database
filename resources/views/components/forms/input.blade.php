@@ -9,8 +9,7 @@
            value="{{ old($name, $defaultValue) }}"
            id="{{ $name }}"
            @class(['form-control', 'is-invalid' => $errors->has($name)])
-           @if ($minLength !== null) minlength="{{ $minLength }}" @endif
-           @if ($maxLength !== null) maxlength="{{ $maxLength }}" @endif
+           {{ $attributes }}
            @required($required)>
     @error($name)
     <div class="invalid-feedback">

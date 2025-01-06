@@ -155,6 +155,8 @@
                     label="Horizontal size"
                     :defaultValue="$infotainmentProfile->horizontal_size"
                     required="true"
+                    min="1"
+                    max="255"
                     />
 
                 <x-forms.input
@@ -163,6 +165,8 @@
                     label="Vertical size"
                     :defaultValue="$infotainmentProfile->vertical_size"
                     required="true"
+                    min="1"
+                    max="255"
                     />
 
                 <x-forms.checkbox
@@ -197,7 +201,7 @@
                     label="HW version"
                     :defaultValue="$infotainmentProfile->hw_version"
                     required="true"
-                    maxLength="3"
+                    maxlength="3"
                     />
 
                 <x-forms.input
@@ -205,28 +209,28 @@
                     label="SW version"
                     :defaultValue="$infotainmentProfile->sw_version"
                     required="true"
-                    maxLength="4"
+                    maxlength="4"
                 />
 
                 <x-forms.input
                     name="vendor_block_1"
                     label="Vendor block 1"
                     :defaultValue="$infotainmentProfile->vendor_block_1"
-                    maxLength="31"
+                    maxlength="31"
                 />
 
                 <x-forms.input
                     name="vendor_block_2"
                     label="Vendor block 2"
                     :defaultValue="$infotainmentProfile->vendor_block_2"
-                    maxLength="31"
+                    maxlength="31"
                 />
 
                 <x-forms.input
                     name="vendor_block_3"
                     label="Vendor block 3"
                     :defaultValue="$infotainmentProfile->vendor_block_3"
-                    maxLength="31"
+                    maxlength="31"
                 />
             </div>
             <div class="tab-pane fade" id="timing-tab-pane" role="tabpanel" aria-labelledby="timing-tab"
@@ -238,6 +242,9 @@
                     label="Pixel clock"
                     :defaultValue="$timing->pixel_clock"
                     required="true"
+                    min="0.01"
+                    max="655.35"
+                    step="0.01"
                 />
 
                 <div class="row">
@@ -249,8 +256,9 @@
                             label="Horizontal pixels"
                             :defaultValue="$timing->horizontal_pixels"
                             required="true"
+                            min="0"
+                            max="4095"
                         />
-
 
                         <x-forms.input
                             name="horizontal_blank"
@@ -258,6 +266,8 @@
                             label="Horizontal blank"
                             :defaultValue="$timing->horizontal_blank"
                             required="true"
+                            min="0"
+                            max="4095"
                         />
 
                         <x-forms.input
@@ -265,6 +275,8 @@
                             type="number"
                             label="Horizontal front porch"
                             :defaultValue="$timing->horizontal_front_porch"
+                            min="0"
+                            max="1023"
                         />
 
                         <x-forms.input
@@ -272,6 +284,8 @@
                             type="number"
                             label="Horizontal sync width"
                             :defaultValue="$timing->horizontal_sync_width"
+                            min="0"
+                            max="1023"
                         />
 
                         <x-forms.input
@@ -279,6 +293,8 @@
                             type="number"
                             label="Horizontal image size"
                             :defaultValue="$timing->horizontal_image_size"
+                            min="0"
+                            max="255"
                         />
 
                         <x-forms.input
@@ -286,6 +302,8 @@
                             type="number"
                             label="Horizontal border"
                             :defaultValue="$timing->horizontal_border"
+                            min="0"
+                            max="255"
                         />
 
                         <x-forms.checkbox
@@ -301,6 +319,8 @@
                             label="Vertical lines"
                             :defaultValue="$timing->vertical_lines"
                             required="true"
+                            min="0"
+                            max="4095"
                         />
 
                         <x-forms.input
@@ -309,6 +329,8 @@
                             label="Vertical blank"
                             :defaultValue="$timing->vertical_blank"
                             required="true"
+                            min="0"
+                            max="4095"
                         />
 
                         <x-forms.input
@@ -316,6 +338,8 @@
                             type="number"
                             label="Vertical front porch"
                             :defaultValue="$timing->vertical_front_porch"
+                            min="0"
+                            max="63"
                         />
 
 
@@ -324,6 +348,8 @@
                             type="number"
                             label="Vertical sync width"
                             :defaultValue="$timing->vertical_sync_width"
+                            min="0"
+                            max="63"
                         />
 
 
@@ -332,6 +358,8 @@
                             type="number"
                             label="Vertical image size"
                             :defaultValue="$timing->vertical_image_size"
+                            min="0"
+                            max="4095"
                         />
 
                         <x-forms.input
@@ -339,6 +367,8 @@
                             type="number"
                             label="Vertical border"
                             :defaultValue="$timing->vertical_border"
+                            min="0"
+                            max="255"
                         />
 
                         <x-forms.checkbox
@@ -367,6 +397,9 @@
                     type="number"
                     label="Pixel clock"
                     :defaultValue="$extraTiming->pixel_clock"
+                    min="0.01"
+                    max="655.35"
+                    step="0.01"
                 />
 
                 <div class="row">
@@ -376,6 +409,8 @@
                             type="number"
                             label="Horizontal pixels"
                             :defaultValue="$extraTiming->horizontal_pixels"
+                            min="0"
+                            max="4095"
                         />
 
                         <x-forms.input
@@ -383,6 +418,8 @@
                             type="number"
                             label="Horizontal blank"
                             :defaultValue="$extraTiming->horizontal_blank"
+                            min="0"
+                            max="4095"
                         />
 
                         <x-forms.input
@@ -390,6 +427,8 @@
                             type="number"
                             label="Horizontal front porch"
                             :defaultValue="$extraTiming->horizontal_front_porch"
+                            min="0"
+                            max="1023"
                         />
 
                         <x-forms.input
@@ -397,6 +436,8 @@
                             type="number"
                             label="Horizontal sync width"
                             :defaultValue="$extraTiming->horizontal_sync_width"
+                            min="0"
+                            max="1023"
                         />
 
                         <x-forms.input
@@ -404,6 +445,8 @@
                             type="number"
                             label="Horizontal image size"
                             :defaultValue="$extraTiming->horizontal_image_size"
+                            min="0"
+                            max="4095"
                         />
 
                         <x-forms.input
@@ -411,6 +454,8 @@
                             type="number"
                             label="Horizontal border"
                             :defaultValue="$extraTiming->horizontal_border"
+                            min="0"
+                            max="255"
                         />
 
                         <x-forms.checkbox
@@ -425,6 +470,8 @@
                             type="number"
                             label="Vertical lines"
                             :defaultValue="$extraTiming->vertical_lines"
+                            min="0"
+                            max="4095"
                         />
 
                         <x-forms.input
@@ -432,6 +479,8 @@
                             type="number"
                             label="Vertical blank"
                             :defaultValue="$extraTiming->vertical_blank"
+                            min="0"
+                            max="4095"
                         />
 
                         <x-forms.input
@@ -439,6 +488,8 @@
                             type="number"
                             label="Vertical front porch"
                             :defaultValue="$extraTiming->vertical_front_porch"
+                            min="0"
+                            max="63"
                         />
 
                         <x-forms.input
@@ -446,6 +497,8 @@
                             type="number"
                             label="Vertical sync width"
                             :defaultValue="$extraTiming->vertical_sync_width"
+                            min="0"
+                            max="63"
                         />
 
                         <x-forms.input
@@ -453,14 +506,17 @@
                             type="number"
                             label="Vertical image size"
                             :defaultValue="$extraTiming->vertical_image_size"
+                            min="0"
+                            max="4095"
                         />
-
 
                         <x-forms.input
                             name="extra_vertical_border"
                             type="number"
                             label="Vertical border"
                             :defaultValue="$extraTiming->vertical_border"
+                            min="0"
+                            max="255"
                         />
 
                         <x-forms.checkbox

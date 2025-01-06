@@ -19,18 +19,12 @@ class Input extends Component
 
     public readonly string $type;
 
-    public readonly ?int $minLength;
-
-    public readonly ?int $maxLength;
-
     public function __construct(
         string $name,
         string $label,
         ?string $defaultValue = null,
         ?bool $required = null,
         ?string $type = null,
-        ?int $minLength = null,
-        ?int $maxLength = null
     )
     {
         $this->name = $name;
@@ -38,8 +32,6 @@ class Input extends Component
         $this->defaultValue = $defaultValue ?? '';
         $this->required = $required ?? false;
         $this->type = $type ?? 'text';
-        $this->minLength = $minLength;
-        $this->maxLength = $maxLength;
     }
 
     public function render(): View|Closure|string

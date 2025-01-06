@@ -8,8 +8,7 @@
     <textarea name="{{ $name }}"
               id="{{ $name }}"
               @class(['form-control', 'is-invalid' => $errors->has($name)])
-              @if ($minLength !== null) minlength="{{ $minLength }}" @endif
-              @if ($maxLength !== null) maxlength="{{ $maxLength }}" @endif
+              {{ $attributes }}
         @required($required)>{{ old($name, $defaultValue) }}</textarea>
     @error($name)
     <div class="invalid-feedback">

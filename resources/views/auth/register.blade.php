@@ -12,14 +12,14 @@
             name="name"
             label="Name"
             required="true"
-            maxLength="255" />
+            maxlength="255" />
 
         <x-forms.input
             name="email"
             type="email"
             label="Email"
             required="true"
-            maxLength="1024" />
+            maxlength="1024" />
 
         <!-- TODO: autocomplete same for password and password_confirmation -->
         <x-forms.input
@@ -27,14 +27,14 @@
             type="password"
             label="Password"
             required="true"
-            minLength="8" />
+            minlength="8" />
 
         <x-forms.input
             name="password_confirmation"
             type="password"
             label="Repeat password"
             required="true"
-            minLength="8" />
+            minlength="8" />
 
         <button type="submit" class="btn btn-primary">Register</button>
     </form>

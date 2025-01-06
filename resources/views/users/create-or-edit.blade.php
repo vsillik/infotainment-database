@@ -24,7 +24,7 @@
             label="Name"
             :defaultValue="$user->name"
             required="true"
-            maxLength="255" />
+            maxlength="255" />
 
         <x-forms.input
             name="email"
@@ -32,14 +32,14 @@
             label="Email"
             :defaultValue="$user->email"
             required="true"
-            maxLength="1024" />
+            maxlength="1024" />
 
         <x-forms.input
             name="password"
             type="password"
             label="Password"
             :required="!$user->exists"
-            minLength="8" />
+            minlength="8" />
 
         <x-forms.select
             name="role"

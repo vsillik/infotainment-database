@@ -13,14 +13,14 @@
             type="email"
             label="Email"
             required="true"
-            maxLength="1024" />
+            maxlength="1024" />
 
         <x-forms.input
             name="password"
             type="password"
             label="Password"
             required="true"
-            minLength="8" />
+            minlength="8" />
 
         <x-forms.checkbox
             name="remember_me"

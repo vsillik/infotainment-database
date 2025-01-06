@@ -24,7 +24,7 @@
             label="Name"
             :defaultValue="$infotainmentManufacturer->name"
             required="true"
-            maxLength="255"
+            maxlength="255"
             />
 
         <x-forms.required-note />

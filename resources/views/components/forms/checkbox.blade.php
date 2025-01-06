@@ -2,7 +2,8 @@
     <input type="checkbox" name="{{ $name }}"
            value="{{ $value }}" id="{{ $name }}"
            class="form-check-input"
-        @checked(old('is_ycrcb_4_4_4', $isCheckedByDefault))
+           {{ $attributes }}
+        @checked(old($name, $isCheckedByDefault))
         @required($required)>
     <label for="{{ $name }}" class="form-check-label">
         {{ $label }}

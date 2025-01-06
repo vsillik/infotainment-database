@@ -47,8 +47,10 @@ class InfotainmentController extends Controller
 
         return view('infotainments.create-or-edit', [
             'infotainment' => new Infotainment,
-            'infotainmentManufacturers' => InfotainmentManufacturer::all(),
-            'serializerManufacturers' => SerializerManufacturer::all(),
+            'infotainmentManufacturers' => InfotainmentManufacturer::all()
+                ->pluck('name', 'id')->toArray(),
+            'serializerManufacturers' => SerializerManufacturer::all()
+                ->pluck('name', 'id')->toArray(),
         ]);
     }
 
@@ -92,8 +94,10 @@ class InfotainmentController extends Controller
 
         return view('infotainments.create-or-edit', [
             'infotainment' => $infotainment,
-            'infotainmentManufacturers' => InfotainmentManufacturer::all(),
-            'serializerManufacturers' => SerializerManufacturer::all(),
+            'infotainmentManufacturers' => InfotainmentManufacturer::all()
+                ->pluck('name', 'id')->toArray(),
+            'serializerManufacturers' => SerializerManufacturer::all()
+                ->pluck('name', 'id')->toArray(),
         ]);
     }
 
