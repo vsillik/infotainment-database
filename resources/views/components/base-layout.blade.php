@@ -13,5 +13,7 @@
     <div class="vh-100 d-flex flex-column">
         {{ $slot }}
     </div>
+
+    @stack('scripts')
 </body>
 </html>

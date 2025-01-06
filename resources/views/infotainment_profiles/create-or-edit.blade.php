@@ -342,7 +342,6 @@
                             max="63"
                         />
 
-
                         <x-forms.input
                             name="vertical_sync_width"
                             type="number"
@@ -351,7 +350,6 @@
                             min="0"
                             max="63"
                         />
-
 
                         <x-forms.input
                             name="vertical_image_size"
@@ -397,6 +395,7 @@
                     type="number"
                     label="Pixel clock"
                     :defaultValue="$extraTiming->pixel_clock"
+                    required="true"
                     min="0.01"
                     max="655.35"
                     step="0.01"
@@ -409,6 +408,7 @@
                             type="number"
                             label="Horizontal pixels"
                             :defaultValue="$extraTiming->horizontal_pixels"
+                            required="true"
                             min="0"
                             max="4095"
                         />
@@ -418,6 +418,7 @@
                             type="number"
                             label="Horizontal blank"
                             :defaultValue="$extraTiming->horizontal_blank"
+                            required="true"
                             min="0"
                             max="4095"
                         />
@@ -470,6 +471,7 @@
                             type="number"
                             label="Vertical lines"
                             :defaultValue="$extraTiming->vertical_lines"
+                            required="true"
                             min="0"
                             max="4095"
                         />
@@ -479,6 +481,7 @@
                             type="number"
                             label="Vertical blank"
                             :defaultValue="$extraTiming->vertical_blank"
+                            required="true"
                             min="0"
                             max="4095"
                         />
@@ -538,4 +541,45 @@
             <button type="submit" class="btn btn-primary">Save</button>
         @endif
     </form>
+
+    @push('scripts')
+        <script type="text/javascript">
+            function toggleRequired() {
+                const enableExtraTiming = document.getElementById('extra_timing_block');
+                const extraPixelClock = document.getElementById('extra_pixel_clock');
+                const extraHorizontalPixels = document.getElementById('extra_horizontal_pixels');
+                const extraHorizontalBlank = document.getElementById('extra_horizontal_blank');
+                const extraVerticalLines = document.getElementById('extra_vertical_lines');
+                const extraVerticalBlank = document.getElementById('extra_vertical_blank');
+
+                if (enableExtraTiming.checked) {
+                    extraPixelClock.required = true;
+                    extraHorizontalPixels.required = true;
+                    extraHorizontalBlank.required = true;
+                    extraVerticalLines.required = true;
+                    extraVerticalBlank.required = true;
+                } else {
+                    extraPixelClock.required = false;
+                    extraHorizontalPixels.required = false;
+                    extraHorizontalBlank.required = false;
+                    extraVerticalLines.required = false;
+                    extraVerticalBlank.required = false;
+                }
+            }
+
+            function addCheckboxListener() {
+                document.getElementById('extra_timing_block').addEventListener('change', toggleRequired);
+            }
+
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", () => {
+                    toggleRequired();
+                    addCheckboxListener();
+                });
+            } else {
+                toggleRequired();
+                addCheckboxListener();
+            }
+        </script>
+    @endpush
 </x-layout>
