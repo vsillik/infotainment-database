@@ -28,11 +28,15 @@ class InfotainmentProfileRequest extends FormRequest
             ],
             'horizontal_size' => [
                 'required',
-                'integer'
+                'integer',
+                'min:1',
+                'max:255',
             ],
             'vertical_size' => [
                 'required',
-                'integer'
+                'integer',
+                'min:1',
+                'max:255',
             ],
             'hw_version' => [
                 'required',
@@ -54,111 +58,163 @@ class InfotainmentProfileRequest extends FormRequest
             'pixel_clock' => [
                 'required',
                 'numeric',
+                'min:0.01',
+                'max:655.35',
             ],
             'horizontal_pixels' => [
                 'required',
-                'integer'
-            ],
-            'vertical_lines' => [
-                'required',
-                'integer'
+                'integer',
+                'min:0',
+                'max:4095',
             ],
             'horizontal_blank' => [
                 'required',
                 'integer',
+                'min:0',
+                'max:4095',
             ],
             'horizontal_front_porch' => [
                 'nullable',
                 'integer',
+                'min:0',
+                'max:1023',
             ],
             'horizontal_sync_width' => [
                 'nullable',
                 'integer',
+                'min:0',
+                'max:1023',
             ],
             'horizontal_image_size' => [
                 'nullable',
                 'integer',
+                'min:0',
+                'max:4095',
             ],
             'horizontal_border' => [
                 'nullable',
                 'integer',
+                'min:0',
+                'max:255',
+            ],
+            'vertical_lines' => [
+                'required',
+                'integer',
+                'min:0',
+                'max:4095',
             ],
             'vertical_blank' => [
                 'required',
                 'integer',
+                'min:0',
+                'max:4095',
             ],
             'vertical_front_porch' => [
                 'nullable',
                 'integer',
+                'min:0',
+                'max:63',
             ],
             'vertical_sync_width' => [
                 'nullable',
                 'integer',
+                'min:0',
+                'max:63',
             ],
             'vertical_image_size' => [
                 'nullable',
                 'integer',
+                'min:0',
+                'max:4095',
             ],
             'vertical_border' => [
                 'nullable',
                 'integer',
+                'min:0',
+                'max:255',
             ],
             'extra_pixel_clock' => [
                 'required_if_accepted:extra_timing_block',
                 'nullable',
                 'numeric',
+                'min:0.01',
+                'max:655.35',
             ],
             'extra_horizontal_pixels' => [
                 'required_if_accepted:extra_timing_block',
                 'nullable',
-                'integer'
-            ],
-            'extra_vertical_lines' => [
-                'required_if_accepted:extra_timing_block',
-                'nullable',
-                'integer'
+                'integer',
+                'min:0',
+                'max:4095',
             ],
             'extra_horizontal_blank' => [
                 'required_if_accepted:extra_timing_block',
                 'nullable',
                 'integer',
+                'min:0',
+                'max:4095',
             ],
             'extra_horizontal_front_porch' => [
                 'nullable',
                 'integer',
+                'min:0',
+                'max:1023',
             ],
             'extra_horizontal_sync_width' => [
                 'nullable',
                 'integer',
+                'min:0',
+                'max:1023',
             ],
             'extra_horizontal_image_size' => [
                 'nullable',
                 'integer',
+                'min:0',
+                'max:4095',
             ],
             'extra_horizontal_border' => [
                 'nullable',
                 'integer',
+                'min:0',
+                'max:255',
+            ],
+            'extra_vertical_lines' => [
+                'required_if_accepted:extra_timing_block',
+                'nullable',
+                'integer',
+                'min:0',
+                'max:4095',
             ],
             'extra_vertical_blank' => [
                 'required_if_accepted:extra_timing_block',
                 'nullable',
                 'integer',
+                'min:0',
+                'max:4095',
             ],
             'extra_vertical_front_porch' => [
                 'nullable',
                 'integer',
+                'min:0',
+                'max:63',
             ],
             'extra_vertical_sync_width' => [
                 'nullable',
                 'integer',
+                'min:0',
+                'max:63',
             ],
             'extra_vertical_image_size' => [
                 'nullable',
                 'integer',
+                'min:0',
+                'max:4095',
             ],
             'extra_vertical_border' => [
                 'nullable',
                 'integer',
+                'min:0',
+                'max:255',
             ],
         ];
     }

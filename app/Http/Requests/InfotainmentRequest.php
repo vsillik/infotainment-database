@@ -31,6 +31,8 @@ class InfotainmentRequest extends FormRequest
             'model_year' => [
                 'required',
                 'integer',
+                'min:1990',
+                'max:2245',
             ],
             'part_number' => [
                 'required',
