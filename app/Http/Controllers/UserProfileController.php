@@ -25,7 +25,6 @@ class UserProfileController extends Controller
         $user = $request->user();
 
         $user->name = $validated['name'];
-        $user->email = $validated['email'];
 
         $user->save();
 

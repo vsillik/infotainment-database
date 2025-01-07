@@ -25,7 +25,7 @@
             type="email"
             label="Email"
             :defaultValue="$user->email"
-            required="true"
+            disabled
         />
 
         <x-forms.required-note />

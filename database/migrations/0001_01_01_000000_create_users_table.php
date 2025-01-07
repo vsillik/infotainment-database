@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->smallInteger('role')->default(UserRole::GUEST);
+            $table->smallInteger('role')->default(UserRole::CUSTOMER);
             $table->boolean('is_approved')->default(false);
             $table->rememberToken();
             $table->timestamps();

@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UserProfileRequest extends FormRequest
 {
@@ -21,14 +19,6 @@ class UserProfileRequest extends FormRequest
                 'required',
                 'string',
                 'max:255'
-            ],
-            'email' => [
-                'required',
-                'string',
-                'lowercase',
-                'email',
-                'max:255',
-                Rule::unique(User::class, 'email')->ignore($this->user()),
             ],
         ];
     }

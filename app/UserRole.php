@@ -4,7 +4,7 @@ namespace App;
 
 enum UserRole: int
 {
-    case GUEST = 0;
+    case CUSTOMER = 0;
 
     case OPERATOR = 1;
 

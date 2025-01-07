@@ -21,7 +21,7 @@ class InfotainmentController extends Controller
     {
         Gate::authorize('viewAny', Infotainment::class);
 
-        if ($request->user()->role === UserRole::GUEST) {
+        if ($request->user()->role === UserRole::CUSTOMER) {
             $infotainments = $request->user()->infotainments->load([
                 'infotainmentManufacturer',
                 'serializerManufacturer',
