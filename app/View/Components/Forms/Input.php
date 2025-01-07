@@ -19,12 +19,18 @@ class Input extends Component
 
     public readonly string $type;
 
+    public readonly ?string $suffixText;
+
+    public readonly ?string $extraText;
+
     public function __construct(
         string $name,
         string $label,
         ?string $defaultValue = null,
         ?bool $required = null,
         ?string $type = null,
+        ?string $suffixText = null,
+        ?string $extraText = null,
     )
     {
         $this->name = $name;
@@ -32,6 +38,8 @@ class Input extends Component
         $this->defaultValue = $defaultValue ?? '';
         $this->required = $required ?? false;
         $this->type = $type ?? 'text';
+        $this->suffixText = $suffixText;
+        $this->extraText = $extraText;
     }
 
     public function render(): View|Closure|string

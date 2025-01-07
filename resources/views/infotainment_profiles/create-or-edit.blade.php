@@ -157,6 +157,7 @@
                     required="true"
                     min="1"
                     max="255"
+                    suffixText="cm"
                     />
 
                 <x-forms.input
@@ -167,6 +168,7 @@
                     required="true"
                     min="1"
                     max="255"
+                    suffixText="cm"
                     />
 
                 <x-forms.checkbox
@@ -245,6 +247,7 @@
                     min="0.01"
                     max="655.35"
                     step="0.01"
+                    suffixText="MHz"
                 />
 
                 <div class="row">
@@ -258,6 +261,7 @@
                             required="true"
                             min="0"
                             max="4095"
+                            suffixText="pixels"
                         />
 
                         <x-forms.input
@@ -268,6 +272,7 @@
                             required="true"
                             min="0"
                             max="4095"
+                            suffixText="pixels"
                         />
 
                         <x-forms.input
@@ -277,6 +282,7 @@
                             :defaultValue="$timing->horizontal_front_porch"
                             min="0"
                             max="1023"
+                            suffixText="pixels"
                         />
 
                         <x-forms.input
@@ -286,6 +292,7 @@
                             :defaultValue="$timing->horizontal_sync_width"
                             min="0"
                             max="1023"
+                            suffixText="pixels"
                         />
 
                         <x-forms.input
@@ -295,6 +302,7 @@
                             :defaultValue="$timing->horizontal_image_size"
                             min="0"
                             max="255"
+                            suffixText="mm"
                         />
 
                         <x-forms.input
@@ -304,6 +312,7 @@
                             :defaultValue="$timing->horizontal_border"
                             min="0"
                             max="255"
+                            suffixText="pixels"
                         />
 
                         <x-forms.checkbox
@@ -321,6 +330,7 @@
                             required="true"
                             min="0"
                             max="4095"
+                            suffixText="lines"
                         />
 
                         <x-forms.input
@@ -331,6 +341,7 @@
                             required="true"
                             min="0"
                             max="4095"
+                            suffixText="lines"
                         />
 
                         <x-forms.input
@@ -340,6 +351,7 @@
                             :defaultValue="$timing->vertical_front_porch"
                             min="0"
                             max="63"
+                            suffixText="lines"
                         />
 
                         <x-forms.input
@@ -349,6 +361,7 @@
                             :defaultValue="$timing->vertical_sync_width"
                             min="0"
                             max="63"
+                            suffixText="lines"
                         />
 
                         <x-forms.input
@@ -358,6 +371,7 @@
                             :defaultValue="$timing->vertical_image_size"
                             min="0"
                             max="4095"
+                            suffixText="mm"
                         />
 
                         <x-forms.input
@@ -367,6 +381,7 @@
                             :defaultValue="$timing->vertical_border"
                             min="0"
                             max="255"
+                            suffixText="lines"
                         />
 
                         <x-forms.checkbox
@@ -384,11 +399,9 @@
                     name="extra_timing_block"
                     label="Enable extra timing"
                     :isCheckedByDefault="$extraTiming->exists"
+                    extraText="If you disable this option, you will loose all the settings from this section.
+                    Marked fields in this section are required only if this option is enabled."
                 />
-                <p class="text-secondary">
-                    If you disable this option, you will loose all the settings from this section.
-                    Marked fields in this section are required only if this option is enabled.
-                </p>
 
                 <x-forms.input
                     name="extra_pixel_clock"
@@ -399,6 +412,7 @@
                     min="0.01"
                     max="655.35"
                     step="0.01"
+                    suffixText="MHz"
                 />
 
                 <div class="row">
@@ -411,6 +425,7 @@
                             required="true"
                             min="0"
                             max="4095"
+                            suffixText="pixels"
                         />
 
                         <x-forms.input
@@ -421,6 +436,7 @@
                             required="true"
                             min="0"
                             max="4095"
+                            suffixText="pixels"
                         />
 
                         <x-forms.input
@@ -430,6 +446,7 @@
                             :defaultValue="$extraTiming->horizontal_front_porch"
                             min="0"
                             max="1023"
+                            suffixText="pixels"
                         />
 
                         <x-forms.input
@@ -439,6 +456,7 @@
                             :defaultValue="$extraTiming->horizontal_sync_width"
                             min="0"
                             max="1023"
+                            suffixText="pixels"
                         />
 
                         <x-forms.input
@@ -448,6 +466,7 @@
                             :defaultValue="$extraTiming->horizontal_image_size"
                             min="0"
                             max="4095"
+                            suffixText="mm"
                         />
 
                         <x-forms.input
@@ -457,6 +476,7 @@
                             :defaultValue="$extraTiming->horizontal_border"
                             min="0"
                             max="255"
+                            suffixText="pixels"
                         />
 
                         <x-forms.checkbox
@@ -474,6 +494,7 @@
                             required="true"
                             min="0"
                             max="4095"
+                            suffixText="lines"
                         />
 
                         <x-forms.input
@@ -484,6 +505,7 @@
                             required="true"
                             min="0"
                             max="4095"
+                            suffixText="lines"
                         />
 
                         <x-forms.input
@@ -493,6 +515,7 @@
                             :defaultValue="$extraTiming->vertical_front_porch"
                             min="0"
                             max="63"
+                            suffixText="lines"
                         />
 
                         <x-forms.input
@@ -502,6 +525,7 @@
                             :defaultValue="$extraTiming->vertical_sync_width"
                             min="0"
                             max="63"
+                            suffixText="lines"
                         />
 
                         <x-forms.input
@@ -511,6 +535,7 @@
                             :defaultValue="$extraTiming->vertical_image_size"
                             min="0"
                             max="4095"
+                            suffixText="mm"
                         />
 
                         <x-forms.input
@@ -520,6 +545,7 @@
                             :defaultValue="$extraTiming->vertical_border"
                             min="0"
                             max="255"
+                            suffixText="lines"
                         />
 
                         <x-forms.checkbox

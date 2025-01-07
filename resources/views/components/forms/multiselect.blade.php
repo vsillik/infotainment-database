@@ -5,6 +5,7 @@
             <span class="text-danger">*</span>
         @endif
     </label>
+
     <select name="{{ $name }}" id="{{ $name }}"
         @class(['form-select', 'is-invalid' => $errors->has($name)])
         {{ $attributes }}
@@ -17,9 +18,16 @@
             </option>
         @endforeach
     </select>
+
     @error($name)
     <div class="invalid-feedback">
         {{ $message }}
     </div>
     @enderror
+
+    @if($extraText !== null)
+        <div class="form-text">
+            {{ $extraText }}
+        </div>
+    @endif
 </div>

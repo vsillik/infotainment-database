@@ -18,12 +18,15 @@ class Checkbox extends Component
 
     public readonly bool $required;
 
+    public readonly ?string $extraText;
+
     public function __construct(
         string $name,
         string $label,
         ?bool $isCheckedByDefault = null,
         ?string $value = null,
         ?bool $required = null,
+        ?string $extraText = null,
     )
     {
         $this->name = $name;
@@ -31,6 +34,7 @@ class Checkbox extends Component
         $this->isCheckedByDefault = $isCheckedByDefault ?? false;
         $this->value = $value ?? '1';
         $this->required = $required ?? false;
+        $this->extraText = $extraText;
     }
 
     public function render(): View|Closure|string

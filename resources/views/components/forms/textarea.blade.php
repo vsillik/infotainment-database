@@ -5,14 +5,22 @@
             <span class="text-danger">*</span>
         @endif
     </label>
+
     <textarea name="{{ $name }}"
               id="{{ $name }}"
               @class(['form-control', 'is-invalid' => $errors->has($name)])
               {{ $attributes }}
         @required($required)>{{ old($name, $defaultValue) }}</textarea>
+
     @error($name)
     <div class="invalid-feedback">
         {{ $message }}
     </div>
     @enderror
+
+    @if($extraText !== null)
+        <div class="form-text">
+            {{ $extraText }}
+        </div>
+    @endif
 </div>

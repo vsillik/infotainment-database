@@ -16,17 +16,21 @@ class Textarea extends Component
 
     public readonly bool $required;
 
+    public readonly ?string $extraText;
+
     public function __construct(
         string $name,
         string $label,
         ?string $defaultValue = null,
         ?bool $required = null,
+        ?string $extraText = null,
     )
     {
         $this->name = $name;
         $this->label = $label;
         $this->defaultValue = $defaultValue ?? '';
         $this->required = $required ?? false;
+        $this->extraText = $extraText;
     }
 
     public function render(): View|Closure|string

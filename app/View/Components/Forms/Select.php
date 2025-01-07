@@ -19,12 +19,15 @@ class Select extends Component
 
     public readonly bool $required;
 
+    public readonly ?string $extraText;
+
     public function __construct(
         string $name,
         string $label,
         array $options,
         ?string $defaultValue,
         ?bool $required = null,
+        ?string $extraText = null,
     )
     {
         $this->name = $name;
@@ -32,6 +35,7 @@ class Select extends Component
         $this->options = $options;
         $this->defaultValue = $defaultValue ?? '';
         $this->required = $required ?? false;
+        $this->extraText = $extraText;
     }
 
     public function render(): View|Closure|string

@@ -20,6 +20,8 @@ class Multiselect extends Component
 
     public readonly bool $required;
 
+    public readonly ?string $extraText;
+
     /**
      * Create a new component instance.
      */
@@ -29,6 +31,7 @@ class Multiselect extends Component
         array $options,
         ?array $selected = null,
         ?bool $required = null,
+        ?string $extraText = null,
     )
     {
         $this->name = $name;
@@ -36,6 +39,7 @@ class Multiselect extends Component
         $this->options = $options;
         $this->selected = $selected ?? [];
         $this->required = $required ?? false;
+        $this->extraText = $extraText;
     }
 
     /**
