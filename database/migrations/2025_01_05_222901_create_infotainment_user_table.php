@@ -15,12 +15,12 @@ return new class extends Migration
             $table->foreignId('infotainment_id')
                 ->constrained('infotainments')
                 ->cascadeOnUpdate()
-                ->restrictOnDelete();
+                ->cascadeOnDelete();
 
             $table->foreignId('user_id')
                 ->constrained('users')
                 ->cascadeOnUpdate()
-                ->restrictOnDelete();
+                ->cascadeOnDelete();
 
             $table->primary(['infotainment_id', 'user_id']);
         });
