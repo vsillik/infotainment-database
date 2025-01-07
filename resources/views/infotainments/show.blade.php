@@ -73,7 +73,9 @@
                     @endcan
 
                     @can('delete', $infotainmentProfile)
-                        <x-action-buttons.delete :targetUrl="route('infotainments.profiles.destroy', [$infotainment, $infotainmentProfile])" />
+                        <x-action-buttons.delete
+                            :targetUrl="route('infotainments.profiles.destroy', [$infotainment, $infotainmentProfile])"
+                            confirmSubject="infotainment profile {{ $infotainment->id }}" />
                     @endcan
                 </td>
             </tr>

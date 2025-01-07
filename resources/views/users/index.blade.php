@@ -48,7 +48,9 @@
 
                         @if($user->id !== 1)
                             @can('delete', $user)
-                                <x-action-buttons.delete :targetUrl="route('users.destroy', $user)" />
+                                <x-action-buttons.delete
+                                    :targetUrl="route('users.destroy', $user)"
+                                    confirmSubject="user {{ $user->email }}" />
                             @endcan
                         @endif
                     </td>

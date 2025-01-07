@@ -27,7 +27,9 @@
                         @endcan
 
                         @can('delete', $serializerManufacturer)
-                            <x-action-buttons.delete :targetUrl="route('serializer_manufacturers.destroy', $serializerManufacturer)" />
+                            <x-action-buttons.delete
+                                :targetUrl="route('serializer_manufacturers.destroy', $serializerManufacturer)"
+                                confirmSubject="serializer manufacturer {{ $serializerManufacturer->name }}" />
                         @endcan
                     </td>
                 </tr>

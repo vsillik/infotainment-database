@@ -25,7 +25,9 @@
                             @endcan
 
                             @can('delete', $infotainmentManufacturer)
-                                <x-action-buttons.delete :targetUrl="route('infotainment_manufacturers.destroy', $infotainmentManufacturer)" />
+                                <x-action-buttons.delete
+                                    :targetUrl="route('infotainment_manufacturers.destroy', $infotainmentManufacturer)"
+                                    confirmSubject="infotainment manufacturer {{$infotainmentManufacturer->name}}" />
                             @endcan
                         </td>
                     </tr>
