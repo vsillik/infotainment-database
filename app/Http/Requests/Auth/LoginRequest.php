@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests\Auth;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends FormRequest
 {
@@ -35,7 +35,7 @@ class LoginRequest extends FormRequest
     /**
      * Attempt to authenticate the request's credentials.
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws AuthenticationException
      */
     public function authenticate(): void
     {
@@ -44,9 +44,7 @@ class LoginRequest extends FormRequest
         if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
-            throw ValidationException::withMessages([
-                'email' => 'Invalid credentials',
-            ]);
+            throw new AuthenticationException(message: 'Invalid credentials');
         }
 
         RateLimiter::clear($this->throttleKey());
@@ -55,7 +53,7 @@ class LoginRequest extends FormRequest
     /**
      * Ensure the login request is not rate limited.
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws AuthenticationException
      */
     public function ensureIsNotRateLimited(): void
     {
@@ -67,9 +65,7 @@ class LoginRequest extends FormRequest
 
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
-        throw ValidationException::withMessages([
-            'email' => sprintf('Too many failed attempts. Try again in %d minutes.', $seconds / 60),
-        ]);
+        throw new AuthenticationException(message: sprintf('Too many failed attempts. Try again in %d minutes.', $seconds / 60));
     }
 
     /**
