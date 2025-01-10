@@ -4,7 +4,7 @@
            class="form-check-input"
            {{ $attributes }}
         @checked(old($name, $isCheckedByDefault))
-        @required($required)>
+    >
 
     <label for="{{ $name }}" class="form-check-label">
         {{ $label }}

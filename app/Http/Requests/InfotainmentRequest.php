@@ -21,7 +21,6 @@ class InfotainmentRequest extends FormRequest
             ],
             'serializer_manufacturer_id' => [
                 'required',
-                'size:3',
                 'exists:\App\Models\SerializerManufacturer,id',
             ],
             'product_id' => [

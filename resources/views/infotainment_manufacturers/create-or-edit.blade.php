@@ -24,7 +24,7 @@
             label="Name"
             :defaultValue="$infotainmentManufacturer->name"
             required="true"
-            maxlength="255"
+            extraText="Maximum length 255 characters."
             />
 
         <x-forms.required-note />

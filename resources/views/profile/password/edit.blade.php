@@ -14,14 +14,15 @@
             type="password"
             label="Password"
             required="true"
-            minlength="8" />
+            extraText="Minimum length 8 characters."
+        />
 
         <x-forms.input
             name="password_confirmation"
             type="password"
             label="Repeat password"
             required="true"
-            minlength="8" />
+        />
 
         <x-forms.required-note />
 

@@ -24,8 +24,7 @@
             label="Identifier"
             :defaultValue="$serializerManufacturer->id"
             required="true"
-            minlength="3"
-            maxlength="3"
+            extraText="Must be exactly 3 characters long."
             />
 
         <x-forms.input
@@ -33,7 +32,7 @@
             label="Name"
             :defaultValue="$serializerManufacturer->name"
             required="true"
-            maxlength="255"
+            extraText="Maximum length 255 characters."
             />
 
         <x-forms.required-note />

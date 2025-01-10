@@ -11,30 +11,33 @@
         <x-forms.input
             name="name"
             label="Name"
+            extraText="Maximum length 255 characters."
             required="true"
-            maxlength="255" />
+        />
 
         <x-forms.input
             name="email"
             type="email"
             label="Email"
             required="true"
-            maxlength="1024" />
+        />
 
-        <!-- TODO: autocomplete same for password and password_confirmation -->
         <x-forms.input
             name="password"
             type="password"
             label="Password"
+            extraText="Minimum length 8 characters."
             required="true"
-            minlength="8" />
+        />
 
         <x-forms.input
             name="password_confirmation"
             type="password"
             label="Repeat password"
             required="true"
-            minlength="8" />
+        />
+
+        <x-forms.required-note />
 
         <button type="submit" class="btn btn-primary">Register</button>
     </form>

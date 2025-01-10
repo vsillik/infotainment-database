@@ -10,7 +10,7 @@
               id="{{ $name }}"
               @class(['form-control', 'is-invalid' => $errors->has($name)])
               {{ $attributes }}
-        @required($required)>{{ old($name, $defaultValue) }}</textarea>
+    >{{ old($name, $defaultValue) }}</textarea>
 
     @error($name)
     <div class="invalid-feedback">

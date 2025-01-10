@@ -9,8 +9,8 @@
     <select name="{{ $name }}" id="{{ $name }}"
         @class(['form-select', 'is-invalid' => $errors->has($name)])
         {{ $attributes }}
-        @required($required)
-        multiple>
+        multiple
+    >
         @foreach($options as $key => $option)
             <option value="{{ $key }}"
                 @selected(in_array($key, $selected))>

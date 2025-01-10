@@ -6,24 +6,24 @@
         @endif
     </label>
 
-    <div @class(['input-group' => $suffixText !== null])>
+    <div @class(['input-group' => $suffixText !== null, 'has-validation' => $suffixText !== null])>
         <input type="{{ $type }}" name="{{ $name }}"
                value="{{ old($name, $defaultValue) }}"
                id="{{ $name }}"
             @class(['form-control', 'is-invalid' => $errors->has($name)])
             {{ $attributes }}
-            @required($required)>
+        >
 
         @if($suffixText !== null)
             <span class="input-group-text">{{ $suffixText }}</span>
         @endif
-    </div>
 
-    @error($name)
-    <div class="invalid-feedback">
-        {{ $message }}
+        @error($name)
+        <div class="invalid-feedback">
+            {{ $message }}
+        </div>
+        @enderror
     </div>
-    @enderror
 
     @if($extraText !== null)
         <div class="form-text">

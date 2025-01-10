@@ -24,7 +24,8 @@
             label="Name"
             :defaultValue="$user->name"
             required="true"
-            maxlength="255" />
+            extraText="Maximum length 255 characters."
+        />
 
         <x-forms.input
             name="email"
@@ -32,14 +33,15 @@
             label="Email"
             :defaultValue="$user->email"
             required="true"
-            maxlength="1024" />
+        />
 
         <x-forms.input
             name="password"
             type="password"
             label="Password"
             :required="!$user->exists"
-            minlength="8" />
+            :extraText="sprintf('Minimum length 8 characters.%s', $user->exists ? ' This will change password only if not empty.' : '')"
+        />
 
         <x-forms.select
             name="role"
@@ -54,7 +56,6 @@
             label="Allowed infotainments to display"
             :options="$infotainments"
             :selected="$selectedInfotainments"
-            required="true"
         />
 
         <x-forms.required-note />

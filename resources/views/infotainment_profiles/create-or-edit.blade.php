@@ -155,9 +155,8 @@
                     label="Horizontal size"
                     :defaultValue="$infotainmentProfile->horizontal_size"
                     required="true"
-                    min="1"
-                    max="255"
                     suffixText="cm"
+                    extraText="The value must be between 1-255."
                     />
 
                 <x-forms.input
@@ -166,9 +165,8 @@
                     label="Vertical size"
                     :defaultValue="$infotainmentProfile->vertical_size"
                     required="true"
-                    min="1"
-                    max="255"
                     suffixText="cm"
+                    extraText="The value must be between 1-255."
                     />
 
                 <x-forms.checkbox
@@ -203,7 +201,7 @@
                     label="HW version"
                     :defaultValue="$infotainmentProfile->hw_version"
                     required="true"
-                    maxlength="3"
+                    extraText="Maximum length 3 characters."
                     />
 
                 <x-forms.input
@@ -211,28 +209,28 @@
                     label="SW version"
                     :defaultValue="$infotainmentProfile->sw_version"
                     required="true"
-                    maxlength="4"
+                    extraText="Maximum length 4 characters."
                 />
 
                 <x-forms.input
                     name="vendor_block_1"
                     label="Vendor block 1"
                     :defaultValue="$infotainmentProfile->vendor_block_1"
-                    maxlength="31"
+                    extraText="Maximum length 31 characters."
                 />
 
                 <x-forms.input
                     name="vendor_block_2"
                     label="Vendor block 2"
                     :defaultValue="$infotainmentProfile->vendor_block_2"
-                    maxlength="31"
+                    extraText="Maximum length 31 characters."
                 />
 
                 <x-forms.input
                     name="vendor_block_3"
                     label="Vendor block 3"
                     :defaultValue="$infotainmentProfile->vendor_block_3"
-                    maxlength="31"
+                    extraText="Maximum length 31 characters."
                 />
             </div>
             <div class="tab-pane fade" id="timing-tab-pane" role="tabpanel" aria-labelledby="timing-tab"
@@ -244,10 +242,9 @@
                     label="Pixel clock"
                     :defaultValue="$timing->pixel_clock"
                     required="true"
-                    min="0.01"
-                    max="655.35"
                     step="0.01"
                     suffixText="MHz"
+                    extraText="The value must be between 0.01-655.35. Only increments of 0.01 MHz are allowed."
                 />
 
                 <div class="row">
@@ -259,9 +256,8 @@
                             label="Horizontal pixels"
                             :defaultValue="$timing->horizontal_pixels"
                             required="true"
-                            min="0"
-                            max="4095"
                             suffixText="pixels"
+                            extraText="The value must be between 0-4095."
                         />
 
                         <x-forms.input
@@ -270,9 +266,8 @@
                             label="Horizontal blank"
                             :defaultValue="$timing->horizontal_blank"
                             required="true"
-                            min="0"
-                            max="4095"
                             suffixText="pixels"
+                            extraText="The value must be between 0-4095."
                         />
 
                         <x-forms.input
@@ -280,9 +275,8 @@
                             type="number"
                             label="Horizontal front porch"
                             :defaultValue="$timing->horizontal_front_porch"
-                            min="0"
-                            max="1023"
                             suffixText="pixels"
+                            extraText="The value must be between 0-1023."
                         />
 
                         <x-forms.input
@@ -290,9 +284,8 @@
                             type="number"
                             label="Horizontal sync width"
                             :defaultValue="$timing->horizontal_sync_width"
-                            min="0"
-                            max="1023"
                             suffixText="pixels"
+                            extraText="The value must be between 0-1023."
                         />
 
                         <x-forms.input
@@ -300,9 +293,8 @@
                             type="number"
                             label="Horizontal image size"
                             :defaultValue="$timing->horizontal_image_size"
-                            min="0"
-                            max="255"
                             suffixText="mm"
+                            extraText="The value must be between 0-255."
                         />
 
                         <x-forms.input
@@ -310,9 +302,8 @@
                             type="number"
                             label="Horizontal border"
                             :defaultValue="$timing->horizontal_border"
-                            min="0"
-                            max="255"
                             suffixText="pixels"
+                            extraText="The value must be between 0-255."
                         />
 
                         <x-forms.checkbox
@@ -328,9 +319,8 @@
                             label="Vertical lines"
                             :defaultValue="$timing->vertical_lines"
                             required="true"
-                            min="0"
-                            max="4095"
                             suffixText="lines"
+                            extraText="The value must be between 0-4095."
                         />
 
                         <x-forms.input
@@ -339,9 +329,8 @@
                             label="Vertical blank"
                             :defaultValue="$timing->vertical_blank"
                             required="true"
-                            min="0"
-                            max="4095"
                             suffixText="lines"
+                            extraText="The value must be between 0-4095."
                         />
 
                         <x-forms.input
@@ -349,9 +338,8 @@
                             type="number"
                             label="Vertical front porch"
                             :defaultValue="$timing->vertical_front_porch"
-                            min="0"
-                            max="63"
                             suffixText="lines"
+                            extraText="The value must be between 0-63."
                         />
 
                         <x-forms.input
@@ -359,9 +347,8 @@
                             type="number"
                             label="Vertical sync width"
                             :defaultValue="$timing->vertical_sync_width"
-                            min="0"
-                            max="63"
                             suffixText="lines"
+                            extraText="The value must be between 0-63."
                         />
 
                         <x-forms.input
@@ -369,9 +356,8 @@
                             type="number"
                             label="Vertical image size"
                             :defaultValue="$timing->vertical_image_size"
-                            min="0"
-                            max="4095"
                             suffixText="mm"
+                            extraText="The value must be between 0-4095."
                         />
 
                         <x-forms.input
@@ -379,9 +365,8 @@
                             type="number"
                             label="Vertical border"
                             :defaultValue="$timing->vertical_border"
-                            min="0"
-                            max="255"
                             suffixText="lines"
+                            extraText="The value must be between 0-255."
                         />
 
                         <x-forms.checkbox
@@ -409,10 +394,9 @@
                     label="Pixel clock"
                     :defaultValue="$extraTiming->pixel_clock"
                     required="true"
-                    min="0.01"
-                    max="655.35"
                     step="0.01"
                     suffixText="MHz"
+                    extraText="The value must be between 0.01-655.35. Only increments of 0.01 MHz are allowed."
                 />
 
                 <div class="row">
@@ -423,9 +407,8 @@
                             label="Horizontal pixels"
                             :defaultValue="$extraTiming->horizontal_pixels"
                             required="true"
-                            min="0"
-                            max="4095"
                             suffixText="pixels"
+                            extraText="The value must be between 0-4095."
                         />
 
                         <x-forms.input
@@ -434,9 +417,8 @@
                             label="Horizontal blank"
                             :defaultValue="$extraTiming->horizontal_blank"
                             required="true"
-                            min="0"
-                            max="4095"
                             suffixText="pixels"
+                            extraText="The value must be between 0-4095."
                         />
 
                         <x-forms.input
@@ -444,9 +426,8 @@
                             type="number"
                             label="Horizontal front porch"
                             :defaultValue="$extraTiming->horizontal_front_porch"
-                            min="0"
-                            max="1023"
                             suffixText="pixels"
+                            extraText="The value must be between 0-1023."
                         />
 
                         <x-forms.input
@@ -454,9 +435,8 @@
                             type="number"
                             label="Horizontal sync width"
                             :defaultValue="$extraTiming->horizontal_sync_width"
-                            min="0"
-                            max="1023"
                             suffixText="pixels"
+                            extraText="The value must be between 0-1023."
                         />
 
                         <x-forms.input
@@ -464,9 +444,8 @@
                             type="number"
                             label="Horizontal image size"
                             :defaultValue="$extraTiming->horizontal_image_size"
-                            min="0"
-                            max="4095"
                             suffixText="mm"
+                            extraText="The value must be between 0-4095."
                         />
 
                         <x-forms.input
@@ -474,9 +453,8 @@
                             type="number"
                             label="Horizontal border"
                             :defaultValue="$extraTiming->horizontal_border"
-                            min="0"
-                            max="255"
                             suffixText="pixels"
+                            extraText="The value must be between 0-255."
                         />
 
                         <x-forms.checkbox
@@ -492,9 +470,8 @@
                             label="Vertical lines"
                             :defaultValue="$extraTiming->vertical_lines"
                             required="true"
-                            min="0"
-                            max="4095"
                             suffixText="lines"
+                            extraText="The value must be between 0-4095."
                         />
 
                         <x-forms.input
@@ -503,9 +480,8 @@
                             label="Vertical blank"
                             :defaultValue="$extraTiming->vertical_blank"
                             required="true"
-                            min="0"
-                            max="4095"
                             suffixText="lines"
+                            extraText="The value must be between 0-4095."
                         />
 
                         <x-forms.input
@@ -513,9 +489,8 @@
                             type="number"
                             label="Vertical front porch"
                             :defaultValue="$extraTiming->vertical_front_porch"
-                            min="0"
-                            max="63"
                             suffixText="lines"
+                            extraText="The value must be between 0-63."
                         />
 
                         <x-forms.input
@@ -523,9 +498,8 @@
                             type="number"
                             label="Vertical sync width"
                             :defaultValue="$extraTiming->vertical_sync_width"
-                            min="0"
-                            max="63"
                             suffixText="lines"
+                            extraText="The value must be between 0-63."
                         />
 
                         <x-forms.input
@@ -533,9 +507,8 @@
                             type="number"
                             label="Vertical image size"
                             :defaultValue="$extraTiming->vertical_image_size"
-                            min="0"
-                            max="4095"
                             suffixText="mm"
+                            extraText="The value must be between 0-4095."
                         />
 
                         <x-forms.input
@@ -543,9 +516,8 @@
                             type="number"
                             label="Vertical border"
                             :defaultValue="$extraTiming->vertical_border"
-                            min="0"
-                            max="255"
                             suffixText="lines"
+                            extraText="The value must be between 0-255."
                         />
 
                         <x-forms.checkbox
@@ -567,45 +539,4 @@
             <button type="submit" class="btn btn-primary">Save</button>
         @endif
     </form>
-
-    @push('scripts')
-        <script type="text/javascript">
-            function toggleRequired() {
-                const enableExtraTiming = document.getElementById('extra_timing_block');
-                const extraPixelClock = document.getElementById('extra_pixel_clock');
-                const extraHorizontalPixels = document.getElementById('extra_horizontal_pixels');
-                const extraHorizontalBlank = document.getElementById('extra_horizontal_blank');
-                const extraVerticalLines = document.getElementById('extra_vertical_lines');
-                const extraVerticalBlank = document.getElementById('extra_vertical_blank');
-
-                if (enableExtraTiming.checked) {
-                    extraPixelClock.required = true;
-                    extraHorizontalPixels.required = true;
-                    extraHorizontalBlank.required = true;
-                    extraVerticalLines.required = true;
-                    extraVerticalBlank.required = true;
-                } else {
-                    extraPixelClock.required = false;
-                    extraHorizontalPixels.required = false;
-                    extraHorizontalBlank.required = false;
-                    extraVerticalLines.required = false;
-                    extraVerticalBlank.required = false;
-                }
-            }
-
-            function addCheckboxListener() {
-                document.getElementById('extra_timing_block').addEventListener('change', toggleRequired);
-            }
-
-            if (document.readyState === "loading") {
-                document.addEventListener("DOMContentLoaded", () => {
-                    toggleRequired();
-                    addCheckboxListener();
-                });
-            } else {
-                toggleRequired();
-                addCheckboxListener();
-            }
-        </script>
-    @endpush
 </x-layout>

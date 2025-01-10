@@ -13,18 +13,21 @@
             type="email"
             label="Email"
             required="true"
-            maxlength="1024" />
+        />
 
         <x-forms.input
             name="password"
             type="password"
             label="Password"
             required="true"
-            minlength="8" />
+        />
 
         <x-forms.checkbox
             name="remember_me"
-            label="Remember me" />
+            label="Remember me"
+        />
+
+        <x-forms.required-note />
 
         <button type="submit" class="btn btn-primary">Log in</button>
     </form>

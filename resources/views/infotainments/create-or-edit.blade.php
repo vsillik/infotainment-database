@@ -40,8 +40,7 @@
             label="Product ID"
             :defaultValue="$infotainment->product_id"
             required="true"
-            minlength="4"
-            maxlength="4"
+            extraText="Must be exactly 4 characters long."
             />
 
         <x-forms.input
@@ -50,8 +49,7 @@
             label="Model year"
             :defaultValue="$infotainment->model_year"
             required="true"
-            min="1990"
-            max="2245"
+            extraText="The value must be between 1990-2245."
             />
 
         <x-forms.input
@@ -59,29 +57,28 @@
             label="Part number"
             :defaultValue="$infotainment->part_number"
             required="true"
-            maxlength="13"
+            extraText="Maximum length 13 characters."
             />
 
         <x-forms.textarea
             name="compatible_platforms"
             label="Compatible platforms"
             :defaultValue="$infotainment->compatible_platforms"
-            maxlength="1500"
+            extraText="Maximum length 1500 characters."
             />
 
         <x-forms.input
             name="internal_code"
             label="Internal code"
             :defaultValue="$infotainment->internal_code"
-            maxlength="150"
+            extraText="Maximum length 150 characters."
             />
 
         <x-forms.textarea
             name="internal_notes"
             label="Internal notes"
             :defaultValue="$infotainment->internal_notes"
-            maxlength="1500"
-            />
+            extraText="Maximum length 1500 characters."/>
 
         <x-forms.required-note />
 
