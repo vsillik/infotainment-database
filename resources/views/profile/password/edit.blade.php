@@ -14,7 +14,7 @@
             type="password"
             label="Password"
             required="true"
-            extraText="Minimum length 8 characters."
+            extraText="Minimum length 8 characters. Maximum length 72 characters."
         />
 
         <x-forms.input

@@ -26,7 +26,7 @@
             name="password"
             type="password"
             label="Password"
-            extraText="Minimum length 8 characters."
+            extraText="Minimum length 8 characters. Maximum length 72 characters."
             required="true"
         />
 

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->smallInteger('role')->default(UserRole::CUSTOMER);
             $table->boolean('is_approved')->default(false);
@@ -29,7 +28,6 @@ return new class extends Migration
         DB::table('users')->insert([
             'name' => 'Admin',
             'email' => 'admin@example.com',
-            'email_verified_at' => null,
             'password' => Hash::make('SuperAdminPassword'),
             'role' => UserRole::ADMINISTRATOR,
             'is_approved' => true,

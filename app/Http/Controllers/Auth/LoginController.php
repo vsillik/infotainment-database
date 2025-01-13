@@ -24,6 +24,7 @@ class LoginController extends Controller
         } catch (AuthenticationException $e) {
             return redirect()
                 ->back()
+                ->withInput($request->only('email', 'remember'))
                 ->with('error', $e->getMessage());
         }
 

@@ -28,15 +28,15 @@ return new class extends Migration
 
             $table->char('product_id', 4);
 
-            $table->integer('model_year');
+            $table->smallInteger('model_year')->unsigned();
 
             $table->string('part_number', 13);
 
-            $table->string('compatible_platforms')->nullable();
+            $table->text('compatible_platforms')->nullable();
 
             $table->string('internal_code', 150)->nullable();
 
-            $table->string('internal_notes')->nullable();
+            $table->text('internal_notes')->nullable();
 
             $table->timestamps();
         });

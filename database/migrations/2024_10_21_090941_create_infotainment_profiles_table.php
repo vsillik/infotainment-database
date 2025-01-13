@@ -33,16 +33,16 @@ return new class extends Migration
 
             $table->boolean('is_approved')->default(false);
 
-            $table->smallInteger('color_bit_depth');
+            $table->tinyInteger('color_bit_depth')->unsigned();
 
             $table->enum('interface', array_map(
                 fn (DisplayInterface $displayInterface) => $displayInterface->value,
                 DisplayInterface::cases())
             );
 
-            $table->integer('horizontal_size');
+            $table->smallInteger('horizontal_size')->unsigned();
 
-            $table->integer('vertical_size');
+            $table->smallInteger('vertical_size')->unsigned();
 
             $table->boolean('is_ycrcb_4_4_4');
 

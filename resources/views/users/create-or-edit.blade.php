@@ -40,7 +40,7 @@
             type="password"
             label="Password"
             :required="!$user->exists"
-            :extraText="sprintf('Minimum length 8 characters.%s', $user->exists ? ' This will change password only if not empty.' : '')"
+            :extraText="sprintf('Minimum length 8 characters. Maximum length 72 characters.%s', $user->exists ? ' This will change password only if not empty.' : '')"
         />
 
         <x-forms.select
