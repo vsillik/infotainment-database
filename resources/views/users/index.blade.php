@@ -1,9 +1,13 @@
+@php
+    use App\Models\User;
+    use Illuminate\Support\Str;
+@endphp
 <x-layout>
     <x-slot:title>
         Users
     </x-slot:title>
 
-    @can('create', \App\Models\User::class)
+    @can('create', User::class)
         <x-action-buttons.create :targetUrl="route('users.create')" label="Create user"/>
     @endcan
 
@@ -21,13 +25,13 @@
             @forelse($users as $user)
                 <tr>
                     <td>
-                        {{ $user->email }}
+                        {{ Str::limit($user->email, 35) }}
 
                         @if($user->is_approved)
                             <span class="badge rounded-pill text-bg-success">Approved</span>
                         @endif
                     </td>
-                    <td>{{ $user->name }}</td>
+                    <td>{{ Str::limit($user->name, 40) }}</td>
                     <td>{{ $user->role->toHumanReadable() }}</td>
                     <td>
                         @if ($user->id !== 1)
@@ -59,7 +63,7 @@
                 <tr>
                     <td colspan="3">
                         No user found.
-                        @can('create', \App\Models\User::class)
+                        @can('create', User::class)
                             <a href="{{ route('users.create') }}">Add user</a>
                         @endcan
                     </td>

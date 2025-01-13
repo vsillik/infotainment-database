@@ -1,13 +1,17 @@
+@php
+    use App\Models\InfotainmentProfile;
+    use Illuminate\Support\Str;
+@endphp
 <x-layout>
     <x-slot:title>
         Infotainment
     </x-slot:title>
 
     <h4>Infotainment manufacturer</h4>
-    <p>{{ $infotainment->infotainmentManufacturer->name }}</p>
+    <p>{{ Str::limit($infotainment->infotainmentManufacturer->name) }}</p>
 
     <h4>Serializer manufacturer</h4>
-    <p>{{ $infotainment->serializerManufacturer->name }}</p>
+    <p>{{ Str::limit($infotainment->serializerManufacturer->name) }}</p>
 
     <h4>Product ID</h4>
     <p>{{ $infotainment->product_id }}</p>
@@ -19,18 +23,18 @@
     <p>{{ $infotainment->part_number }}</p>
 
     <h4>Compatible platforms</h4>
-    <p>{{ $infotainment->compatible_platforms }}</p>
+    <p>{{ Str::limit($infotainment->compatible_platforms) }}</p>
 
     <h4>Internal code</h4>
     <p>{{ $infotainment->internal_code }}</p>
 
     <h4>Internal notes</h4>
-    <p>{{$infotainment->internal_notes }}</p>
+    <p>{{ Str::limit($infotainment->internal_notes) }}</p>
 
     <h3>Infotainment profiles</h3>
     <hr/>
 
-    @can('create', \App\Models\InfotainmentProfile::class)
+    @can('create', InfotainmentProfile::class)
         <x-action-buttons.create :targetUrl="route('infotainments.profiles.create', $infotainment)" label="Create infotainment profile" />
     @endcan
 
@@ -68,7 +72,7 @@
                         @endcan
                     @endif
 
-                    @can('create', \App\Models\InfotainmentProfile::class)
+                    @can('create', InfotainmentProfile::class)
                         <x-action-buttons.copy :targetUrl="route('infotainments.profiles.copy', [$infotainment, $infotainmentProfile])" />
                     @endcan
 
@@ -83,7 +87,7 @@
             <tr>
                 <td colspan="2">
                     No infotainment profile found.
-                    @can('create', \App\Models\InfotainmentProfile::class)
+                    @can('create', InfotainmentProfile::class)
                         <a href="{{ route('infotainments.profiles.create', $infotainment) }}">Add infotainment profile</a>
                     @endcan
                 </td>

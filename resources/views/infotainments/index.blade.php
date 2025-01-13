@@ -1,9 +1,13 @@
+@php
+    use App\Models\Infotainment;
+    use Illuminate\Support\Str;
+@endphp
 <x-layout>
     <x-slot:title>
         Infotainments
     </x-slot:title>
 
-    @can('create', \App\Models\Infotainment::class)
+    @can('create', Infotainment::class)
         <x-action-buttons.create :targetUrl="route('infotainments.create')" label="Create infotainment" />
     @endcan
 
@@ -22,8 +26,8 @@
             <tbody>
             @forelse($infotainments as $infotainment)
                 <tr>
-                    <td>{{ $infotainment->infotainmentManufacturer->name }}</td>
-                    <td>{{ $infotainment->serializerManufacturer->name }}</td>
+                    <td>{{ Str::limit($infotainment->infotainmentManufacturer->name, 35) }}</td>
+                    <td>{{ Str::limit($infotainment->serializerManufacturer->name, 35) }}</td>
                     <td>{{ $infotainment->product_id }}</td>
                     <td>{{ $infotainment->model_year }}</td>
                     <td>{{ $infotainment->part_number }}</td>
@@ -47,7 +51,7 @@
                 <tr>
                     <td colspan="6">
                         No infotainment found.
-                        @can('create', \App\Models\Infotainment::class)
+                        @can('create', Infotainment::class)
                             <a href="{{ route('infotainments.create') }}">Add infotainment</a>
                         @endcan
                     </td>

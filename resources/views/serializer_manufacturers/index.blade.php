@@ -1,9 +1,13 @@
+@php
+    use App\Models\SerializerManufacturer;
+    use Illuminate\Support\Str;
+@endphp
 <x-layout>
     <x-slot:title>
         Serializer manufacturers
     </x-slot:title>
 
-    @can('create', \App\Models\SerializerManufacturer::class)
+    @can('create', SerializerManufacturer::class)
         <x-action-buttons.create :targetUrl="route('serializer_manufacturers.create')" label="Create serializer manufacturer" />
     @endcan
 
@@ -20,7 +24,7 @@
             @forelse($serializerManufacturers as $serializerManufacturer)
                 <tr>
                     <td>{{ $serializerManufacturer->id }}</td>
-                    <td>{{ $serializerManufacturer->name }}</td>
+                    <td>{{ Str::limit($serializerManufacturer->name, 70) }}</td>
                     <td>
                         @can('update', $serializerManufacturer)
                             <x-action-buttons.edit :targetUrl="route('serializer_manufacturers.edit', $serializerManufacturer)" />
@@ -37,7 +41,7 @@
                 <tr>
                     <td colspan="3">
                         No serializer manufacturer found.
-                        @can('create', \App\Models\SerializerManufacturer::class)
+                        @can('create', SerializerManufacturer::class)
                             <a href="{{ route('serializer_manufacturers.create') }}">Add serializer manufacturer</a>
                         @endcan
                     </td>
