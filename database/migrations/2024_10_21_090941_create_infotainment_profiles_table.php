@@ -56,11 +56,11 @@ return new class extends Migration
 
             $table->string('sw_version', 4);
 
-            $table->binary('vendor_block_1', 31)->nullable();
+            $table->binary('vendor_block_1', 28)->nullable();
 
-            $table->binary('vendor_block_2', 31)->nullable();
+            $table->binary('vendor_block_2', 28)->nullable();
 
-            $table->binary('vendor_block_3', 31)->nullable();
+            $table->binary('vendor_block_3', 28)->nullable();
 
             $table->timestamps();
         });

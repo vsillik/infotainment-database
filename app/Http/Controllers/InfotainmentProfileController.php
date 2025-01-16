@@ -210,9 +210,18 @@ class InfotainmentProfileController extends Controller
         $infotainmentProfile->is_continuous_frequency = $request->has('is_continuous_frequency');
         $infotainmentProfile->hw_version = $validated['hw_version'];
         $infotainmentProfile->sw_version = $validated['sw_version'];
-        $infotainmentProfile->vendor_block_1 = $validated['vendor_block_1'];
-        $infotainmentProfile->vendor_block_2 = $validated['vendor_block_2'];
-        $infotainmentProfile->vendor_block_3 = $validated['vendor_block_3'];
+        $infotainmentProfile->vendor_block_1 = $this->processVendorBlockInput($request, $validated, 'vendor_block_1');
+        $infotainmentProfile->vendor_block_2 = $this->processVendorBlockInput($request, $validated, 'vendor_block_2');
+        $infotainmentProfile->vendor_block_3 = $this->processVendorBlockInput($request, $validated, 'vendor_block_3');
+    }
+
+    private function processVendorBlockInput(InfotainmentProfileRequest $request, mixed $validated, string $inputName): array
+    {
+        if (!$request->has($inputName)) {
+            return [];
+        }
+
+        return array_map(fn (string $value): string => str_pad($value, 2, '0', STR_PAD_LEFT), $validated[$inputName]);
     }
 
     private function setTimingBlockValues(InfotainmentProfileTimingBlock $timingBlock, InfotainmentProfileRequest $request, mixed $validated, bool $isExtra): void

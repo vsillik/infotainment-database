@@ -44,9 +44,9 @@
             $additionalInformationHasError = $errors->hasAny([
                 'hw_version',
                 'sw_version',
-                'vendor_block_1',
-                'vendor_block_2',
-                'vendor_block_3',
+                'vendor_block_1.*',
+                'vendor_block_2.*',
+                'vendor_block_3.*',
             ]);
             $timingHasError = $errors->hasAny([
                 'pixel_clock',
@@ -212,25 +212,22 @@
                     extraText="Maximum length 4 characters."
                 />
 
-                <x-forms.input
+                <x-forms.vendor-input
                     name="vendor_block_1"
                     label="Vendor block 1"
                     :defaultValue="$infotainmentProfile->vendor_block_1"
-                    extraText="Maximum length 31 characters."
                 />
 
-                <x-forms.input
+                <x-forms.vendor-input
                     name="vendor_block_2"
                     label="Vendor block 2"
                     :defaultValue="$infotainmentProfile->vendor_block_2"
-                    extraText="Maximum length 31 characters."
                 />
 
-                <x-forms.input
+                <x-forms.vendor-input
                     name="vendor_block_3"
                     label="Vendor block 3"
                     :defaultValue="$infotainmentProfile->vendor_block_3"
-                    extraText="Maximum length 31 characters."
                 />
             </div>
             <div class="tab-pane fade" id="timing-tab-pane" role="tabpanel" aria-labelledby="timing-tab"

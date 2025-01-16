@@ -47,13 +47,28 @@ class InfotainmentProfileRequest extends FormRequest
                 'max:4'
             ],
             'vendor_block_1' => [
-                'max:31',
+                'array',
+                'max:28',
+            ],
+            'vendor_block_1.*' => [
+                'required',
+                'regex:/^[a-f0-9]{1,2}$/i',
             ],
             'vendor_block_2' => [
-                'max:31',
+                'array',
+                'max:28',
+            ],
+            'vendor_block_2.*' => [
+                'required',
+                'regex:/^[a-f0-9]{1,2}$/i',
             ],
             'vendor_block_3' => [
-                'max:31',
+                'array',
+                'max:28',
+            ],
+            'vendor_block_3.*' => [
+                'required',
+                'regex:/^[a-f0-9]{1,2}$/i',
             ],
             'pixel_clock' => [
                 'required',
