@@ -71,7 +71,7 @@
 
 @pushonce('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        function attachListenersForButtons() {
             const addButtons = document.getElementsByClassName('btn-add-byte');
             const removeButtons = document.getElementsByClassName('btn-remove-byte');
 
@@ -140,6 +140,14 @@
                     }
                 })
             }
-        });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                attachListenersForButtons();
+            });
+        } else {
+            attachListenersForButtons();
+        }
     </script>
 @endpushonce
