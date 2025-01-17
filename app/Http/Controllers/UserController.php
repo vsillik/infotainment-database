@@ -60,7 +60,7 @@ class UserController extends Controller
         $user->infotainments()->sync($validated['infotainments']);
 
         return redirect()
-            ->route('users.index')
+            ->route('users.edit', ['user' => $user->id])
             ->with('success', 'User created');
     }
 
@@ -138,7 +138,7 @@ class UserController extends Controller
         $user->infotainments()->sync($validated['infotainments']);
 
         return redirect()
-            ->route('users.index')
+            ->route('users.edit', ['user' => $user->id])
             ->with('success', sprintf('User %s updated', $user->email));
     }
 

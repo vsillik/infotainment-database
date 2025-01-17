@@ -65,7 +65,7 @@ class InfotainmentProfileController extends Controller
         $infotainmentProfile->save();
 
         return redirect()
-            ->route('infotainments.show', ['infotainment' => $infotainment->id])
+            ->route('infotainments.profiles.edit', ['infotainment' => $infotainment->id, 'profile' => $infotainmentProfile->id])
             ->with('success', 'Infotainment profile created');
     }
 
@@ -140,7 +140,6 @@ class InfotainmentProfileController extends Controller
             Gate::authorize('update', $profile);
         }
 
-        $successMessage = 'Infotainment profile updated';
         $validated = $request->validated();
 
         if ($request->has('approving_infotainment_profile')) {
@@ -150,7 +149,6 @@ class InfotainmentProfileController extends Controller
                     ->with('error', 'Infotainment profile is already approved');
             } else {
                 $profile->is_approved = true;
-                $successMessage = 'Infotainment profile approved';
             }
         } else if ($profile->is_approved) {
             return redirect()
@@ -177,9 +175,15 @@ class InfotainmentProfileController extends Controller
 
         $profile->save();
 
+        if ($request->has('approving_infotainment_profile')) {
+            return redirect()
+                ->route('infotainments.show', ['infotainment' => $infotainment->id])
+                ->with('success', 'Infotainment profile approved');
+        }
+
         return redirect()
-            ->route('infotainments.show', ['infotainment' => $infotainment->id])
-            ->with('success', $successMessage);
+            ->route('infotainments.profiles.edit', ['infotainment' => $infotainment->id, 'profile' => $profile->id])
+            ->with('success', 'Infotainment profile updated');
     }
 
     /**

@@ -113,7 +113,7 @@ class InfotainmentController extends Controller
         $this->setInfotainmentValidatedValues($infotainment, $validated);
 
         return redirect()
-            ->route('infotainments.show', ['infotainment' => $infotainment->id])
+            ->route('infotainments.edit', ['infotainment' => $infotainment->id])
             ->with('success', 'Infotainment updated');
     }
 
