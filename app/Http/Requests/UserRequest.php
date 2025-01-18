@@ -50,7 +50,6 @@ class UserRequest extends FormRequest
                 new Enum(UserRole::class),
             ],
             'infotainments' => [
-                'required',
                 'array',
             ],
             'infotainments.*' => [

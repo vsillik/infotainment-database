@@ -67,7 +67,9 @@ class UserController extends Controller
 
         $user->save();
 
-        $user->infotainments()->sync($validated['infotainments']);
+        if ($request->has('infotainments')) {
+            $user->infotainments()->sync($validated['infotainments']);
+        }
 
         return redirect()
             ->route('users.edit', ['user' => $user->id])
@@ -150,7 +152,9 @@ class UserController extends Controller
 
         $user->save();
 
-        $user->infotainments()->sync($validated['infotainments']);
+        $infotainments = $request->has('infotainments') ? $validated['infotainments'] : [];
+
+        $user->infotainments()->sync($infotainments);
 
         return redirect()
             ->route('users.edit', ['user' => $user->id])

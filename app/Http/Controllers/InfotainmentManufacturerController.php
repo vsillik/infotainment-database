@@ -60,7 +60,7 @@ class InfotainmentManufacturerController extends Controller
         $infotainmentManufacturer->save();
 
         return redirect()
-            ->route('infotainment_manufacturers.edit', ['infotainmentManufacturer' => $infotainmentManufacturer->id])
+            ->route('infotainment_manufacturers.edit', ['infotainment_manufacturer' => $infotainmentManufacturer->id])
             ->with('success', sprintf('Infotainment manufacturer %s created', $infotainmentManufacturer->name));
     }
 

@@ -6,7 +6,7 @@
         @endif
     </label>
 
-    <select name="{{ $name }}" id="{{ $name }}"
+    <select name="{{ $name }}[]" id="{{ $name }}"
         @class(['form-select', 'is-invalid' => $errors->has($name)])
         {{ $attributes }}
         multiple

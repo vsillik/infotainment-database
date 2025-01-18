@@ -1,3 +1,7 @@
+@php
+    use App\ColorBitDepth;
+@endphp
+
 <x-layout :breadcrumbs="$breadcrumbs">
     <x-slot:title>
         @switch($mode)
@@ -32,7 +36,7 @@
             <input type="hidden" name="approving_infotainment_profile" value="1">
         @endif
 
-        <x-forms.errors-alert :errors="$errors" />
+        <x-forms.errors-alert :errors="$errors"/>
 
         @php
             $baseInformationHasError = $errors->hasAny([
@@ -137,9 +141,9 @@
                     name="color_bit_depth"
                     label="Color bit depth"
                     :options="$colorBitDepths"
-                    :defaultValue="$infotainmentProfile->color_bit_depth?->value"
+                    :defaultValue="($infotainmentProfile->color_bit_depth ?? ColorBitDepth::BIT_8)->value"
                     required="true"
-                    />
+                />
 
                 <x-forms.select
                     name="interface"
@@ -147,7 +151,7 @@
                     :options="$interfaces"
                     :defaultValue="$infotainmentProfile->interface?->value"
                     required="true"
-                    />
+                />
 
                 <x-forms.input
                     name="horizontal_size"
@@ -157,7 +161,7 @@
                     required="true"
                     suffixText="cm"
                     extraText="The value must be between 1-255."
-                    />
+                />
 
                 <x-forms.input
                     name="vertical_size"
@@ -167,13 +171,13 @@
                     required="true"
                     suffixText="cm"
                     extraText="The value must be between 1-255."
-                    />
+                />
 
                 <x-forms.checkbox
                     name="is_ycrcb_4_4_4"
                     label="YCrCb 4:4:4"
                     :isCheckedByDefault="$infotainmentProfile->is_ycrcb_4_4_4"
-                    />
+                />
 
                 <x-forms.checkbox
                     name="is_ycrcb_4_2_2"
@@ -202,7 +206,7 @@
                     :defaultValue="$infotainmentProfile->hw_version"
                     required="true"
                     extraText="Maximum length 3 characters."
-                    />
+                />
 
                 <x-forms.input
                     name="sw_version"
@@ -527,7 +531,7 @@
             </div>
         </div>
 
-        <x-forms.required-note />
+        <x-forms.required-note/>
 
         @if($mode === 'approve')
             <button type="submit" class="btn btn-primary">Approve</button>

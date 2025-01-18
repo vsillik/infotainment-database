@@ -8,7 +8,7 @@
 <x-base-layout>
     <header class="navbar bg-dark flex-md-nowrap p-1 shadow" data-bs-theme="dark">
         <div class="container-fluid">
-            <a class="navbar-brand col-md-3 col-lg-2 me-0 pe-3 fs-6 text-white" href="#">{{ config('app.name') }}</a>
+            <a class="navbar-brand col-md-3 col-lg-2 me-0 pe-3 fs-6 text-white" href="{{ route('index') }}">{{ config('app.name') }}</a>
 
             <div class="dropdown">
                 <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser"

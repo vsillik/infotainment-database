@@ -52,7 +52,7 @@
         />
 
         <x-forms.multiselect
-            name="infotainments[]"
+            name="infotainments"
             label="Allowed infotainments to display"
             :options="$infotainments"
             :selected="$selectedInfotainments"

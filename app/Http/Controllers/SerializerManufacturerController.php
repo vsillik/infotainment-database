@@ -61,7 +61,7 @@ class SerializerManufacturerController extends Controller
         $serializerManufacturer->save();
 
         return redirect()
-            ->route('serializer_manufacturers.edit', ['serializerManufacturer' => $serializerManufacturer->id])
+            ->route('serializer_manufacturers.edit', ['serializer_manufacturer' => $serializerManufacturer->id])
             ->with('success', sprintf('Serializer manufacturer %s created', $serializerManufacturer->name));
     }
 
@@ -97,7 +97,7 @@ class SerializerManufacturerController extends Controller
         $serializerManufacturer->save();
 
         return redirect()
-            ->route('serializer_manufacturers.edit', ['serializerManufacturer' => $serializerManufacturer->id])
+            ->route('serializer_manufacturers.edit', ['serializer_manufacturer' => $serializerManufacturer->id])
             ->with('success', sprintf('Serializer manufacturer %s updated', $serializerManufacturer->name));
     }
 
