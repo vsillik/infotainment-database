@@ -173,6 +173,8 @@ class InfotainmentProfileController extends Controller
 
             if ($extraTimingBlock !== null) {
                 $profile->extraTiming()->dissociate();
+                $profile->save(); // extra save for disassociate
+
                 $extraTimingBlock->delete();
             }
         }
