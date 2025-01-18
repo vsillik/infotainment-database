@@ -2,6 +2,14 @@ $breadcrumb-divider: quote(">");
 
 @import 'bootstrap/scss/bootstrap';
 
+.breadcrumb-item a {
+    color: $blue-400;
+}
+
+.breadcrumb-item a:hover {
+    color: $blue-300;
+}
+
 .main-content-wrapper {
     max-width: 1200px;
 }

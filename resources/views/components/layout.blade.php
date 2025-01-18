@@ -43,7 +43,7 @@
     </header>
 
     <div class="container-fluid h-100 flex-grow-1">
-        <div class="row">
+        <div class="row h-100">
             <div class="sidebar border border-right col-md-2 col-lg-1 py-0 px-2 bg-body-tertiary">
                 <div class="offcanvas-md offcanvas-end bg-body-tertiary" tabindex="-1" id="sidebarMenu"
                      aria-labelledby="sidebarMenuLabel">
