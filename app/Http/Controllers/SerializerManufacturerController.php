@@ -6,6 +6,7 @@ use App\Http\Requests\SerializerManufacturerRequest;
 use App\Models\SerializerManufacturer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class SerializerManufacturerController extends Controller
@@ -18,6 +19,10 @@ class SerializerManufacturerController extends Controller
         Gate::authorize('viewAny', SerializerManufacturer::class);
 
         return view('serializer_manufacturers.index', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                'current' => 'Serializer manufacturers',
+            ],
             'serializerManufacturers' => SerializerManufacturer::all(),
         ]);
     }
@@ -30,6 +35,11 @@ class SerializerManufacturerController extends Controller
         Gate::authorize('create', SerializerManufacturer::class);
 
         return view('serializer_manufacturers.create-or-edit', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('serializer_manufacturers.index') => 'Serializer manufacturers',
+                'current' => 'Create',
+            ],
             'serializerManufacturer' => new SerializerManufacturer,
         ]);
     }
@@ -63,6 +73,11 @@ class SerializerManufacturerController extends Controller
         Gate::authorize('update', $serializerManufacturer);
 
         return view('serializer_manufacturers.create-or-edit', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('serializer_manufacturers.index') => 'Serializer manufacturers',
+                'current' => 'Edit serializer manufacturer ' . Str::limit($serializerManufacturer->name, 30),
+            ],
             'serializerManufacturer' => $serializerManufacturer,
         ]);
     }

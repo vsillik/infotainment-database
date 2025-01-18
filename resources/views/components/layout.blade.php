@@ -165,9 +165,38 @@
             </div>
 
             <main class="col-md-10 ms-sm-auto col-lg-11 px-md-4 pb-3">
+                @if(count($breadcrumbs) > 0)
+                    <nav class="mt-3" aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            @foreach($breadcrumbs as $url => $breadcrumb)
+                                <li @class([
+                                    'breadcrumb-item',
+                                    'active' => $loop->last
+                                    ])
+                                    @if ($loop->last)
+                                    aria-current="page"
+                                    @endif
+                                >
+                                    @unless($loop->last)
+                                        <a href="{{ $url }}">
+                                    @endunless
+
+                                    {{ $breadcrumb }}
+
+                                    @unless($loop->last)
+                                        </a>
+                                    @endunless
+                                </li>
+                            @endforeach
+                        </ol>
+                    </nav>
+                @else
+                    <div class="mt-3"></div>
+                @endif
+
                 @if(isset($title))
                     <div
-                        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
                         <h1>{{ $title }}</h1>
                     </div>
                 @endif

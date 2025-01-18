@@ -15,6 +15,10 @@ class UserProfileController extends Controller
     public function edit(Request $request): View
     {
         return view('profile.edit', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                'current' => 'Profile settings',
+            ],
             'user' => $request->user(),
         ]);
     }
@@ -35,7 +39,13 @@ class UserProfileController extends Controller
 
     public function editPassword(): View
     {
-        return view('profile.password.edit');
+        return view('profile.password.edit', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('profile.edit') => 'Profile settings',
+                'current' => 'Change password',
+            ],
+        ]);
     }
 
     public function updatePassword(UserProfilePasswordRequest $request): RedirectResponse

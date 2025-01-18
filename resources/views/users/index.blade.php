@@ -2,7 +2,7 @@
     use App\Models\User;
     use Illuminate\Support\Str;
 @endphp
-<x-layout>
+<x-layout :breadcrumbs="$breadcrumbs">
     <x-slot:title>
         Users
     </x-slot:title>

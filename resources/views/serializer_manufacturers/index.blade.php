@@ -2,7 +2,7 @@
     use App\Models\SerializerManufacturer;
     use Illuminate\Support\Str;
 @endphp
-<x-layout>
+<x-layout :breadcrumbs="$breadcrumbs">
     <x-slot:title>
         Serializer manufacturers
     </x-slot:title>

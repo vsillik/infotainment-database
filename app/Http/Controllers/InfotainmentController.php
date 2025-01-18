@@ -35,6 +35,10 @@ class InfotainmentController extends Controller
         }
 
         return view('infotainments.index', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                'current' => 'Infotainments',
+            ],
             'infotainments' => $infotainments,
         ]);
     }
@@ -65,6 +69,11 @@ class InfotainmentController extends Controller
         }
 
         return view('infotainments.create-or-edit', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('infotainments.index') => 'Infotainments',
+                'current' => 'Create',
+            ],
             'infotainment' => new Infotainment,
             'infotainmentManufacturers' => $infotainmentManufacturers,
             'serializerManufacturers' => $serializerManufacturers,
@@ -97,6 +106,11 @@ class InfotainmentController extends Controller
         Gate::authorize('view', $infotainment);
 
         return view('infotainments.show', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('infotainments.index') => 'Infotainments',
+                'current' => 'Infotainment ID: ' . $infotainment->id,
+            ],
             'infotainment' => $infotainment,
             'infotainmentProfiles' => $infotainment->profiles->sortByDesc('id'),
             'profileNumbers' => InfotainmentProfile::mapIdsToProfileNumbers($infotainment)
@@ -111,6 +125,11 @@ class InfotainmentController extends Controller
         Gate::authorize('update', $infotainment);
 
         return view('infotainments.create-or-edit', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('infotainments.index') => 'Infotainments',
+                'current' => 'Edit infotainment ID: '. $infotainment->id,
+            ],
             'infotainment' => $infotainment,
             'infotainmentManufacturers' => InfotainmentManufacturer::all()
                 ->pluck('name', 'id')->toArray(),

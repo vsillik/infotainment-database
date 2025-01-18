@@ -21,6 +21,12 @@ class InfotainmentProfileController extends Controller
         Gate::authorize('create', InfotainmentProfile::class);
 
         return view('infotainment_profiles.create-or-edit', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('infotainments.index',) => 'Infotainments',
+                route('infotainments.show', $infotainment->id) => 'Infotainment ID: ' . $infotainment->id,
+                'current' => 'Create profile',
+            ],
             'colorBitDepths' => ColorBitDepth::labels(),
             'interfaces' => DisplayInterface::labels(),
             'infotainment' => $infotainment,
@@ -83,6 +89,12 @@ class InfotainmentProfileController extends Controller
         }
 
         return view('infotainment_profiles.create-or-edit', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('infotainments.index') => 'Infotainments',
+                route('infotainments.show', $infotainment->id) => 'Infotainment ID: ' . $infotainment->id,
+                'current' => 'Edit profile number ' . $profile->profile_number,
+            ],
             'colorBitDepths' => ColorBitDepth::labels(),
             'interfaces' => DisplayInterface::labels(),
             'infotainment' => $infotainment,
@@ -104,6 +116,12 @@ class InfotainmentProfileController extends Controller
         }
 
         return view('infotainment_profiles.create-or-edit', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('infotainments.index',) => 'Infotainments',
+                route('infotainments.show', $infotainment->id) => 'Infotainment ID: ' . $infotainment->id,
+                'current' => 'Approve profile number ' . $profile->profile_number,
+            ],
             'colorBitDepths' => ColorBitDepth::labels(),
             'interfaces' => DisplayInterface::labels(),
             'infotainment' => $infotainment,
@@ -119,6 +137,12 @@ class InfotainmentProfileController extends Controller
         Gate::authorize('create', $profile);
 
         return view('infotainment_profiles.create-or-edit', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('infotainments.index') => 'Infotainments',
+                route('infotainments.show', $infotainment->id) => 'Infotainment ID: ' . $infotainment->id,
+                'current' => 'Copy profile number ' . $profile->profile_number,
+            ],
             'colorBitDepths' => ColorBitDepth::labels(),
             'interfaces' => DisplayInterface::labels(),
             'infotainment' => $infotainment,

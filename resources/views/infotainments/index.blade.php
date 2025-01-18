@@ -2,7 +2,7 @@
     use App\Models\Infotainment;
     use Illuminate\Support\Str;
 @endphp
-<x-layout>
+<x-layout :breadcrumbs="$breadcrumbs">
     <x-slot:title>
         Infotainments
     </x-slot:title>

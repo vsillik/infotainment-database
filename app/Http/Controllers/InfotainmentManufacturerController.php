@@ -6,6 +6,7 @@ use App\Http\Requests\InfotainmentManufacturerRequest;
 use App\Models\InfotainmentManufacturer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class InfotainmentManufacturerController extends Controller
@@ -18,6 +19,10 @@ class InfotainmentManufacturerController extends Controller
         Gate::authorize('viewAny', InfotainmentManufacturer::class);
 
         return view('infotainment_manufacturers.index', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                'current' => 'Infotainment manufacturers',
+            ],
             'infotainmentManufacturers' => InfotainmentManufacturer::all()
         ]);
     }
@@ -30,6 +35,11 @@ class InfotainmentManufacturerController extends Controller
         Gate::authorize('create', InfotainmentManufacturer::class);
 
         return view('infotainment_manufacturers.create-or-edit', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('infotainment_manufacturers.index') => 'Infotainment manufacturers',
+                'current' => 'Create',
+            ],
             'infotainmentManufacturer' => new InfotainmentManufacturer,
         ]);
     }
@@ -62,6 +72,11 @@ class InfotainmentManufacturerController extends Controller
         Gate::authorize('update', $infotainmentManufacturer);
 
         return view('infotainment_manufacturers.create-or-edit', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('infotainment_manufacturers.index') => 'Infotainment manufacturers',
+                'current' => 'Edit infotainment manufacturer ' . Str::limit($infotainmentManufacturer->name, 30),
+            ],
             'infotainmentManufacturer' => $infotainmentManufacturer
         ]);
     }
@@ -80,7 +95,7 @@ class InfotainmentManufacturerController extends Controller
         $infotainmentManufacturer->save();
 
         return redirect()
-            ->route('infotainment_manufacturers.edit', ['infotainmentManufacturer' => $infotainmentManufacturer->id])
+            ->route('infotainment_manufacturers.edit', ['infotainment_manufacturer' => $infotainmentManufacturer->id])
             ->with('success', sprintf('Infotainment manufacturer %s updated', $infotainmentManufacturer->name));
     }
 

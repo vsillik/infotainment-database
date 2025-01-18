@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout :breadcrumbs="$breadcrumbs">
     <x-slot:title>
         @if($serializerManufacturer->exists)
             Edit serializer manufacturer

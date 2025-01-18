@@ -8,6 +8,7 @@ use App\Models\User;
 use App\UserRole;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -19,6 +20,10 @@ class UserController extends Controller
         Gate::authorize('viewAny', User::class);
 
         return view('users.index', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                'current' => 'Users',
+            ],
             'users' => User::all(),
         ]);
     }
@@ -31,6 +36,11 @@ class UserController extends Controller
         Gate::authorize('create', User::class);
 
         return view('users.create-or-edit', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('users.index') => 'Users',
+                'current' => 'Create',
+            ],
             'user' => new User,
             'roles' => UserRole::labels(),
             'infotainments' => Infotainment::all()->pluck('product_id', 'id')->toArray(),
@@ -108,6 +118,11 @@ class UserController extends Controller
         Gate::authorize('update', $user);
 
         return view('users.create-or-edit', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('users.index') => 'Users',
+                'current' => 'Edit user ' . Str::limit($user->email, 30),
+            ],
             'user' => $user,
             'roles' => UserRole::labels(),
             'infotainments' => Infotainment::all()->pluck('product_id', 'id')->toArray(),

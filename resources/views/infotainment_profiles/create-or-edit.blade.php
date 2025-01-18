@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout :breadcrumbs="$breadcrumbs">
     <x-slot:title>
         @switch($mode)
             @case('edit')

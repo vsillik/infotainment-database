@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'approved'])->group(function () {
     Route::get('/', function () {
-        return view('welcome');
+        return view('welcome', [
+            'breadcrumbs' => [],
+        ]);
     })->name('index');
 
     Route::controller(UserProfileController::class)->group(function () {
