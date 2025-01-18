@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property integer vertical_border
  * @property boolean signal_horizontal_sync_positive
  * @property boolean signal_vertical_sync_positive
+ * @property InfotainmentProfile $infotainmentProfile
  */
 class InfotainmentProfileTimingBlock extends Model
 {

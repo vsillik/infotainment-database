@@ -66,7 +66,7 @@ class InfotainmentProfileController extends Controller
 
         return redirect()
             ->route('infotainments.profiles.edit', ['infotainment' => $infotainment->id, 'profile' => $infotainmentProfile->id])
-            ->with('success', 'Infotainment profile created');
+            ->with('success', sprintf('Infotainment profile number %d created', $infotainmentProfile->profile_number));
     }
 
     /**
@@ -100,7 +100,7 @@ class InfotainmentProfileController extends Controller
         if ($profile->is_approved) {
             return redirect()
                 ->route('infotainments.show', ['infotainment' => $infotainment->id])
-                ->with('error', 'Infotainment profile is already approved');
+                ->with('error', sprintf('Infotainment profile (profile number %d) is already approved', $profile->profile_number));
         }
 
         return view('infotainment_profiles.create-or-edit', [
@@ -146,14 +146,14 @@ class InfotainmentProfileController extends Controller
             if ($profile->is_approved) {
                 return redirect()
                     ->route('infotainments.show', ['infotainment' => $infotainment->id])
-                    ->with('error', 'Infotainment profile is already approved');
+                    ->with('error', sprintf('Infotainment profile number %d is already approved', $profile->profile_number));
             } else {
                 $profile->is_approved = true;
             }
         } else if ($profile->is_approved) {
             return redirect()
                 ->route('infotainments.show', ['infotainment' => $infotainment->id])
-                ->with('error', 'Cannot edit approved profile');
+                ->with('error', sprintf('Cannot edit approved profile (profile number %d)', $profile->profile_number));
         }
 
         $this->setInfotainmentProfileValues($profile, $request, $validated);
@@ -169,8 +169,12 @@ class InfotainmentProfileController extends Controller
             $extraTimingBlock->save();
             $profile->extraTiming()->associate($extraTimingBlock);
         } else {
-            $profile->extraTiming()->dissociate();
-            $profile->extraTiming?->delete();
+            $extraTimingBlock = $profile->extraTiming;
+
+            if ($extraTimingBlock !== null) {
+                $profile->extraTiming()->dissociate();
+                $extraTimingBlock->delete();
+            }
         }
 
         $profile->save();
@@ -178,12 +182,12 @@ class InfotainmentProfileController extends Controller
         if ($request->has('approving_infotainment_profile')) {
             return redirect()
                 ->route('infotainments.show', ['infotainment' => $infotainment->id])
-                ->with('success', 'Infotainment profile approved');
+                ->with('success', sprintf('Infotainment profile number %d approved', $profile->profile_number));
         }
 
         return redirect()
             ->route('infotainments.profiles.edit', ['infotainment' => $infotainment->id, 'profile' => $profile->id])
-            ->with('success', 'Infotainment profile updated');
+            ->with('success', sprintf('Infotainment profile number %d updated', $profile->profile_number));
     }
 
     /**
@@ -199,7 +203,7 @@ class InfotainmentProfileController extends Controller
 
         return redirect()
             ->route('infotainments.show', $infotainment)
-            ->with('success', 'Infotainment profile deleted');
+            ->with('success', sprintf('Infotainment profile number %d deleted', $profile->profile_number));
     }
 
     private function setInfotainmentProfileValues(InfotainmentProfile $infotainmentProfile, InfotainmentProfileRequest $request, mixed $validated): void

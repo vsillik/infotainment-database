@@ -96,7 +96,7 @@ class SerializerManufacturerController extends Controller
         if ($serializerManufacturer->infotainments->isNotEmpty()) {
             return redirect()
                 ->route('serializer_manufacturers.index')
-                ->with('error', sprintf('Serializer manufacturer %s can\'t be deleted because it is assigned to infotainments', $serializerManufacturer->name));
+                ->with('error', sprintf('Serializer manufacturer %s can\'t be deleted because it is assigned to some infotainments', $serializerManufacturer->name));
         }
 
         $serializerManufacturer->delete();

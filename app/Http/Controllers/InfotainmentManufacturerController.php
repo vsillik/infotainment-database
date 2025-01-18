@@ -94,7 +94,7 @@ class InfotainmentManufacturerController extends Controller
         if ($infotainmentManufacturer->infotainments->isNotEmpty()) {
             return redirect()
                 ->route('infotainment_manufacturers.index')
-                ->with('error', sprintf('Infotainment manufacturer %s can\'t be deleted because it is assigned to infotainments', $infotainmentManufacturer->name));
+                ->with('error', sprintf('Infotainment manufacturer %s can\'t be deleted because it is assigned to some infotainments', $infotainmentManufacturer->name));
         }
 
         $infotainmentManufacturer->delete();

@@ -42,16 +42,32 @@ class InfotainmentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): View
+    public function create(): View|RedirectResponse
     {
         Gate::authorize('create', Infotainment::class);
 
+        $infotainmentManufacturers = InfotainmentManufacturer::all()
+            ->pluck('name', 'id')->toArray();
+
+        if (count($infotainmentManufacturers) === 0) {
+            return redirect()
+                ->route('infotainments.index')
+                ->with('error', 'In order to create infotainment you first need to have at least one infotainment manufacturer created.');
+        }
+
+        $serializerManufacturers = SerializerManufacturer::all()
+        ->pluck('name', 'id')->toArray();
+
+        if (count($serializerManufacturers) === 0) {
+            return redirect()
+                ->route('infotainments.index')
+                ->with('error', 'In order to create infotainment you first need to have at least one serializer manufacturer created.');
+        }
+
         return view('infotainments.create-or-edit', [
             'infotainment' => new Infotainment,
-            'infotainmentManufacturers' => InfotainmentManufacturer::all()
-                ->pluck('name', 'id')->toArray(),
-            'serializerManufacturers' => SerializerManufacturer::all()
-                ->pluck('name', 'id')->toArray(),
+            'infotainmentManufacturers' => $infotainmentManufacturers,
+            'serializerManufacturers' => $serializerManufacturers,
         ]);
     }
 
@@ -79,7 +95,6 @@ class InfotainmentController extends Controller
     public function show(Infotainment $infotainment): View
     {
         Gate::authorize('view', $infotainment);
-
 
         return view('infotainments.show', [
             'infotainment' => $infotainment,

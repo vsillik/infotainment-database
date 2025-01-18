@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 /**
  * @property int id
@@ -17,6 +18,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string compatible_platforms
  * @property string internal_code
  * @property string internal_notes
+ * @property InfotainmentManufacturer $infotainmentManufacturer
+ * @property SerializerManufacturer $serializerManufacturer
+ * @property Collection<int, InfotainmentProfile> $profiles
+ * @property Collection<int, User> $users
  */
 class Infotainment extends Model
 {

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 
 /**
  * @property int $id
@@ -15,6 +16,7 @@ use Illuminate\Notifications\Notifiable;
  * @property string $password
  * @property UserRole $role
  * @property bool $is_approved
+ * @property Collection<int, Infotainment> $infotainments
  */
 class User extends Authenticatable
 {
