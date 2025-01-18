@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\InfotainmentRequest;
 use App\Models\Infotainment;
 use App\Models\InfotainmentManufacturer;
+use App\Models\InfotainmentProfile;
 use App\Models\SerializerManufacturer;
 use App\UserRole;
 use Illuminate\Http\RedirectResponse;
@@ -79,9 +80,11 @@ class InfotainmentController extends Controller
     {
         Gate::authorize('view', $infotainment);
 
+
         return view('infotainments.show', [
             'infotainment' => $infotainment,
-            'infotainmentProfiles' => $infotainment->profiles,
+            'infotainmentProfiles' => $infotainment->profiles->sortByDesc('id'),
+            'profileNumbers' => InfotainmentProfile::mapIdsToProfileNumbers($infotainment)
         ]);
     }
 

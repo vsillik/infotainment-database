@@ -7,6 +7,8 @@ use App\DisplayInterface;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property integer id
@@ -29,9 +31,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property array<string> vendor_block_3 array of bytes in hex (2 hex chars per byte)
  * @property InfotainmentProfileTimingBlock $timing
  * @property ?InfotainmentProfileTimingBlock $extraTiming
+ * @property-read int profile_number dynamically calculated number of profile for assigned infotainment
  */
 class InfotainmentProfile extends Model
 {
+
+    // get all profile numbers for a specific infotainment (map profile id => profile number) - static method
+    // get profile number for this profile
 
     protected $casts = [
         'color_bit_depth' => ColorBitDepth::class,
@@ -89,6 +95,16 @@ class InfotainmentProfile extends Model
         );
     }
 
+    protected function profileNumber(): Attribute
+    {
+        return Attribute::get(
+            fn () => DB::table('infotainment_profiles')
+                ->where('infotainment_id', $this->infotainment_id)
+                ->where('id', '<=', $this->id)
+                ->count()
+        );
+    }
+
     public function infotainment(): BelongsTo
     {
         return $this->belongsTo(Infotainment::class);
@@ -102,5 +118,20 @@ class InfotainmentProfile extends Model
     public function extraTiming(): BelongsTo
     {
         return $this->belongsTo(InfotainmentProfileTimingBlock::class, 'extra_timing_block_id');
+    }
+
+    /**
+     * Returns map of profile ids to profile number for specific infotainment
+     * @return Collection of id to key mapping
+     */
+    public static function mapIdsToProfileNumbers(Infotainment $infotainment): Collection
+    {
+        $ids = DB::table('infotainment_profiles')
+            ->select('id')
+            ->where('infotainment_id', $infotainment->id)
+            ->orderBy('id')
+            ->get();
+
+        return $ids->mapWithKeys(fn (\stdClass $item, int $index) => [$item->id => $index + 1]);
     }
 }

@@ -41,7 +41,7 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Profile ID</th>
+            <th>Profile number</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -49,7 +49,7 @@
         @forelse($infotainmentProfiles as $infotainmentProfile)
             <tr>
                 <td>
-                    {{ $infotainmentProfile->id }}
+                    {{ $profileNumbers->get($infotainmentProfile->id) ?? 'N/A' }}
 
                     @if($infotainmentProfile->extraTiming)
                         <span class="badge rounded-pill text-bg-primary">Extra timing</span>
