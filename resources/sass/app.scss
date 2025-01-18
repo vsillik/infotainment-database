@@ -5,11 +5,10 @@
 }
 
 .nav-pills .nav-link.active {
-    color: $nav-link-color;
-    background: $gray-300;
+    background: $blue-400;
 }
 
 .nav-pills .nav-link:hover, .nav-pills .nav-link.active:hover {
     color: $nav-link-hover-color;
-    background: $gray-200;
+    background: $primary-bg-subtle;
 }
