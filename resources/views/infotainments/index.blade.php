@@ -50,9 +50,10 @@
             @empty
                 <tr>
                     <td colspan="6">
-                        No infotainment found.
                         @can('create', Infotainment::class)
-                            <a href="{{ route('infotainments.create') }}">Add infotainment</a>
+                            No infotainment found. <a href="{{ route('infotainments.create') }}">Add infotainment</a>
+                        @else
+                            There is no infotainment assigned to your account. If you think this is an error please contact administrator.
                         @endcan
                     </td>
                 </tr>

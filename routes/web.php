@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InfotainmentController;
 use App\Http\Controllers\InfotainmentManufacturerController;
 use App\Http\Controllers\InfotainmentProfileController;
@@ -9,11 +10,9 @@ use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'approved'])->group(function () {
-    Route::get('/', function () {
-        return view('welcome', [
-            'breadcrumbs' => [],
-        ]);
-    })->name('index');
+    Route::controller(HomeController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+    });
 
     Route::controller(UserProfileController::class)->group(function () {
        Route::get('/profile', 'edit')->name('profile.edit');
