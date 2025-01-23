@@ -1,8 +1,14 @@
-<div class="form-check mb-3">
+<div class="form-check">
+    <x-forms.standalone-checkbox
+        :name="$name"
+        :value="$value"
+        :isCheckedByDefault="$isCheckedByDefault"
+        {{ $attributes }}
+    />
     <input type="checkbox" name="{{ $name }}"
            value="{{ $value }}" id="{{ $name }}"
            class="form-check-input"
-           {{ $attributes }}
+        {{ $attributes }}
         @checked(old($name, $isCheckedByDefault))
     >
 
