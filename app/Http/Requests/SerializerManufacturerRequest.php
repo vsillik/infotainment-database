@@ -27,6 +27,7 @@ class SerializerManufacturerRequest extends FormRequest
             'id' => [
                 'required',
                 'size:3',
+                'alpha:ascii',
                 $uniqueId,
             ],
             'name' => [

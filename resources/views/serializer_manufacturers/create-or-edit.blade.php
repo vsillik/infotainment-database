@@ -24,7 +24,8 @@
             label="Identifier"
             :defaultValue="$serializerManufacturer->id"
             required="true"
-            extraText="Must be exactly 3 characters long."
+            extraText="Must be exactly 3 characters from range A-Z. If you enter the letters in lowercase,
+             they will be automatically converted to uppercase."
             />
 
         <x-forms.input

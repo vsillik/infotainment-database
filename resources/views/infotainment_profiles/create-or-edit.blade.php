@@ -1,5 +1,6 @@
 @php
     use App\ColorBitDepth;
+    use App\DisplayInterface;
 @endphp
 
 <x-layout :breadcrumbs="$breadcrumbs">
@@ -149,7 +150,7 @@
                     name="interface"
                     label="Interface"
                     :options="$interfaces"
-                    :defaultValue="$infotainmentProfile->interface?->value"
+                    :defaultValue="($infotainmentProfile->interface ?? DisplayInterface::HDMI_A)->value"
                     required="true"
                 />
 

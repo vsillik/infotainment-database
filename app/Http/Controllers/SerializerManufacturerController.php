@@ -55,7 +55,7 @@ class SerializerManufacturerController extends Controller
 
         $serializerManufacturer = new SerializerManufacturer;
 
-        $serializerManufacturer->id = $validated['id'];
+        $serializerManufacturer->id = strtoupper($validated['id']);
         $serializerManufacturer->name = $validated['name'];
 
         $serializerManufacturer->save();
@@ -91,7 +91,7 @@ class SerializerManufacturerController extends Controller
 
         $validated = $request->validated();
 
-        $serializerManufacturer->id = $validated['id'];
+        $serializerManufacturer->id = strtoupper($validated['id']);
         $serializerManufacturer->name = $validated['name'];
 
         $serializerManufacturer->save();
