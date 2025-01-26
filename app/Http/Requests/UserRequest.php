@@ -49,12 +49,6 @@ class UserRequest extends FormRequest
                 'required',
                 new Enum(UserRole::class),
             ],
-            'infotainments' => [
-                'array',
-            ],
-            'infotainments.*' => [
-                'exists:\App\Models\Infotainment,id',
-            ]
         ];
     }
 }

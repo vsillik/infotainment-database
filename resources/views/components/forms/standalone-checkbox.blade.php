@@ -1,6 +1,5 @@
 <input type="checkbox" name="{{ $name }}"
        value="{{ $value }}" id="{{ $name }}"
-       class="form-check-input"
-    {{ $attributes }}
+    {{ $attributes->merge(['class' => 'form-check-input']) }}
     @checked(old($name, $isCheckedByDefault))
 >

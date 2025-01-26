@@ -57,4 +57,9 @@ class UserPolicy
         return $this->approve($user, $model);
     }
 
+    public function assignInfotainments(User $user, User $model): bool
+    {
+        return $this->approve($user, $model);
+    }
+
 }

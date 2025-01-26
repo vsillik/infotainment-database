@@ -29,6 +29,11 @@ Route::middleware(['auth', 'approved'])->group(function () {
 
     Route::resource('infotainments', InfotainmentController::class);
 
+    Route::controller(InfotainmentController::class)->group(function () {
+       Route::post('/infotainments/assign', 'assignUsers')->name('infotainments.assign');
+       Route::patch('/infotainments/assign/add', 'addAssignedUsers')->name('infotainments.assign.add');
+    });
+
     Route::resource('infotainments.profiles', InfotainmentProfileController::class)
         ->except(['show', 'index']);
 
@@ -43,6 +48,8 @@ Route::middleware(['auth', 'approved'])->group(function () {
     Route::controller(UserController::class)->group(function () {
         Route::get('/users/{user}/approve', 'approve')->name('users.approve');
         Route::get('/users/{user}/unapprove', 'unapprove')->name('users.unapprove');
+        Route::get('/users/{user}/assign-infotainments', 'assignInfotainments')->name('users.assign-infotainments');
+        Route::patch('/users/{user}/assign-infotainments', 'updateAssignedInfotainments')->name('users.assign-infotainments.update');
     });
 });
 

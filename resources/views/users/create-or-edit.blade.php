@@ -51,13 +51,6 @@
             required="true"
         />
 
-        <x-forms.multiselect
-            name="infotainments"
-            label="Allowed infotainments to display"
-            :options="$infotainments"
-            :selected="$selectedInfotainments"
-        />
-
         <x-forms.required-note />
 
         <button type="submit" class="btn btn-primary">Save</button>

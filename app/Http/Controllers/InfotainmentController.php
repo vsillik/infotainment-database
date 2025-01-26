@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InfotainmentsAssignUsersRequest;
 use App\Http\Requests\InfotainmentRequest;
 use App\Models\Infotainment;
 use App\Models\InfotainmentManufacturer;
 use App\Models\InfotainmentProfile;
 use App\Models\SerializerManufacturer;
+use App\Models\User;
 use App\UserRole;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
@@ -172,6 +175,72 @@ class InfotainmentController extends Controller
         return redirect()
             ->route('infotainments.index')
             ->with('success', sprintf('Infotainment ID: %d deleted', $infotainment->id));
+    }
+
+    public function assignUsers(Request $request): View|RedirectResponse
+    {
+        Gate::authorize('assignUsers', Infotainment::class);
+
+        $infotainmentIds = $request->input('infotainments', []);
+
+        if (count($infotainmentIds) === 0) {
+            return redirect()
+                ->route('infotainments.index')
+                ->with('error', 'You first need to select at least one infotainment');
+        }
+
+        $infotainments = Infotainment::whereIn('id', $infotainmentIds)->get();
+
+        if (count($infotainments) !== count($infotainmentIds)) {
+            return redirect()
+                ->route('infotainments.index')
+                ->with('error', 'Some of the specified infotainments were not found');
+        }
+
+        $users = User::where('role', UserRole::CUSTOMER)->get();
+
+        if ($users->isEmpty()) {
+            return redirect()
+                ->route('infotainments.index')
+                ->with('error', 'There are no available customers');
+        }
+
+        return view('infotainments.assign-users', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('infotainments.index') => 'Infotainments',
+                'current' => 'Assign users to infotainments',
+            ],
+            'infotainments' => $infotainments,
+            'users' => $users,
+        ]);
+    }
+
+    public function addAssignedUsers(InfotainmentsAssignUsersRequest $request): RedirectResponse
+    {
+        Gate::authorize('assignUsers', Infotainment::class);
+
+        $validated = $request->validated();
+
+        $assignments = [];
+
+        foreach ($validated['infotainments'] as $infotainment_id) {
+            foreach ($validated['users'] as $user_id) {
+                $assignments[] = [
+                    'infotainment_id' => $infotainment_id,
+                    'user_id' => $user_id,
+                ];
+            }
+        }
+
+        DB::table('infotainment_user')->upsert(
+            $assignments,
+            ['infotainment_id', 'user_id'],
+        );
+
+        return redirect()
+            ->route('infotainments.index')
+            ->with('success', 'Users were assigned to selected infotainments');
     }
 
     private function setInfotainmentValidatedValues(Infotainment $infotainment, mixed $validated): void

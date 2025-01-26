@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserAssignInfotainmentsRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Infotainment;
 use App\Models\User;
@@ -173,5 +174,38 @@ class UserController extends Controller
         return redirect()
             ->route('users.index')
             ->with('success', sprintf('User %s deleted', $user->email));
+    }
+
+    public function assignInfotainments(User $user)
+    {
+        Gate::authorize('assignInfotainments', $user);
+
+        return view('users.assign-infotainments', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('users.index') => 'Users',
+                'current' => 'Assign infotainments',
+            ],
+            'user' => $user,
+            'roles' => UserRole::labels(),
+            'infotainments' => Infotainment::all(),
+            'assignedInfotainments' => $user->infotainments->pluck('id'),
+        ]);
+    }
+
+    public function updateAssignedInfotainments(UserAssignInfotainmentsRequest $request, User $user)
+    {
+        Gate::authorize('assignInfotainments', $user);
+
+        $validated = $request->validated();
+
+        $infotainments = $request->has('infotainments') ? $validated['infotainments'] : [];
+
+        $user->infotainments()->sync($infotainments);
+
+        return redirect()
+            ->route('users.assign-infotainments', ['user' => $user->id])
+            ->with('success', sprintf('User %s infotainments assignment updated', $user->email));
+
     }
 }

@@ -48,4 +48,9 @@ class InfotainmentPolicy
         return $user->role->value >= UserRole::ADMINISTRATOR->value;
     }
 
+    public function assignUsers(User $user): bool
+    {
+        return $user->role->value >= UserRole::ADMINISTRATOR->value;
+    }
+
 }
