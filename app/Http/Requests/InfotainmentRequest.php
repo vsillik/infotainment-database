@@ -25,7 +25,7 @@ class InfotainmentRequest extends FormRequest
             ],
             'product_id' => [
                 'required',
-                'size:4',
+                'regex:/^[a-f0-9]{1,4}$/i',
             ],
             'model_year' => [
                 'required',
@@ -36,7 +36,7 @@ class InfotainmentRequest extends FormRequest
             'part_number' => [
                 'required',
                 // XXX.XXX.XXX[.X]
-                'regex:/^[a-zA-Z0-9]{3}\.[a-zA-Z0-9]{3}\.[a-zA-Z0-9]{3}(\.[a-zA-Z0-9])?$/'
+                'regex:/^[a-z0-9]{3}\.[a-z0-9]{3}\.[a-z0-9]{3}(\.[a-z0-9])?$/i'
             ],
             'compatible_platforms' => [
                 'max:1500',

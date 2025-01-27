@@ -17,7 +17,7 @@
             @method('PATCH')
         @endif
 
-        <x-forms.errors-alert :errors="$errors" />
+        <x-forms.errors-alert :errors="$errors"/>
 
         <x-forms.select
             name="infotainment_manufacturer_id"
@@ -25,7 +25,7 @@
             :options="$infotainmentManufacturers"
             :defaultValue="$infotainment->infotainment_manufacturer_id"
             required="true"
-            />
+        />
 
         <x-forms.select
             name="serializer_manufacturer_id"
@@ -33,15 +33,15 @@
             :options="$serializerManufacturers"
             :defaultValue="$infotainment->serializer_manufacturer_id"
             required="true"
-            />
+        />
 
         <x-forms.input
             name="product_id"
             label="Product ID"
             :defaultValue="$infotainment->product_id"
             required="true"
-            extraText="Must be exactly 4 characters long."
-            />
+            extraText="Must be 4 hexadecimal characters. If you enter less than 4, leading 0s will be added automatically."
+        />
 
         <x-forms.input
             name="model_year"
@@ -50,7 +50,7 @@
             :defaultValue="$infotainment->model_year"
             required="true"
             extraText="The value must be between 1990-2245."
-            />
+        />
 
         <x-forms.input
             name="part_number"
@@ -58,21 +58,21 @@
             :defaultValue="$infotainment->part_number"
             required="true"
             extraText='Must be in format "XXX.XXX.XXX[.X]", where X is alphanumeric character, and last part (in square brackets) is optional.'
-            />
+        />
 
         <x-forms.textarea
             name="compatible_platforms"
             label="Compatible platforms"
             :defaultValue="$infotainment->compatible_platforms"
             extraText="Maximum length 1500 characters."
-            />
+        />
 
         <x-forms.input
             name="internal_code"
             label="Internal code"
             :defaultValue="$infotainment->internal_code"
             extraText="Maximum length 150 characters."
-            />
+        />
 
         <x-forms.textarea
             name="internal_notes"
@@ -80,7 +80,7 @@
             :defaultValue="$infotainment->internal_notes"
             extraText="Maximum length 1500 characters."/>
 
-        <x-forms.required-note />
+        <x-forms.required-note/>
 
         <button type="submit" class="btn btn-primary">Save</button>
     </form>

@@ -247,7 +247,7 @@ class InfotainmentController extends Controller
     {
         $infotainment->infotainmentManufacturer()->associate($validated['infotainment_manufacturer_id']);
         $infotainment->serializerManufacturer()->associate($validated['serializer_manufacturer_id']);
-        $infotainment->product_id = $validated['product_id'];
+        $infotainment->product_id = str_pad($validated['product_id'], 4, '0', STR_PAD_LEFT);
         $infotainment->model_year = $validated['model_year'];
         $infotainment->part_number = $validated['part_number'];
         $infotainment->compatible_platforms = $validated['compatible_platforms'];
