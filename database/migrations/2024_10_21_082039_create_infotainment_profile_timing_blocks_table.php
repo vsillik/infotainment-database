@@ -13,21 +13,21 @@ return new class extends Migration
     {
         Schema::create('infotainment_profile_timing_blocks', function (Blueprint $table) {
             $table->id();
-            $table->decimal('pixel_clock', 10, 2);
+            $table->decimal('pixel_clock', 5, 2);
 
             $table->smallInteger('horizontal_pixels')->unsigned();
             $table->smallInteger('horizontal_blank')->unsigned();
             $table->smallInteger('horizontal_front_porch')->unsigned()->nullable();
             $table->smallInteger('horizontal_sync_width')->unsigned()->nullable();
             $table->smallInteger('horizontal_image_size')->unsigned()->nullable();
-            $table->smallInteger('horizontal_border')->unsigned()->nullable();
+            $table->tinyInteger('horizontal_border')->unsigned()->nullable();
 
             $table->smallInteger('vertical_lines')->unsigned();
             $table->smallInteger('vertical_blank');
-            $table->smallInteger('vertical_front_porch')->unsigned()->nullable();
-            $table->smallInteger('vertical_sync_width')->unsigned()->nullable();
+            $table->tinyInteger('vertical_front_porch')->unsigned()->nullable();
+            $table->tinyInteger('vertical_sync_width')->unsigned()->nullable();
             $table->smallInteger('vertical_image_size')->unsigned()->nullable();
-            $table->smallInteger('vertical_border')->unsigned()->nullable();
+            $table->tinyInteger('vertical_border')->unsigned()->nullable();
 
             $table->boolean('signal_horizontal_sync_positive')->default(false);
             $table->boolean('signal_vertical_sync_positive')->default(false);
