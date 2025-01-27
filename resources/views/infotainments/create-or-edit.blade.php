@@ -57,7 +57,7 @@
             label="Part number"
             :defaultValue="$infotainment->part_number"
             required="true"
-            extraText="Maximum length 13 characters."
+            extraText='Must be in format "XXX.XXX.XXX[.X]", where X is alphanumeric character, and last part (in square brackets) is optional.'
             />
 
         <x-forms.textarea

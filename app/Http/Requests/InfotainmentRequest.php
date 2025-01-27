@@ -35,7 +35,8 @@ class InfotainmentRequest extends FormRequest
             ],
             'part_number' => [
                 'required',
-                'max:13',
+                // XXX.XXX.XXX[.X]
+                'regex:/^[a-zA-Z0-9]{3}\.[a-zA-Z0-9]{3}\.[a-zA-Z0-9]{3}(\.[a-zA-Z0-9])?$/'
             ],
             'compatible_platforms' => [
                 'max:1500',

@@ -6,7 +6,10 @@
         @endif
     </label>
 
-    <div class="form-text mt-0 mb-1">Each byte must contain up to 2 hexadecimal characters. Once the byte is added it must by filled in.</div>
+    <div class="form-text mt-0 mb-2">
+        Each byte must contain up to 2 hexadecimal characters. Once the byte is added it must by filled in. <br>
+        Bytes 0-3 are automatically filled in when at least 1 byte is added.
+    </div>
 
     <a href="#"
        id="btn_add_byte_{{ $name }}"

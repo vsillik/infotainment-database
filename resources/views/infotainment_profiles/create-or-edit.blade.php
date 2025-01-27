@@ -206,7 +206,7 @@
                     label="HW version"
                     :defaultValue="$infotainmentProfile->hw_version"
                     required="true"
-                    extraText="Maximum length 3 characters."
+                    extraText="Must be in range 000-999 (3 numbers)."
                 />
 
                 <x-forms.input
@@ -214,7 +214,7 @@
                     label="SW version"
                     :defaultValue="$infotainmentProfile->sw_version"
                     required="true"
-                    extraText="Maximum length 4 characters."
+                    extraText="Must be in range 0000-9999 (4 numbers)."
                 />
 
                 <x-forms.vendor-input
