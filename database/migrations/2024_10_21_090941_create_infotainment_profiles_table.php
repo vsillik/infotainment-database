@@ -40,9 +40,9 @@ return new class extends Migration
                 DisplayInterface::cases())
             );
 
-            $table->smallInteger('horizontal_size')->unsigned();
+            $table->tinyInteger('horizontal_size')->unsigned();
 
-            $table->smallInteger('vertical_size')->unsigned();
+            $table->tinyInteger('vertical_size')->unsigned();
 
             $table->boolean('is_ycrcb_4_4_4');
 
@@ -52,9 +52,9 @@ return new class extends Migration
 
             $table->boolean('is_continuous_frequency');
 
-            $table->string('hw_version', 3);
+            $table->char('hw_version', 3);
 
-            $table->string('sw_version', 4);
+            $table->char('sw_version', 4);
 
             $table->binary('vendor_block_1', 28)->nullable();
 

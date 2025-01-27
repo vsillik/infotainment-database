@@ -242,8 +242,8 @@ class InfotainmentProfileController extends Controller
         $infotainmentProfile->is_ycrcb_4_2_2 = $request->has('is_ycrcb_4_2_2');
         $infotainmentProfile->is_srgb = $request->has('is_srgb');
         $infotainmentProfile->is_continuous_frequency = $request->has('is_continuous_frequency');
-        $infotainmentProfile->hw_version = $validated['hw_version'];
-        $infotainmentProfile->sw_version = $validated['sw_version'];
+        $infotainmentProfile->hw_version = str_pad($validated['hw_version'], 3, '0', STR_PAD_LEFT);
+        $infotainmentProfile->sw_version = str_pad($validated['sw_version'], 4, '0', STR_PAD_LEFT);
         $infotainmentProfile->vendor_block_1 = $this->processVendorBlockInput($request, $validated, 'vendor_block_1');
         $infotainmentProfile->vendor_block_2 = $this->processVendorBlockInput($request, $validated, 'vendor_block_2');
         $infotainmentProfile->vendor_block_3 = $this->processVendorBlockInput($request, $validated, 'vendor_block_3');
