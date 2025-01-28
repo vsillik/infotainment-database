@@ -3,6 +3,18 @@
         Assign users to infotainments
     </x-slot:title>
 
+    @if($errors->hasAny('infotainments', 'infotainments.*'))
+    <div class="alert alert-danger">
+        There was an error when submitting the data (selected infotainments not found), please try again.
+    </div>
+    @endif
+
+    @if($errors->hasAny('users', 'users.*'))
+    <div class="alert alert-danger">
+        You need to select at least one user.
+    </div>
+    @endif
+
     <form action="{{ route('infotainments.assign.add') }}" method="POST">
         @csrf
         @method('PATCH')
@@ -58,7 +70,7 @@
                         <td class="text-center">
                             <x-forms.standalone-checkbox
                                 name="users[{{ $user->id }}]"
-                                :isCheckedByDefault="false"
+                                :isCheckedByDefault="is_array(old('users')) && in_array($user->id, old('users'))"
                                 :value="$user->id"
                             />
                         </td>

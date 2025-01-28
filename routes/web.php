@@ -27,12 +27,12 @@ Route::middleware(['auth', 'approved'])->group(function () {
     Route::resource('serializer_manufacturers', SerializerManufacturerController::class)
         ->except(['show']);
 
-    Route::resource('infotainments', InfotainmentController::class);
-
     Route::controller(InfotainmentController::class)->group(function () {
-       Route::post('/infotainments/assign', 'assignUsers')->name('infotainments.assign');
-       Route::patch('/infotainments/assign/add', 'addAssignedUsers')->name('infotainments.assign.add');
+        Route::get('/infotainments/assign', 'assignUsers')->name('infotainments.assign');
+        Route::patch('/infotainments/assign/add', 'addAssignedUsers')->name('infotainments.assign.add');
     });
+
+    Route::resource('infotainments', InfotainmentController::class);
 
     Route::resource('infotainments.profiles', InfotainmentProfileController::class)
         ->except(['show', 'index']);

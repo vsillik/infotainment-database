@@ -181,7 +181,9 @@ class InfotainmentController extends Controller
     {
         Gate::authorize('assignUsers', Infotainment::class);
 
-        $infotainmentIds = $request->input('infotainments', []);
+        $infotainmentIdsInput = $request->input('infotainments', '');
+
+        $infotainmentIds = explode(',', $infotainmentIdsInput);
 
         if (count($infotainmentIds) === 0) {
             return redirect()

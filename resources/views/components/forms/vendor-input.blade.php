@@ -107,7 +107,7 @@
                     if (byteCount === 1) {
                         document.getElementById('btn_remove_byte_' + target).classList.remove('disabled');
                     }
-                })
+                });
             }
 
             for (const removeButton of removeButtons) {
@@ -141,14 +141,12 @@
                     if (byteCount === 27) {
                         document.getElementById('btn_add_byte_' + target).classList.remove('disabled');
                     }
-                })
+                });
             }
         }
 
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
-                attachListenersForButtons();
-            });
+            document.addEventListener('DOMContentLoaded', attachListenersForButtons);
         } else {
             attachListenersForButtons();
         }

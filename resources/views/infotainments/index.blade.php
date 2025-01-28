@@ -12,11 +12,10 @@
     @endcan
 
     @can('assignUsers', Infotainment::class)
-        <form class="mt-2" id="assignForm" action="{{ route('infotainments.assign') }}" method="POST">
-            @csrf
+        <div>
             <a href="#" id="select-all-infotainments" class="btn btn-sm btn-outline-secondary">Select all</a>
-            <button type="submit" class="btn btn-sm btn-outline-success">Assign users to selected infotainments</button>
-        </form>
+            <a href="{{ route('infotainments.assign') }}"  id="assign-infotainments" class="btn btn-sm btn-outline-success">Assign users to selected infotainments</a>
+        </div>
     @endcan
 
     <div class="table-responsive">
@@ -40,7 +39,6 @@
                             name="infotainments[{{ $infotainment->id }}]"
                             :isCheckedByDefault="false"
                             :value="$infotainment->id"
-                            form="assignForm"
                             class="select-infotainment"
                         />
                     </td>
@@ -84,8 +82,9 @@
     @can('assignUsers', Infotainment::class)
         @pushonce('scripts')
             <script>
-                function attachSelectAll() {
+                function attachButtons() {
                     const selectAllButton = document.getElementById('select-all-infotainments');
+                    const assignInfotainmentsButton = document.getElementById('assign-infotainments');
 
                     selectAllButton.addEventListener('click', (e) => {
                         e.preventDefault();
@@ -96,15 +95,35 @@
                         for (const checkbox of checkboxes) {
                             checkbox.checked = true;
                         }
-                    })
+                    });
+
+                    assignInfotainmentsButton.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        const checkboxes = document.getElementsByClassName('select-infotainment');
+                        const infotainmentIds = [];
+
+                        for (const checkbox of checkboxes) {
+                            if (checkbox.checked) {
+                                infotainmentIds.push(checkbox.value);
+                            }
+                        }
+
+                        let url = assignInfotainmentsButton.href;
+
+                        if (infotainmentIds.length > 0) {
+                            url += '?infotainments=' + infotainmentIds.join(',');
+                        }
+
+                        window.location.href = url;
+                    });
                 }
 
                 if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', () => {
-                        attachSelectAll();
-                    });
+                    document.addEventListener('DOMContentLoaded', attachButtons);
                 } else {
-                    attachSelectAll();
+                    attachButtons();
                 }
             </script>
         @endpushonce

@@ -16,17 +16,23 @@ class InfotainmentsAssignUsersRequest extends FormRequest
     {
         return [
             'infotainments' => [
+                'required',
                 'array',
                 'min:1',
             ],
             'infotainments.*' => [
+                'bail',
+                'integer',
                 'exists:\App\Models\Infotainment,id',
             ],
             'users' => [
+                'required',
                 'array',
                 'min:1',
             ],
             'users.*' => [
+                'bail',
+                'integer',
                 'exists:\App\Models\User,id',
             ],
         ];
