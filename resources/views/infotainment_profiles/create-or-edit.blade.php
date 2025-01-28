@@ -26,8 +26,10 @@
             @default
                 {{ route('infotainments.profiles.store', $infotainment) }}
         @endswitch
-        " method="POST">
-
+        "
+        method="POST"
+        novalidate
+    >
         @csrf
         @if($mode === 'edit' || $mode === 'approve')
             @method('PATCH')
