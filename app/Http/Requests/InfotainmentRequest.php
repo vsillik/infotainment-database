@@ -16,11 +16,15 @@ class InfotainmentRequest extends FormRequest
     {
         return [
             'infotainment_manufacturer_id' => [
+                'bail',
                 'required',
+                'integer',
                 'exists:\App\Models\InfotainmentManufacturer,id',
             ],
             'serializer_manufacturer_id' => [
+                'bail',
                 'required',
+                'size:3',
                 'exists:\App\Models\SerializerManufacturer,id',
             ],
             'product_id' => [

@@ -19,6 +19,8 @@ class UserAssignInfotainmentsRequest extends FormRequest
                 'array',
             ],
             'infotainments.*' => [
+                'bail',
+                'integer',
                 'exists:\App\Models\Infotainment,id',
             ],
         ];
