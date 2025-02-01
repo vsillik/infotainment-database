@@ -63,7 +63,7 @@ class InfotainmentController extends Controller
         }
 
         $serializerManufacturers = SerializerManufacturer::all()
-        ->pluck('name', 'id')->toArray();
+            ->pluck('name', 'id')->toArray();
 
         if (count($serializerManufacturers) === 0) {
             return redirect()
@@ -104,19 +104,45 @@ class InfotainmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Infotainment $infotainment): View
+    public function show(Request $request, Infotainment $infotainment): View
     {
         Gate::authorize('view', $infotainment);
 
-        return view('infotainments.show', [
+        $userRole = $request->user()->role;
+        $onlyUnapprovedProfiles = false;
+
+        if ($userRole === UserRole::CUSTOMER) {
+            $view = 'infotainments.customer-show';
+
+            $infotainmentProfiles = $infotainment->profiles()
+                ->where('is_approved', true)
+                ->orderByDesc('id')
+                ->get();
+
+            if ($infotainmentProfiles->isEmpty()) {
+                $infotainmentProfiles = $infotainment->profiles()
+                    ->where('is_approved', false)
+                    ->orderByDesc('id')
+                    ->get();
+                $onlyUnapprovedProfiles = true;
+            }
+        } else {
+            $view = 'infotainments.show';
+            $infotainmentProfiles = $infotainment->profiles()
+                ->orderByDesc('id')
+                ->get();
+        }
+
+        return view($view, [
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('infotainments.index') => 'Infotainments',
-                'current' => 'Infotainment ID: ' . $infotainment->id,
+                'current' => 'Infotainment ID: '.$infotainment->id,
             ],
             'infotainment' => $infotainment,
-            'infotainmentProfiles' => $infotainment->profiles->sortByDesc('id'),
-            'profileNumbers' => InfotainmentProfile::mapIdsToProfileNumbers($infotainment)
+            'infotainmentProfiles' => $infotainmentProfiles,
+            'profileNumbers' => InfotainmentProfile::mapIdsToProfileNumbers($infotainment),
+            'onlyUnapprovedProfiles' => $onlyUnapprovedProfiles,
         ]);
     }
 
@@ -131,7 +157,7 @@ class InfotainmentController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('infotainments.index') => 'Infotainments',
-                'current' => 'Edit infotainment ID: '. $infotainment->id,
+                'current' => 'Edit infotainment ID: '.$infotainment->id,
             ],
             'infotainment' => $infotainment,
             'infotainmentManufacturers' => InfotainmentManufacturer::all()

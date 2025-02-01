@@ -1,6 +1,5 @@
 @php
     use App\Models\InfotainmentProfile;
-    use Illuminate\Support\Str;
 @endphp
 <x-layout :breadcrumbs="$breadcrumbs">
     <x-slot:title>
