@@ -185,7 +185,7 @@ class InfotainmentController extends Controller
 
         $infotainmentIds = explode(',', $infotainmentIdsInput);
 
-        if (count($infotainmentIds) === 0) {
+        if (count($infotainmentIds) === 0 || $infotainmentIds === ['']) {
             return redirect()
                 ->route('infotainments.index')
                 ->with('error', 'You first need to select at least one infotainment');

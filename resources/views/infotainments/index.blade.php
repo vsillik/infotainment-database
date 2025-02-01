@@ -13,7 +13,8 @@
 
     @can('assignUsers', Infotainment::class)
         <div>
-            <a href="#" id="select-all-infotainments" class="btn btn-sm btn-outline-secondary">Select all</a>
+            <a href="#" class="btn-select-all btn btn-sm btn-outline-secondary">Select all</a>
+            <a href="#" class="btn-deselect-all btn btn-sm btn-outline-secondary d-none">Deselect all</a>
             <a href="{{ route('infotainments.assign') }}"  id="assign-infotainments" class="btn btn-sm btn-outline-success">Assign users to selected infotainments</a>
         </div>
     @endcan
@@ -40,6 +41,7 @@
                             :isCheckedByDefault="false"
                             :value="$infotainment->id"
                             class="select-infotainment"
+                            autocomplete="off"
                         />
                     </td>
                     <td>{{ Str::limit($infotainment->infotainmentManufacturer->name, 35) }}</td>
@@ -82,20 +84,8 @@
     @can('assignUsers', Infotainment::class)
         @pushonce('scripts')
             <script>
-                function attachButtons() {
-                    const selectAllButton = document.getElementById('select-all-infotainments');
+                function attachAssignInfotainmentButton() {
                     const assignInfotainmentsButton = document.getElementById('assign-infotainments');
-
-                    selectAllButton.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-
-                        const checkboxes = document.getElementsByClassName('select-infotainment');
-
-                        for (const checkbox of checkboxes) {
-                            checkbox.checked = true;
-                        }
-                    });
 
                     assignInfotainmentsButton.addEventListener('click', (e) => {
                         e.preventDefault();
@@ -121,9 +111,9 @@
                 }
 
                 if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', attachButtons);
+                    document.addEventListener('DOMContentLoaded', attachAssignInfotainmentButton);
                 } else {
-                    attachButtons();
+                    attachAssignInfotainmentButton();
                 }
             </script>
         @endpushonce

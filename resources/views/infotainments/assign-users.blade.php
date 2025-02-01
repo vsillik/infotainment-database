@@ -39,6 +39,7 @@
                             <input type="hidden"
                                    name="infotainments[{{ $infotainment->id }}]"
                                    value="{{ $infotainment->id }}"
+                                   autocomplete="off"
                             >
                             {{ Str::limit($infotainment->infotainmentManufacturer->name, 35) }}
                         </td>
@@ -54,6 +55,11 @@
 
         <h3>Select customers</h3>
         <p>Below you can select approved customers that you can assign the selected infotainments to.</p>
+
+        <div>
+            <a href="#" class="btn-select-all btn btn-sm btn-outline-secondary">Select all</a>
+            <a href="#" class="btn-deselect-all btn btn-sm btn-outline-secondary d-none">Deselect all</a>
+        </div>
 
         <div class="table-responsive">
             <table class="table">

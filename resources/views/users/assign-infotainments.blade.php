@@ -12,7 +12,32 @@
         @csrf
         @method('PATCH')
 
-        <x-forms.errors-alert :errors="$errors" />
+        <x-forms.errors-alert :errors="$errors"/>
+
+        <div>
+            <a href="#"
+                @class([
+                    'btn-select-all',
+                    'btn',
+                    'btn-sm',
+                    'btn-outline-secondary',
+                    'd-none' => count($infotainments) === count($assignedInfotainments),
+                ])
+            >
+                Select all
+            </a>
+            <a href="#"
+                @class([
+                    'btn-deselect-all',
+                    'btn',
+                    'btn-sm',
+                    'btn-outline-secondary',
+                    'd-none' => count($infotainments) !== count($assignedInfotainments),
+                ])
+            >
+                Deselect all
+            </a>
+        </div>
 
         <div class="table-responsive">
             <table class="table">
@@ -34,6 +59,7 @@
                                 name="infotainments[{{ $infotainment->id }}]"
                                 :isCheckedByDefault="$assignedInfotainments->contains($infotainment->id)"
                                 :value="$infotainment->id"
+                                autocomplete="off"
                             />
                         </td>
                         <td>{{ Str::limit($infotainment->infotainmentManufacturer->name, 35) }}</td>
