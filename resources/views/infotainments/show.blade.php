@@ -23,13 +23,13 @@
     <p>{{ $infotainment->part_number }}</p>
 
     <h4>Compatible platforms</h4>
-    <p class="text-break">{{ $infotainment->compatible_platforms }}</p>
+    <p class="text-break">{{ $infotainment->compatible_platforms ?? 'N/A' }}</p>
 
     <h4>Internal code</h4>
-    <p>{{ $infotainment->internal_code }}</p>
+    <p>{{ $infotainment->internal_code ?? 'N/A' }}</p>
 
     <h4>Internal notes</h4>
-    <p class="text-break">{{ $infotainment->internal_notes }}</p>
+    <p class="text-break">{{ $infotainment->internal_notes ?? 'N/A' }}</p>
 
     <h3>Infotainment profiles</h3>
     <hr/>

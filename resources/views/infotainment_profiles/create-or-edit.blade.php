@@ -17,6 +17,31 @@
         @endswitch
     </x-slot:title>
 
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <th>Infotainment manufacturer</th>
+                <td>{{ $infotainment->infotainmentManufacturer->name }}</td>
+            </tr>
+            <tr>
+                <th>Serializer manufacturer</th>
+                <td>{{ $infotainment->serializerManufacturer->name }}</td>
+            </tr>
+            <tr>
+                <th>Product ID</th>
+                <td>{{ $infotainment->product_id }}</td>
+            </tr>
+            <tr>
+                <th>Model year</th>
+                <td>{{ $infotainment->model_year }}</td>
+            </tr>
+            <tr>
+                <th>Part number</th>
+                <td>{{ $infotainment->part_number }}</td>
+            </tr>
+        </table>
+    </div>
+
     <form action="
         @switch($mode)
             @case('edit')
@@ -27,8 +52,8 @@
                 {{ route('infotainments.profiles.store', $infotainment) }}
         @endswitch
         "
-        method="POST"
-        novalidate
+          method="POST"
+          novalidate
     >
         @csrf
         @if($mode === 'edit' || $mode === 'approve')
