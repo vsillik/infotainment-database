@@ -48,7 +48,7 @@
             <p>All users are approved.</p>
         @else
             <p>
-                Below are listed <strong>{{ count($users) }}</strong> users that are not approved.
+                Below are listed <span class="fs-5 fw-bolder">{{ count($users) }}</span> users that are not approved.
             </p>
 
             <div class="table-responsive">
@@ -87,7 +87,7 @@
         <p>All infotainments have all profiles already approved.</p>
     @else
         <p>
-            Below are listed <strong>{{ count($infotainments) }}</strong> infotainments that do not have all profiles
+            Below are listed <span class="fs-5 fw-bolder">{{ count($infotainments) }}</span> infotainments that do not have all profiles
             approved.
         </p>
 

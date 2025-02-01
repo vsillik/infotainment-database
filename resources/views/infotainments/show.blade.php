@@ -8,10 +8,10 @@
     </x-slot:title>
 
     <h4>Infotainment manufacturer</h4>
-    <p>{{ Str::limit($infotainment->infotainmentManufacturer->name) }}</p>
+    <p class="text-break">{{ $infotainment->infotainmentManufacturer->name }}</p>
 
     <h4>Serializer manufacturer</h4>
-    <p>{{ Str::limit($infotainment->serializerManufacturer->name) }}</p>
+    <p class="text-break">{{ $infotainment->serializerManufacturer->name }}</p>
 
     <h4>Product ID</h4>
     <p>{{ $infotainment->product_id }}</p>
@@ -23,13 +23,13 @@
     <p>{{ $infotainment->part_number }}</p>
 
     <h4>Compatible platforms</h4>
-    <p>{{ Str::limit($infotainment->compatible_platforms) }}</p>
+    <p class="text-break">{{ $infotainment->compatible_platforms }}</p>
 
     <h4>Internal code</h4>
     <p>{{ $infotainment->internal_code }}</p>
 
     <h4>Internal notes</h4>
-    <p>{{ Str::limit($infotainment->internal_notes) }}</p>
+    <p class="text-break">{{ $infotainment->internal_notes }}</p>
 
     <h3>Infotainment profiles</h3>
     <hr/>
