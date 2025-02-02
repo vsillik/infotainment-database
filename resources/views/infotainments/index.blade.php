@@ -12,7 +12,7 @@
     @endcan
 
     @can('assignUsers', Infotainment::class)
-        <div>
+        <div class="mt-1">
             <a href="#" class="btn-select-all btn btn-sm btn-outline-secondary">Select all</a>
             <a href="#" class="btn-deselect-all btn btn-sm btn-outline-secondary d-none">Deselect all</a>
             <a href="{{ route('infotainments.assign') }}"  id="assign-infotainments" class="btn btn-sm btn-outline-success">Assign users to selected infotainments</a>
