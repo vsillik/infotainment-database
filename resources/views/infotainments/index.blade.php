@@ -11,13 +11,15 @@
         <x-action-buttons.create :targetUrl="route('infotainments.create')" label="Create infotainment"/>
     @endcan
 
-    @can('assignUsers', Infotainment::class)
-        <div class="mt-1">
-            <a href="#" class="btn-select-all btn btn-sm btn-outline-secondary">Select all</a>
-            <a href="#" class="btn-deselect-all btn btn-sm btn-outline-secondary d-none">Deselect all</a>
-            <a href="{{ route('infotainments.assign') }}"  id="assign-infotainments" class="btn btn-sm btn-outline-success">Assign users to selected infotainments</a>
-        </div>
-    @endcan
+    @if($infotainments->count() > 0)
+        @can('assignUsers', Infotainment::class)
+            <div class="mt-1">
+                <a href="#" class="btn-select-all btn btn-sm btn-outline-secondary">Select all</a>
+                <a href="#" class="btn-deselect-all btn btn-sm btn-outline-secondary d-none">Deselect all</a>
+                <a href="{{ route('infotainments.assign') }}"  id="assign-infotainments" class="btn btn-sm btn-outline-success">Assign users to selected infotainments</a>
+            </div>
+        @endcan
+    @endif
 
     <div class="table-responsive">
         <table class="table">
