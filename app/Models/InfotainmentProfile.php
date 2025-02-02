@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\ColorBitDepth;
 use App\DisplayInterface;
+use App\Observers\InfotainmentProfileObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -33,7 +35,10 @@ use Illuminate\Support\Facades\DB;
  * @property Infotainment $infotainment
  * @property ?InfotainmentProfileTimingBlock $timing
  * @property ?InfotainmentProfileTimingBlock $extraTiming
+ * @property ?User $createdBy
+ * @property ?User $updatedBy
  */
+#[ObservedBy([InfotainmentProfileObserver::class])]
 class InfotainmentProfile extends Model
 {
 
@@ -119,6 +124,16 @@ class InfotainmentProfile extends Model
     public function extraTiming(): BelongsTo
     {
         return $this->belongsTo(InfotainmentProfileTimingBlock::class, 'extra_timing_block_id');
+    }
+
+    public function createdBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 
     /**

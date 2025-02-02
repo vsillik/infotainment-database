@@ -62,6 +62,18 @@ return new class extends Migration
 
             $table->binary('vendor_block_3', 28)->nullable();
 
+            $table->foreignId('created_by')
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
+            $table->foreignId('updated_by')
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
             $table->timestamps();
         });
     }

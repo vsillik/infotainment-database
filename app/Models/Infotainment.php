@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Observers\InfotainmentObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -22,7 +24,10 @@ use Illuminate\Support\Collection;
  * @property SerializerManufacturer $serializerManufacturer
  * @property Collection<int, InfotainmentProfile> $profiles
  * @property Collection<int, User> $users
+ * @property ?User $createdBy
+ * @property ?User $updatedBy
  */
+#[ObservedBy([InfotainmentObserver::class])]
 class Infotainment extends Model
 {
 
@@ -54,5 +59,15 @@ class Infotainment extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function createdBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 }

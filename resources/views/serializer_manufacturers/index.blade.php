@@ -17,6 +17,8 @@
             <tr>
                 <th>Identifier</th>
                 <th>Name</th>
+                <th>Created at</th>
+                <th>Updated at</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -25,6 +27,20 @@
                 <tr>
                     <td>{{ $serializerManufacturer->id }}</td>
                     <td>{{ Str::limit($serializerManufacturer->name, 70) }}</td>
+                    <td>
+                        @if($serializerManufacturer->createdBy)
+                            @date($serializerManufacturer->created_at) ({{ $serializerManufacturer->createdBy->email }})
+                        @else
+                            N/A
+                        @endif
+                    </td>
+                    <td>
+                        @if($serializerManufacturer->updatedBy)
+                            @date($serializerManufacturer->updated_at) ({{ $serializerManufacturer->updatedBy->email }})
+                        @else
+                            N/A
+                        @endif
+                    </td>
                     <td>
                         @can('update', $serializerManufacturer)
                             <x-action-buttons.edit :targetUrl="route('serializer_manufacturers.edit', $serializerManufacturer)" />

@@ -14,6 +14,16 @@ return new class extends Migration
         Schema::create('infotainment_manufacturers', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255)->unique();
+            $table->foreignId('created_by')
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->foreignId('updated_by')
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->timestamps();
         });
     }

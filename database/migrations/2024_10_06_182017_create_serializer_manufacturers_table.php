@@ -16,6 +16,16 @@ return new class extends Migration
         Schema::create('serializer_manufacturers', function (Blueprint $table) {
             $table->char('id', 3)->primary();
             $table->string('name', 255)->unique();
+            $table->foreignId('created_by')
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->foreignId('updated_by')
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->timestamps();
         });
     }

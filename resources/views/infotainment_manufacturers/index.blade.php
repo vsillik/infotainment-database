@@ -17,6 +17,8 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Created at</th>
+                    <th>Updated at</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -24,6 +26,20 @@
                 @forelse($infotainmentManufacturers as $infotainmentManufacturer)
                     <tr>
                         <td>{{ Str::limit($infotainmentManufacturer->name, 70) }}</td>
+                        <td>
+                            @if($infotainmentManufacturer->createdBy)
+                                @date($infotainmentManufacturer->created_at) ({{ $infotainmentManufacturer->createdBy->email }})
+                            @else
+                                N/A
+                            @endif
+                        </td>
+                        <td>
+                            @if($infotainmentManufacturer->updatedBy)
+                                @date($infotainmentManufacturer->updated_at) ({{ $infotainmentManufacturer->updatedBy->email }})
+                            @else
+                                N/A
+                            @endif
+                        </td>
                         <td>
                             @can('update', $infotainmentManufacturer)
                                 <x-action-buttons.edit :targetUrl="route('infotainment_manufacturers.edit', $infotainmentManufacturer)" />

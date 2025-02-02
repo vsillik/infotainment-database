@@ -30,6 +30,24 @@
     <h4>Internal notes</h4>
     <p class="text-break">{{ $infotainment->internal_notes ?? 'N/A' }}</p>
 
+    <h4>Created at</h4>
+    <p>
+        @if($infotainment->createdBy)
+            @date($infotainment->created_at) ({{ $infotainment->createdBy->email }})
+        @else
+            N/A
+        @endif
+    </p>
+
+    <h4>Updated at</h4>
+    <p>
+        @if($infotainment->updatedBy)
+            @date($infotainment->updated_at) ({{ $infotainment->updatedBy->email }})
+        @else
+            N/A
+        @endif
+    </p>
+
     <h3>Infotainment profiles</h3>
     <hr/>
 
@@ -41,6 +59,8 @@
         <thead>
         <tr>
             <th>Profile number</th>
+            <th>Created at</th>
+            <th>Updated at</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -56,6 +76,20 @@
 
                     @if($infotainmentProfile->is_approved)
                         <span class="badge rounded-pill text-bg-success">Approved</span>
+                    @endif
+                </td>
+                <td>
+                    @if($infotainmentProfile->createdBy)
+                        @date($infotainmentProfile->created_at) ({{ $infotainmentProfile->createdBy->email }})
+                    @else
+                        N/A
+                    @endif
+                </td>
+                <td>
+                    @if($infotainmentProfile->updatedBy)
+                        @date($infotainmentProfile->updated_at) ({{ $infotainmentProfile->updatedBy->email }})
+                    @else
+                        N/A
                     @endif
                 </td>
                 <td>

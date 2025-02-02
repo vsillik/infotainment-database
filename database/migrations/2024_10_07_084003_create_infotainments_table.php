@@ -38,6 +38,18 @@ return new class extends Migration
 
             $table->text('internal_notes')->nullable();
 
+            $table->foreignId('created_by')
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
+            $table->foreignId('updated_by')
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
             $table->timestamps();
         });
     }
