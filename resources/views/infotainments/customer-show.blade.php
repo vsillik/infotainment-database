@@ -32,6 +32,7 @@
         <thead>
         <tr>
             <th>Profile number</th>
+            <th>Updated at</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -43,6 +44,13 @@
 
                     @if($infotainmentProfile->extraTiming)
                         <span class="badge rounded-pill text-bg-primary">Extra timing</span>
+                    @endif
+                </td>
+                <td>
+                    @if($infotainmentProfile->updated_at !== null)
+                        @date($infotainmentProfile->updated_at)
+                    @else
+                        N/A
                     @endif
                 </td>
                 <td>

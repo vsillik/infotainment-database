@@ -8,6 +8,11 @@
         Users
     </x-slot:title>
 
+    <p>
+        Default admin user can't be deleted and can't be unapproved. User can't be deleted when
+        they are assigned to some audit action (creation and deletion of some entities).
+    </p>
+
     @can('create', User::class)
         <x-action-buttons.create :targetUrl="route('users.create')" label="Create user"/>
     @endcan
@@ -44,29 +49,25 @@
                             @endcan
                         @endif
 
-                        @if ($user->id !== 1)
-                            @if($user->is_approved)
-                                @can('unapprove', $user)
-                                    <x-action-buttons.unapprove :targetUrl="route('users.unapprove', $user)"/>
-                                @endcan
-                            @else
-                                @can('approve', $user)
-                                    <x-action-buttons.approve :targetUrl="route('users.approve', $user)"/>
-                                @endcan
-                            @endif
+                        @if($user->is_approved)
+                            @can('unapprove', $user)
+                                <x-action-buttons.unapprove :targetUrl="route('users.unapprove', $user)"/>
+                            @endcan
+                        @else
+                            @can('approve', $user)
+                                <x-action-buttons.approve :targetUrl="route('users.approve', $user)"/>
+                            @endcan
                         @endif
 
                         @can('update', $user)
                             <x-action-buttons.edit :targetUrl="route('users.edit', $user)"/>
                         @endcan
 
-                        @if($user->id !== 1)
-                            @can('delete', $user)
-                                <x-action-buttons.delete
-                                    :targetUrl="route('users.destroy', $user)"
-                                    confirmSubject="user {{ $user->email }}"/>
-                            @endcan
-                        @endif
+                        @can('delete', $user)
+                            <x-action-buttons.delete
+                                :targetUrl="route('users.destroy', $user)"
+                                confirmSubject="user {{ $user->email }}"/>
+                        @endcan
                     </td>
                 </tr>
             @empty

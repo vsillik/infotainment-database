@@ -44,6 +44,24 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
+        // don't allow to delete default admin user
+        if ($model->id === 1) {
+            return false;
+        }
+
+        // we can't delete the user because of integrity restrictions
+        // if the user created or made last change to some entities
+        if ($model->createdInfotainmentManufacturers->count() > 0 ||
+            $model->updatedInfotainmentManufacturers->count() > 0 ||
+            $model->createdSerializerManufacturers->count() > 0 ||
+            $model->updatedSerializerManufacturers->count() > 0 ||
+            $model->createdInfotainments->count() > 0 ||
+            $model->updatedInfotainments->count() > 0 ||
+            $model->createdInfotainmentProfiles->count() > 0 ||
+            $model->updatedInfotainmentProfiles->count() > 0) {
+            return false;
+        }
+
         return $this->create($user);
     }
 
@@ -54,6 +72,11 @@ class UserPolicy
 
     public function unapprove(User $user, User $model): bool
     {
+        // don't allow to unapprove default admin user
+        if ($model->id === 1) {
+            return false;
+        }
+
         return $this->approve($user, $model);
     }
 
