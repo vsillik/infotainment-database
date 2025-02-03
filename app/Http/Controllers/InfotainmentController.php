@@ -115,12 +115,14 @@ class InfotainmentController extends Controller
             $view = 'infotainments.customer-show';
 
             $infotainmentProfiles = $infotainment->profiles()
+                ->with('extraTiming')
                 ->where('is_approved', true)
                 ->orderByDesc('id')
                 ->get();
 
             if ($infotainmentProfiles->isEmpty()) {
                 $infotainmentProfiles = $infotainment->profiles()
+                    ->with('extraTiming')
                     ->where('is_approved', false)
                     ->orderByDesc('id')
                     ->get();
@@ -128,7 +130,13 @@ class InfotainmentController extends Controller
             }
         } else {
             $view = 'infotainments.show';
+
             $infotainmentProfiles = $infotainment->profiles()
+                ->with([
+                    'extraTiming',
+                    'createdBy',
+                    'updatedBy',
+                ])
                 ->orderByDesc('id')
                 ->get();
         }
@@ -217,7 +225,12 @@ class InfotainmentController extends Controller
                 ->with('error', 'You first need to select at least one infotainment');
         }
 
-        $infotainments = Infotainment::whereIn('id', $infotainmentIds)->get();
+        $infotainments = Infotainment::whereIn('id', $infotainmentIds)
+            ->with([
+                'infotainmentManufacturer',
+                'serializerManufacturer',
+            ])
+            ->get();
 
         if (count($infotainments) !== count($infotainmentIds)) {
             return redirect()

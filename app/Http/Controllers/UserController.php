@@ -25,7 +25,16 @@ class UserController extends Controller
                 route('index') => 'Home',
                 'current' => 'Users',
             ],
-            'users' => User::all(),
+            'users' => User::with([
+                'createdInfotainmentManufacturers',
+                'updatedInfotainmentManufacturers',
+                'createdSerializerManufacturers',
+                'updatedSerializerManufacturers',
+                'createdInfotainments',
+                'updatedInfotainments',
+                'createdInfotainmentProfiles',
+                'updatedInfotainmentProfiles',
+            ])->get(),
         ]);
     }
 

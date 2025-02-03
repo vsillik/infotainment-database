@@ -27,7 +27,12 @@ class HomeController extends Controller
             ]);
         }
 
-        $infotainments = Infotainment::whereRelation('profiles', 'is_approved', false)->get();
+        $infotainments = Infotainment::whereRelation('profiles', 'is_approved', false)
+            ->with([
+                'infotainmentManufacturer',
+                'serializerManufacturer',
+            ])
+            ->get();
 
         if ($userRole === UserRole::VALIDATOR) {
             return view('home.validator-administrator', [

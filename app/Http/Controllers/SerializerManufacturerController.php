@@ -23,7 +23,10 @@ class SerializerManufacturerController extends Controller
                 route('index') => 'Home',
                 'current' => 'Serializer manufacturers',
             ],
-            'serializerManufacturers' => SerializerManufacturer::all(),
+            'serializerManufacturers' => SerializerManufacturer::with([
+                'createdBy',
+                'updatedBy',
+            ])->get(),
         ]);
     }
 

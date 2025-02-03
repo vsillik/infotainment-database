@@ -23,7 +23,10 @@ class InfotainmentManufacturerController extends Controller
                 route('index') => 'Home',
                 'current' => 'Infotainment manufacturers',
             ],
-            'infotainmentManufacturers' => InfotainmentManufacturer::all()
+            'infotainmentManufacturers' => InfotainmentManufacturer::with([
+                'createdBy',
+                'updatedBy',
+            ])->get(),
         ]);
     }
 
