@@ -46,6 +46,9 @@ Route::middleware(['auth', 'approved'])->group(function () {
         ->except(['show']);
 
     Route::controller(UserController::class)->group(function () {
+        Route::get('/users/deleted', 'indexDeleted')->name('users.deleted');
+        Route::patch('/users/{user}/restore', 'restore')->withTrashed()->name('users.restore');
+        Route::delete('/users/{user}/force-destroy', 'forceDestroy')->withTrashed()->name('users.force-destroy');
         Route::get('/users/{user}/approve', 'approve')->name('users.approve');
         Route::get('/users/{user}/unapprove', 'unapprove')->name('users.unapprove');
         Route::get('/users/{user}/assign-infotainments', 'assignInfotainments')->name('users.assign-infotainments');

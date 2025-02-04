@@ -9,13 +9,18 @@
     </x-slot:title>
 
     <p>
-        Default admin user can't be deleted and can't be unapproved. User can't be deleted when
-        they are assigned to some audit action (creation and deletion of some entities).
+        Default admin user can't be deleted and can't be unapproved.
+        You can mark the user as deleted, this will prevent the user from logging in and showing up in infotainment
+        assignments. Deleting will also mark the user as unapproved. If you accidentally delete an user, you can
+        recover the account on <a href="{{ route('users.deleted') }}">Show deleted</a> page, you can also permanently
+        delete the user from this application there.
     </p>
 
     @can('create', User::class)
         <x-action-buttons.create :targetUrl="route('users.create')" label="Create user"/>
     @endcan
+
+    <a class="btn btn-secondary mb-2" href="{{ route('users.deleted') }}">Show deleted</a>
 
     <div class="table-responsive">
         <table class="table">
@@ -72,7 +77,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="3">
+                    <td colspan="4">
                         No user found.
                         @can('create', User::class)
                             <a href="{{ route('users.create') }}">Add user</a>

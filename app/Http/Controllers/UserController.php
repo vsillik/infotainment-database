@@ -13,9 +13,7 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         Gate::authorize('viewAny', User::class);
@@ -25,22 +23,10 @@ class UserController extends Controller
                 route('index') => 'Home',
                 'current' => 'Users',
             ],
-            'users' => User::with([
-                'createdInfotainmentManufacturers',
-                'updatedInfotainmentManufacturers',
-                'createdSerializerManufacturers',
-                'updatedSerializerManufacturers',
-                'createdInfotainments',
-                'updatedInfotainments',
-                'createdInfotainmentProfiles',
-                'updatedInfotainmentProfiles',
-            ])->get(),
+            'users' => User::all(),
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         Gate::authorize('create', User::class);
@@ -58,9 +44,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(UserRequest $request)
     {
         Gate::authorize('create', User::class);
@@ -122,9 +105,6 @@ class UserController extends Controller
             ->with('success', sprintf('User %s approval revoked', $user->email));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(User $user)
     {
         Gate::authorize('update', $user);
@@ -142,9 +122,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UserRequest $request, User $user)
     {
         Gate::authorize('update', $user);
@@ -171,9 +148,6 @@ class UserController extends Controller
             ->with('success', sprintf('User %s updated', $user->email));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(User $user)
     {
         Gate::authorize('delete', $user);
@@ -182,7 +156,59 @@ class UserController extends Controller
 
         return redirect()
             ->route('users.index')
-            ->with('success', sprintf('User %s deleted', $user->email));
+            ->with('success', sprintf('User %s marked as deleted', $user->email));
+    }
+
+    public function indexDeleted()
+    {
+        Gate::authorize('viewAny', User::class);
+
+        return view('users.index-deleted', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('users.index') => 'Users',
+                'current' => 'Deleted users',
+            ],
+            'users' => User::onlyTrashed()
+                ->with([
+                    'deletedBy',
+                ])
+                ->get(),
+        ]);
+    }
+
+    public function restore(User $user)
+    {
+        Gate::authorize('restore', $user);
+
+        if (!$user->trashed()) {
+            return redirect()
+                ->route('users.index')
+                ->with('error', sprintf('User %s is already restored', $user->email));
+        }
+
+        $user->restore();
+
+        return redirect()
+            ->route('users.index')
+            ->with('success', sprintf('User %s restored', $user->email));
+    }
+
+    public function forceDestroy(User $user)
+    {
+        Gate::authorize('forceDelete', $user);
+
+        if (!$user->trashed()) {
+            return redirect()
+                ->route('users.index')
+                ->with('error', sprintf('User %s must be first marked as deleted', $user->email));
+        }
+
+        $user->forceDelete();
+
+        return redirect()
+            ->route('users.index')
+            ->with('success', sprintf('User %s permanently deleted', $user->email));
     }
 
     public function assignInfotainments(User $user)

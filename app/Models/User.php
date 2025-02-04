@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use App\Observers\UserObserver;
 use App\UserRole;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
@@ -18,6 +22,7 @@ use Illuminate\Support\Collection;
  * @property UserRole $role
  * @property bool $is_approved
  * @property Collection<int, Infotainment> $infotainments
+ * @property ?User $deletedBy
  * @property Collection<int, InfotainmentManufacturer> $createdInfotainmentManufacturers
  * @property Collection<int, InfotainmentManufacturer> $updatedInfotainmentManufacturers
  * @property Collection<string, SerializerManufacturer> $createdSerializerManufacturers
@@ -26,10 +31,12 @@ use Illuminate\Support\Collection;
  * @property Collection<int, Infotainment> $updatedInfotainments
  * @property Collection<int, InfotainmentProfile> $createdInfotainmentProfiles
  * @property Collection<int, InfotainmentProfile> $updatedInfotainmentProfiles
+ * @property Collection<int, User> $deletedUsers
  */
+#[ObservedBy(UserObserver::class)]
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -71,6 +78,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Infotainment::class);
     }
 
+    public function deletedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
+    }
+
     public function createdInfotainmentManufacturers(): HasMany
     {
         return $this->hasMany(InfotainmentManufacturer::class, 'created_by');
@@ -109,5 +121,10 @@ class User extends Authenticatable
     public function updatedInfotainmentProfiles(): HasMany
     {
         return $this->hasMany(InfotainmentProfile::class, 'updated_by');
+    }
+
+    public function deletedUsers(): HasMany
+    {
+        return $this->hasMany(User::class, 'deleted_by');
     }
 }

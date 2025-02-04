@@ -23,6 +23,12 @@ return new class extends Migration
             $table->boolean('is_approved')->default(false);
             $table->rememberToken();
             $table->timestamps();
+            $table->foreignId('deleted_by')
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->softDeletes();
         });
 
         DB::table('users')->insert([
