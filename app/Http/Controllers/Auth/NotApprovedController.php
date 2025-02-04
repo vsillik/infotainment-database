@@ -10,10 +10,12 @@ class NotApprovedController extends Controller
 
     public function show(Request $request)
     {
-        if ($request->user() && $request->user()->is_approved) {
+        if ($request->user() && !$request->user()->trashed() && $request->user()->is_approved) {
             return redirect()->route('index');
         }
 
-        return response()->view('auth.not-approved', status: 403);
+        return response()->view('auth.not-approved', [
+            'user' => $request->user(),
+        ], status: 403);
     }
 }

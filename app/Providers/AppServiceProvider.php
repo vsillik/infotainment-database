@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Extensions\EloquentWithTrashedUserProvider;
+use Illuminate\Auth\EloquentUserProvider;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
@@ -27,6 +31,10 @@ class AppServiceProvider extends ServiceProvider
 
         Blade::directive('date', function (string $expression) {
             return "<?php echo ($expression)->format('d.m.Y'); ?>";
+        });
+
+        Auth::provider('eloquentWithTrashed', function (Application $app, array $config) {
+            return new EloquentWithTrashedUserProvider($app['hash'], $config['model']);
         });
     }
 }

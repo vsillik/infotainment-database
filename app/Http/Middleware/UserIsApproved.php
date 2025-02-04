@@ -15,7 +15,7 @@ class UserIsApproved
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->user()->is_approved) {
+        if (!$request->user() || $request->user()->trashed() || !$request->user()->is_approved) {
             return redirect('not-approved');
         }
 
