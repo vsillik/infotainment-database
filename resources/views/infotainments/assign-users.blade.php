@@ -53,7 +53,7 @@
             </table>
         </div>
 
-        <h3>Select customers</h3>
+        <h3>Select approved customers</h3>
         <p>Below you can select approved customers that you can assign the selected infotainments to.</p>
 
         <div>
@@ -82,10 +82,6 @@
                         </td>
                         <td>
                             {{ Str::limit($user->email, 35) }}
-
-                            @if($user->is_approved)
-                                <span class="badge rounded-pill text-bg-success">Approved</span>
-                            @endif
                         </td>
                         <td>{{ Str::limit($user->name, 40) }}</td>
                     </tr>

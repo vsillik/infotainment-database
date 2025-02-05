@@ -237,7 +237,9 @@ class InfotainmentController extends Controller
                 ->with('error', 'Some of the specified infotainments were not found');
         }
 
-        $users = User::where('role', UserRole::CUSTOMER)->get();
+        $users = User::where('role', UserRole::CUSTOMER)
+            ->where('is_approved', true)
+            ->get();
 
         if ($users->isEmpty()) {
             return redirect()
