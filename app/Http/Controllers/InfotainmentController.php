@@ -43,6 +43,7 @@ class InfotainmentController extends Controller
                 'current' => 'Infotainments',
             ],
             'infotainments' => $infotainments,
+            'displayAdvancedColumns' => $request->user()->role->value > UserRole::CUSTOMER->value,
         ]);
     }
 
@@ -115,14 +116,12 @@ class InfotainmentController extends Controller
             $view = 'infotainments.customer-show';
 
             $infotainmentProfiles = $infotainment->profiles()
-                ->with('extraTiming')
                 ->where('is_approved', true)
                 ->orderByDesc('id')
                 ->get();
 
             if ($infotainmentProfiles->isEmpty()) {
                 $infotainmentProfiles = $infotainment->profiles()
-                    ->with('extraTiming')
                     ->where('is_approved', false)
                     ->orderByDesc('id')
                     ->get();

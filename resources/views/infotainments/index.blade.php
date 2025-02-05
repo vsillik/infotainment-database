@@ -1,5 +1,6 @@
 @php
     use App\Models\Infotainment;
+    use App\UserRole;
     use Illuminate\Support\Str;
 @endphp
 <x-layout :breadcrumbs="$breadcrumbs">
@@ -16,7 +17,8 @@
             <div class="mt-1">
                 <a href="#" class="btn-select-all btn btn-sm btn-outline-secondary">Select all</a>
                 <a href="#" class="btn-deselect-all btn btn-sm btn-outline-secondary d-none">Deselect all</a>
-                <a href="{{ route('infotainments.assign') }}"  id="assign-infotainments" class="btn btn-sm btn-outline-success">Assign users to selected infotainments</a>
+                <a href="{{ route('infotainments.assign') }}" id="assign-infotainments"
+                   class="btn btn-sm btn-outline-success">Assign users to selected infotainments</a>
             </div>
         @endcan
     @endif
@@ -25,10 +27,17 @@
         <table class="table">
             <thead>
             <tr>
-                <th class="text-center">Select</th>
+                @can('assignUsers', Infotainment::class)
+                    <th class="text-center">Select</th>
+                @endcan
+
                 <th>Infotainment manufacturer</th>
-                <th>Serializer manufacturer</th>
-                <th>Product ID</th>
+
+                @if($displayAdvancedColumns)
+                    <th>Serializer manufacturer</th>
+                    <th>Product ID</th>
+                @endif
+
                 <th>Model year</th>
                 <th>Part number</th>
                 <th>Actions</th>
@@ -37,18 +46,25 @@
             <tbody>
             @forelse($infotainments as $infotainment)
                 <tr>
-                    <td class="text-center">
-                        <x-forms.standalone-checkbox
-                            name="infotainments[{{ $infotainment->id }}]"
-                            :isCheckedByDefault="false"
-                            :value="$infotainment->id"
-                            class="select-infotainment"
-                            autocomplete="off"
-                        />
-                    </td>
+                    @can('assignUsers', Infotainment::class)
+                        <td class="text-center">
+                            <x-forms.standalone-checkbox
+                                name="infotainments[{{ $infotainment->id }}]"
+                                :isCheckedByDefault="false"
+                                :value="$infotainment->id"
+                                class="select-infotainment"
+                                autocomplete="off"
+                            />
+                        </td>
+                    @endcan
+
                     <td>{{ Str::limit($infotainment->infotainmentManufacturer->name, 35) }}</td>
-                    <td>{{ Str::limit($infotainment->serializerManufacturer->name, 35) }}</td>
-                    <td>{{ $infotainment->product_id }}</td>
+
+                    @if($displayAdvancedColumns)
+                        <td>{{ Str::limit($infotainment->serializerManufacturer->name, 35) }}</td>
+                        <td>{{ $infotainment->product_id }}</td>
+                    @endif
+
                     <td>{{ $infotainment->model_year }}</td>
                     <td>{{ $infotainment->part_number }}</td>
                     <td>

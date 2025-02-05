@@ -6,12 +6,6 @@
     <h4>Infotainment manufacturer</h4>
     <p class="text-break">{{ $infotainment->infotainmentManufacturer->name }}</p>
 
-    <h4>Serializer manufacturer</h4>
-    <p class="text-break">{{ $infotainment->serializerManufacturer->name }}</p>
-
-    <h4>Product ID</h4>
-    <p>{{ $infotainment->product_id }}</p>
-
     <h4>Model year</h4>
     <p>{{ $infotainment->model_year }}</p>
 
@@ -41,10 +35,6 @@
             <tr>
                 <td>
                     {{ $profileNumbers->get($infotainmentProfile->id) ?? 'N/A' }}
-
-                    @if($infotainmentProfile->extraTiming)
-                        <span class="badge rounded-pill text-bg-primary">Extra timing</span>
-                    @endif
                 </td>
                 <td>
                     @if($infotainmentProfile->updated_at !== null)
