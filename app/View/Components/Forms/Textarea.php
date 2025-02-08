@@ -24,8 +24,7 @@ class Textarea extends Component
         ?string $defaultValue = null,
         ?bool $required = null,
         ?string $extraText = null,
-    )
-    {
+    ) {
         $this->name = $name;
         $this->label = $label;
         $this->defaultValue = $defaultValue ?? '';

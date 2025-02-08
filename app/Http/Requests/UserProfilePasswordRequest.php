@@ -7,7 +7,6 @@ use Illuminate\Validation\Rules\Password;
 
 class UserProfilePasswordRequest extends FormRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -19,7 +18,7 @@ class UserProfilePasswordRequest extends FormRequest
             'password' => [
                 'required',
                 'confirmed',
-                Password::defaults()
+                Password::defaults(),
             ],
         ];
     }

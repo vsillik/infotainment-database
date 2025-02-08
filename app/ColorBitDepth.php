@@ -19,7 +19,7 @@ enum ColorBitDepth: int
         $labels = [];
 
         foreach (self::cases() as $case) {
-            $labels[$case->value] = $case->value . '-bit';
+            $labels[$case->value] = $case->value.'-bit';
         }
 
         return $labels;

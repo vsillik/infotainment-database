@@ -8,7 +8,6 @@ use App\UserRole;
 
 class InfotainmentProfilePolicy
 {
-
     /**
      * Determine whether the user can create models.
      */
@@ -37,5 +36,4 @@ class InfotainmentProfilePolicy
     {
         return $user->role->value >= UserRole::VALIDATOR->value;
     }
-
 }

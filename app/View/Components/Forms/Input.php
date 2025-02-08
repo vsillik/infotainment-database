@@ -8,7 +8,6 @@ use Illuminate\View\Component;
 
 class Input extends Component
 {
-
     public readonly string $name;
 
     public readonly string $label;
@@ -31,8 +30,7 @@ class Input extends Component
         ?string $type = null,
         ?string $suffixText = null,
         ?string $extraText = null,
-    )
-    {
+    ) {
         $this->name = $name;
         $this->label = $label;
         $this->defaultValue = $defaultValue ?? '';

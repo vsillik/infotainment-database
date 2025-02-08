@@ -9,7 +9,6 @@ use Illuminate\View\Component;
 
 class ErrorsAlert extends Component
 {
-
     public function __construct(
         public readonly ViewErrorBag $errors,
     ) {}

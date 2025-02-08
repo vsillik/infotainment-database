@@ -13,7 +13,6 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-
     public function index()
     {
         Gate::authorize('viewAny', User::class);
@@ -91,7 +90,7 @@ class UserController extends Controller
     {
         Gate::authorize('unapprove', $user);
 
-        if (!$user->is_approved) {
+        if (! $user->is_approved) {
             return redirect()
                 ->route('users.index')
                 ->with('error', sprintf('User %s is not approved', $user->email));
@@ -113,7 +112,7 @@ class UserController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('users.index') => 'Users',
-                'current' => 'Edit user ' . Str::limit($user->email, 30),
+                'current' => 'Edit user '.Str::limit($user->email, 30),
             ],
             'user' => $user,
             'roles' => UserRole::labels(),
@@ -181,7 +180,7 @@ class UserController extends Controller
     {
         Gate::authorize('restore', $user);
 
-        if (!$user->trashed()) {
+        if (! $user->trashed()) {
             return redirect()
                 ->route('users.index')
                 ->with('error', sprintf('User %s is already restored', $user->email));
@@ -198,7 +197,7 @@ class UserController extends Controller
     {
         Gate::authorize('forceDelete', $user);
 
-        if (!$user->trashed()) {
+        if (! $user->trashed()) {
             return redirect()
                 ->route('users.index')
                 ->with('error', sprintf('User %s must be first marked as deleted', $user->email));

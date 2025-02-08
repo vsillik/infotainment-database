@@ -6,27 +6,26 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
- * @property integer id
+ * @property int id
  * @property float pixel_clock
- * @property integer horizontal_pixels
- * @property integer vertical_lines
- * @property integer horizontal_blank
- * @property integer horizontal_front_porch
- * @property integer horizontal_sync_width
- * @property integer horizontal_image_size
- * @property integer horizontal_border
- * @property integer vertical_blank
- * @property integer vertical_front_porch
- * @property integer vertical_sync_width
- * @property integer vertical_image_size
- * @property integer vertical_border
- * @property boolean signal_horizontal_sync_positive
- * @property boolean signal_vertical_sync_positive
+ * @property int horizontal_pixels
+ * @property int vertical_lines
+ * @property int horizontal_blank
+ * @property int horizontal_front_porch
+ * @property int horizontal_sync_width
+ * @property int horizontal_image_size
+ * @property int horizontal_border
+ * @property int vertical_blank
+ * @property int vertical_front_porch
+ * @property int vertical_sync_width
+ * @property int vertical_image_size
+ * @property int vertical_border
+ * @property bool signal_horizontal_sync_positive
+ * @property bool signal_vertical_sync_positive
  * @property InfotainmentProfile $infotainmentProfile
  */
 class InfotainmentProfileTimingBlock extends Model
 {
-
     public $fillable = [
         'pixel_clock',
         'horizontal_pixels',
@@ -47,7 +46,6 @@ class InfotainmentProfileTimingBlock extends Model
 
     public function infotainmentProfile(): HasOne
     {
-       return $this->hasOne(InfotainmentProfile::class, 'timing_block_id');
+        return $this->hasOne(InfotainmentProfile::class, 'timing_block_id');
     }
-
 }

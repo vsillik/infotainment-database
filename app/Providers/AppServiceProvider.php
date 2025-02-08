@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Extensions\EloquentWithTrashedUserProvider;
-use Illuminate\Auth\EloquentUserProvider;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
@@ -26,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Password::defaults(function () {
-           return Password::min(8)->max(72);
+            return Password::min(8)->max(72);
         });
 
         Blade::directive('date', function (string $expression) {

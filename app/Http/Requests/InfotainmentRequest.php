@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class InfotainmentRequest extends FormRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -40,7 +39,7 @@ class InfotainmentRequest extends FormRequest
             'part_number' => [
                 'required',
                 // XXX.XXX.XXX[.X]
-                'regex:/^[a-z0-9]{3}\.[a-z0-9]{3}\.[a-z0-9]{3}(\.[a-z0-9])?$/i'
+                'regex:/^[a-z0-9]{3}\.[a-z0-9]{3}\.[a-z0-9]{3}(\.[a-z0-9])?$/i',
             ],
             'compatible_platforms' => [
                 'max:1500',

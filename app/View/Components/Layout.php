@@ -8,14 +8,13 @@ use Illuminate\View\Component;
 
 class Layout extends Component
 {
-
     /**
      * @var array<string, string>
      */
     public readonly array $breadcrumbs;
 
     /**
-     * @param ?array<string, string> $breadcrumbs
+     * @param  ?array<string, string>  $breadcrumbs
      */
     public function __construct(
         ?array $breadcrumbs = null

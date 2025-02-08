@@ -11,7 +11,6 @@ use Illuminate\View\View;
 
 class UserProfileController extends Controller
 {
-
     public function edit(Request $request): View
     {
         return view('profile.edit', [

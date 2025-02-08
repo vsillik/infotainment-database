@@ -32,8 +32,7 @@ class Multiselect extends Component
         ?array $selected = null,
         ?bool $required = null,
         ?string $extraText = null,
-    )
-    {
+    ) {
         $this->name = $name;
         $this->label = $label;
         $this->options = $options;

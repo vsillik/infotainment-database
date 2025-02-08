@@ -27,8 +27,7 @@ class Checkbox extends Component
         ?string $value = null,
         ?bool $required = null,
         ?string $extraText = null,
-    )
-    {
+    ) {
         $this->name = $name;
         $this->label = $label;
         $this->isCheckedByDefault = $isCheckedByDefault ?? false;

@@ -9,7 +9,6 @@ use Illuminate\Validation\Rules\Password;
 
 class RegisterRequest extends FormRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -21,7 +20,7 @@ class RegisterRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                'max:255'
+                'max:255',
             ],
             'email' => [
                 'required',
@@ -29,12 +28,12 @@ class RegisterRequest extends FormRequest
                 'lowercase',
                 'email',
                 'max:255',
-                Rule::unique(User::class, 'email')
+                Rule::unique(User::class, 'email'),
             ],
             'password' => [
                 'required',
                 'confirmed',
-                Password::defaults()
+                Password::defaults(),
             ],
         ];
     }

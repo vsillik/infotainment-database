@@ -13,10 +13,10 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 /**
- * @property integer id
- * @property integer infotainment_id
- * @property integer timing_block_id
- * @property integer|null extra_timing_block_id
+ * @property int id
+ * @property int infotainment_id
+ * @property int timing_block_id
+ * @property int|null extra_timing_block_id
  * @property bool is_approved
  * @property int color_bit_depth
  * @property string interface
@@ -41,7 +41,6 @@ use Illuminate\Support\Facades\DB;
 #[ObservedBy([InfotainmentProfileObserver::class])]
 class InfotainmentProfile extends Model
 {
-
     // get all profile numbers for a specific infotainment (map profile id => profile number) - static method
     // get profile number for this profile
 
@@ -75,7 +74,6 @@ class InfotainmentProfile extends Model
 
         return hex2bin($hex);
     }
-
 
     protected function vendorBlock1(): Attribute
     {
@@ -138,6 +136,7 @@ class InfotainmentProfile extends Model
 
     /**
      * Returns map of profile ids to profile number for specific infotainment
+     *
      * @return Collection of id to key mapping
      */
     public static function mapIdsToProfileNumbers(Infotainment $infotainment): Collection

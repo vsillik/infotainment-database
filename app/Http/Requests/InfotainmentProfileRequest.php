@@ -9,7 +9,6 @@ use Illuminate\Validation\Rules\Enum;
 
 class InfotainmentProfileRequest extends FormRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -20,11 +19,11 @@ class InfotainmentProfileRequest extends FormRequest
         return [
             'color_bit_depth' => [
                 'required',
-                new Enum(ColorBitDepth::class)
+                new Enum(ColorBitDepth::class),
             ],
             'interface' => [
                 'required',
-                new Enum(DisplayInterface::class)
+                new Enum(DisplayInterface::class),
             ],
             'horizontal_size' => [
                 'required',
@@ -40,11 +39,11 @@ class InfotainmentProfileRequest extends FormRequest
             ],
             'hw_version' => [
                 'required',
-                'regex:/^[0-9]{1,3}$/'
+                'regex:/^[0-9]{1,3}$/',
             ],
             'sw_version' => [
                 'required',
-                'regex:/^[0-9]{1,4}$/'
+                'regex:/^[0-9]{1,4}$/',
             ],
             'vendor_block_1' => [
                 'array',

@@ -19,7 +19,6 @@ use Illuminate\Support\Collection;
 #[ObservedBy([InfotainmentManufacturerObserver::class])]
 class InfotainmentManufacturer extends Model
 {
-
     protected $fillable = [
         'name',
     ];

@@ -4,7 +4,6 @@ namespace App\View\Components\ActionButtons;
 
 use Closure;
 use Illuminate\Contracts\View\View;
-use Illuminate\View\Component;
 
 class Delete extends BaseActionButton
 {
@@ -14,8 +13,7 @@ class Delete extends BaseActionButton
         string $targetUrl,
         string $confirmSubject,
         ?string $label = null,
-    )
-    {
+    ) {
         parent::__construct($targetUrl, $label ?? 'Delete');
 
         $this->confirmSubject = $confirmSubject;

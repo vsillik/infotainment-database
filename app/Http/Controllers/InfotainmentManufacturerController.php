@@ -78,9 +78,9 @@ class InfotainmentManufacturerController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('infotainment_manufacturers.index') => 'Infotainment manufacturers',
-                'current' => 'Edit infotainment manufacturer ' . Str::limit($infotainmentManufacturer->name, 30),
+                'current' => 'Edit infotainment manufacturer '.Str::limit($infotainmentManufacturer->name, 30),
             ],
-            'infotainmentManufacturer' => $infotainmentManufacturer
+            'infotainmentManufacturer' => $infotainmentManufacturer,
         ]);
     }
 

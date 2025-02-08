@@ -10,20 +10,19 @@ use Illuminate\View\View;
 
 class HomeController extends Controller
 {
-
     public function index(Request $request): View
     {
         $userRole = $request->user()->role;
 
         if ($userRole === UserRole::CUSTOMER) {
             return view('home.customer', [
-                'breadcrumbs' => []
+                'breadcrumbs' => [],
             ]);
         }
 
         if ($userRole === UserRole::OPERATOR) {
             return view('home.operator', [
-                'breadcrumbs' => []
+                'breadcrumbs' => [],
             ]);
         }
 

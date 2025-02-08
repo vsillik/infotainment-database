@@ -20,5 +20,4 @@ class InfotainmentProfileObserver
             $infotainmentProfile->updatedBy()->associate(Auth::user());
         }
     }
-
 }

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\InfotainmentsAssignUsersRequest;
 use App\Http\Requests\InfotainmentRequest;
+use App\Http\Requests\InfotainmentsAssignUsersRequest;
 use App\Models\Infotainment;
 use App\Models\InfotainmentManufacturer;
 use App\Models\InfotainmentProfile;

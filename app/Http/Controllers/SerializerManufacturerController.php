@@ -79,7 +79,7 @@ class SerializerManufacturerController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('serializer_manufacturers.index') => 'Serializer manufacturers',
-                'current' => 'Edit serializer manufacturer ' . Str::limit($serializerManufacturer->name, 30),
+                'current' => 'Edit serializer manufacturer '.Str::limit($serializerManufacturer->name, 30),
             ],
             'serializerManufacturer' => $serializerManufacturer,
         ]);

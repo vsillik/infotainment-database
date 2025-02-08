@@ -52,5 +52,4 @@ class InfotainmentPolicy
     {
         return $user->role->value >= UserRole::ADMINISTRATOR->value;
     }
-
 }

@@ -15,10 +15,10 @@ Route::middleware(['auth', 'approved'])->group(function () {
     });
 
     Route::controller(UserProfileController::class)->group(function () {
-       Route::get('/profile', 'edit')->name('profile.edit');
-       Route::patch('/profile', 'update')->name('profile.update');
-       Route::get('/profile/password', 'editPassword')->name('profile.password.edit');
-       Route::patch('/profile/password', 'updatePassword')->name('profile.password.update');
+        Route::get('/profile', 'edit')->name('profile.edit');
+        Route::patch('/profile', 'update')->name('profile.update');
+        Route::get('/profile/password', 'editPassword')->name('profile.password.edit');
+        Route::patch('/profile/password', 'updatePassword')->name('profile.password.update');
     });
 
     Route::resource('infotainment_manufacturers', InfotainmentManufacturerController::class)
@@ -55,6 +55,5 @@ Route::middleware(['auth', 'approved'])->group(function () {
         Route::patch('/users/{user}/assign-infotainments', 'updateAssignedInfotainments')->name('users.assign-infotainments.update');
     });
 });
-
 
 require __DIR__.'/auth.php';

@@ -71,7 +71,7 @@ class DatabaseSeeder extends Seeder
         for ($i = 0; $i < 100; $i++) {
             info(sprintf('INSERT INTO infotainment_manufacturers (%s) VALUES ("%s");',
                 'name',
-                Str::random(250) . $i));
+                Str::random(250).$i));
         }
     }
 
@@ -82,7 +82,7 @@ class DatabaseSeeder extends Seeder
                 'id',
                 'name',
                 str_pad($i, 3, '0', STR_PAD_LEFT),
-                Str::random(250) . $i));
+                Str::random(250).$i));
         }
     }
 

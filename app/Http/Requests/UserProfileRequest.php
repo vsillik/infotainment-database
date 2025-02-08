@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserProfileRequest extends FormRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -18,7 +17,7 @@ class UserProfileRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                'max:255'
+                'max:255',
             ],
         ];
     }

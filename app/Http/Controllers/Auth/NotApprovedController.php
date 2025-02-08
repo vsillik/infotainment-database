@@ -7,10 +7,9 @@ use Illuminate\Http\Request;
 
 class NotApprovedController extends Controller
 {
-
     public function show(Request $request)
     {
-        if ($request->user() && !$request->user()->trashed() && $request->user()->is_approved) {
+        if ($request->user() && ! $request->user()->trashed() && $request->user()->is_approved) {
             return redirect()->route('index');
         }
 

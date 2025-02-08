@@ -7,7 +7,6 @@ use Illuminate\Validation\Rule;
 
 class SerializerManufacturerRequest extends FormRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -31,9 +30,9 @@ class SerializerManufacturerRequest extends FormRequest
                 $uniqueId,
             ],
             'name' => [
-              'required',
-              'max:255',
-              $uniqueName,
+                'required',
+                'max:255',
+                $uniqueName,
             ],
         ];
     }

@@ -2,13 +2,11 @@
 
 namespace App\View\Components\Forms;
 
-use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class StandaloneCheckbox extends Component
 {
-
     public readonly string $name;
 
     public readonly bool $isCheckedByDefault;
@@ -19,8 +17,7 @@ class StandaloneCheckbox extends Component
         string $name,
         ?bool $isCheckedByDefault = null,
         ?string $value = null,
-    )
-    {
+    ) {
         $this->name = $name;
         $this->isCheckedByDefault = $isCheckedByDefault ?? false;
         $this->value = $value ?? '1';

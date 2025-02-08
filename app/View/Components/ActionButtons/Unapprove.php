@@ -10,8 +10,7 @@ class Unapprove extends BaseActionButton
     public function __construct(
         string $targetUrl,
         ?string $label = null,
-    )
-    {
+    ) {
         parent::__construct($targetUrl, $label ?? 'Unapprove');
     }
 

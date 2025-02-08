@@ -28,8 +28,7 @@ class Select extends Component
         ?string $defaultValue,
         ?bool $required = null,
         ?string $extraText = null,
-    )
-    {
+    ) {
         $this->name = $name;
         $this->label = $label;
         $this->options = $options;

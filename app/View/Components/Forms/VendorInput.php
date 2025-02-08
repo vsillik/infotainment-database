@@ -19,14 +19,12 @@ class VendorInput extends Component
 
     public readonly int $bytesCount;
 
-
     public function __construct(
         string $name,
         string $label,
         array $defaultValue = [],
         ?bool $required = null,
-    )
-    {
+    ) {
         $this->name = $name;
         $this->label = $label;
         $this->defaultValue = $defaultValue;

@@ -52,7 +52,7 @@ class UserPolicy
             return false;
         }
 
-        return $this->delete($user,  $model);
+        return $this->delete($user, $model);
     }
 
     public function restore(User $user, User $model): bool
@@ -79,5 +79,4 @@ class UserPolicy
     {
         return $this->approve($user, $model);
     }
-
 }

@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 class EloquentWithTrashedUserProvider extends EloquentUserProvider
 {
-
     public function __construct(HasherContract $hasher, $model)
     {
         parent::__construct($hasher, $model);
