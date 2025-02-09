@@ -15,7 +15,9 @@ class HomeController extends Controller
      */
     public function index(Request $request): View
     {
-        $userRole = $request->user()->role;
+        /** @var User $user because user must be logged in, this won't be null */
+        $user = $request->user();
+        $userRole = $user->role;
 
         if ($userRole === UserRole::CUSTOMER) {
             return view('home.customer', [

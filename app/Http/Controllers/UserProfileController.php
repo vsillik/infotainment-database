@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserProfilePasswordRequest;
 use App\Http\Requests\UserProfileRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -31,6 +32,7 @@ class UserProfileController extends Controller
     public function update(UserProfileRequest $request): RedirectResponse
     {
         $validated = $request->validated();
+        /** @var User $user because user must be logged in, this won't be null */
         $user = $request->user();
 
         $user->name = $validated['name'];
@@ -62,6 +64,7 @@ class UserProfileController extends Controller
     public function updatePassword(UserProfilePasswordRequest $request): RedirectResponse
     {
         $validated = $request->validated();
+        /** @var User $user because user must be logged in, this won't be null */
         $user = $request->user();
 
         $user->password = Hash::make($validated['password']);

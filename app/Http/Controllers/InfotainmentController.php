@@ -25,8 +25,11 @@ class InfotainmentController extends Controller
     {
         Gate::authorize('viewAny', Infotainment::class);
 
-        if ($request->user()->role === UserRole::CUSTOMER) {
-            $infotainments = $request->user()->infotainments->load([
+        /** @var User $user because user must be logged in, this won't be null */
+        $user = $request->user();
+
+        if ($user->role === UserRole::CUSTOMER) {
+            $infotainments = $user->infotainments->load([
                 'infotainmentManufacturer',
                 'serializerManufacturer',
             ]);
@@ -43,7 +46,7 @@ class InfotainmentController extends Controller
                 'current' => 'Infotainments',
             ],
             'infotainments' => $infotainments,
-            'displayAdvancedColumns' => $request->user()->role->value > UserRole::CUSTOMER->value,
+            'displayAdvancedColumns' => $user->role->value > UserRole::CUSTOMER->value,
         ]);
     }
 
@@ -107,7 +110,9 @@ class InfotainmentController extends Controller
     {
         Gate::authorize('view', $infotainment);
 
-        $userRole = $request->user()->role;
+        /** @var User $user because user must be logged in, this won't be null */
+        $user = $request->user();
+        $userRole = $user->role;
         $onlyUnapprovedProfiles = false;
 
         if ($userRole === UserRole::CUSTOMER) {
