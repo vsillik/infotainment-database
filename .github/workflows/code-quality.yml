@@ -3,7 +3,7 @@ name: Check code quality
 on: [ push ]
 
 jobs:
-  build:
+  code-quality:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -28,8 +28,7 @@ jobs:
         run: composer install
 
       - name: Laravel Pint
-        run: vendor/bin/pint
-        continue-on-error: true
+        run: vendor/bin/pint --test
 
       - name: PHPStan
         run: vendor/bin/phpstan
