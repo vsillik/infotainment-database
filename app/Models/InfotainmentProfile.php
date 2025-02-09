@@ -36,7 +36,7 @@ use Illuminate\Support\Facades\DB;
  * @property array<string> $vendor_block_3 array of bytes in hex (2 hex chars per byte)
  * @property-read int $profile_number dynamically calculated number of profile for assigned infotainment
  * @property Infotainment $infotainment
- * @property ?InfotainmentProfileTimingBlock $timing
+ * @property InfotainmentProfileTimingBlock $timing
  * @property ?InfotainmentProfileTimingBlock $extraTiming
  * @property ?User $createdBy
  * @property ?User $updatedBy
