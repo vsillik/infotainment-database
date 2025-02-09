@@ -8,14 +8,16 @@ use App\Http\Requests\InfotainmentProfileRequest;
 use App\Models\Infotainment;
 use App\Models\InfotainmentProfile;
 use App\Models\InfotainmentProfileTimingBlock;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 
 class InfotainmentProfileController extends Controller
 {
     /**
-     * Show the form for creating a new resource.
+     * Show form for creating new infotainment profile
      */
-    public function create(Infotainment $infotainment)
+    public function create(Infotainment $infotainment): View
     {
         Gate::authorize('create', InfotainmentProfile::class);
 
@@ -37,9 +39,9 @@ class InfotainmentProfileController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store new infotainment profile
      */
-    public function store(InfotainmentProfileRequest $request, Infotainment $infotainment)
+    public function store(InfotainmentProfileRequest $request, Infotainment $infotainment): RedirectResponse
     {
         Gate::authorize('create', InfotainmentProfile::class);
 
@@ -75,9 +77,9 @@ class InfotainmentProfileController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show form for editing of the infotainment profile
      */
-    public function edit(Infotainment $infotainment, InfotainmentProfile $profile)
+    public function edit(Infotainment $infotainment, InfotainmentProfile $profile): RedirectResponse|View
     {
         Gate::authorize('update', $profile);
 
@@ -104,7 +106,10 @@ class InfotainmentProfileController extends Controller
         ]);
     }
 
-    public function approve(Infotainment $infotainment, InfotainmentProfile $profile)
+    /**
+     * Show form for approving infotainment profile
+     */
+    public function approve(Infotainment $infotainment, InfotainmentProfile $profile): RedirectResponse|View
     {
         Gate::authorize('approve', $profile);
 
@@ -131,7 +136,10 @@ class InfotainmentProfileController extends Controller
         ]);
     }
 
-    public function copy(Infotainment $infotainment, InfotainmentProfile $profile)
+    /**
+     * Show form for copying infotainment profile
+     */
+    public function copy(Infotainment $infotainment, InfotainmentProfile $profile): View
     {
         Gate::authorize('create', $profile);
 
@@ -153,9 +161,9 @@ class InfotainmentProfileController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update/copy/approve infotainment profile
      */
-    public function update(InfotainmentProfileRequest $request, Infotainment $infotainment, InfotainmentProfile $profile)
+    public function update(InfotainmentProfileRequest $request, Infotainment $infotainment, InfotainmentProfile $profile): RedirectResponse
     {
         if ($request->has('approving_infotainment_profile')) {
             Gate::authorize('approve', $profile);
@@ -216,9 +224,9 @@ class InfotainmentProfileController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove infotainment profile
      */
-    public function destroy(Infotainment $infotainment, InfotainmentProfile $profile)
+    public function destroy(Infotainment $infotainment, InfotainmentProfile $profile): RedirectResponse
     {
         Gate::authorize('delete', $profile);
 
@@ -248,6 +256,9 @@ class InfotainmentProfileController extends Controller
         $infotainmentProfile->vendor_block_3 = $this->processVendorBlockInput($request, $validated, 'vendor_block_3');
     }
 
+    /**
+     * @return array<string>
+     */
     private function processVendorBlockInput(InfotainmentProfileRequest $request, mixed $validated, string $inputName): array
     {
         if (! $request->has($inputName)) {

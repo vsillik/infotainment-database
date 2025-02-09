@@ -13,11 +13,17 @@ use Illuminate\View\View;
 
 class RegisterController extends Controller
 {
+    /**
+     * Show register form
+     */
     public function create(): View
     {
         return view('auth.register');
     }
 
+    /**
+     * Register user
+     */
     public function store(RegisterRequest $request): RedirectResponse
     {
         $validated = $request->validated();

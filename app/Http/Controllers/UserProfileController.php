@@ -11,6 +11,9 @@ use Illuminate\View\View;
 
 class UserProfileController extends Controller
 {
+    /**
+     * Show form for editing the current user
+     */
     public function edit(Request $request): View
     {
         return view('profile.edit', [
@@ -22,6 +25,9 @@ class UserProfileController extends Controller
         ]);
     }
 
+    /**
+     * Update the current user
+     */
     public function update(UserProfileRequest $request): RedirectResponse
     {
         $validated = $request->validated();
@@ -36,6 +42,9 @@ class UserProfileController extends Controller
             ->with('success', 'Profile updated');
     }
 
+    /**
+     * Show password for changing password of current user
+     */
     public function editPassword(): View
     {
         return view('profile.password.edit', [
@@ -47,6 +56,9 @@ class UserProfileController extends Controller
         ]);
     }
 
+    /**
+     * Update password of current user
+     */
     public function updatePassword(UserProfilePasswordRequest $request): RedirectResponse
     {
         $validated = $request->validated();

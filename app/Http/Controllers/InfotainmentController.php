@@ -19,7 +19,7 @@ use Illuminate\View\View;
 class InfotainmentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Show infotainments
      */
     public function index(Request $request): View
     {
@@ -48,7 +48,7 @@ class InfotainmentController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show form for creating infotainment
      */
     public function create(): View|RedirectResponse
     {
@@ -83,7 +83,7 @@ class InfotainmentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store new infotainment
      */
     public function store(InfotainmentRequest $request): RedirectResponse
     {
@@ -101,7 +101,7 @@ class InfotainmentController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show specific infotainment
      */
     public function show(Request $request, Infotainment $infotainment): View
     {
@@ -152,7 +152,7 @@ class InfotainmentController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show form editing of the infotainment
      */
     public function edit(Infotainment $infotainment): View
     {
@@ -171,7 +171,7 @@ class InfotainmentController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the infotainment
      */
     public function update(InfotainmentRequest $request, Infotainment $infotainment): RedirectResponse
     {
@@ -187,7 +187,7 @@ class InfotainmentController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the infotainment
      */
     public function destroy(Infotainment $infotainment): RedirectResponse
     {
@@ -206,6 +206,9 @@ class InfotainmentController extends Controller
             ->with('success', sprintf('Infotainment ID: %d deleted', $infotainment->id));
     }
 
+    /**
+     * Show form for mass assigning users to the infotainments
+     */
     public function assignUsers(Request $request): View|RedirectResponse
     {
         Gate::authorize('assignUsers', Infotainment::class);
@@ -254,6 +257,9 @@ class InfotainmentController extends Controller
         ]);
     }
 
+    /**
+     * Assign selected users to selected infotainments
+     */
     public function addAssignedUsers(InfotainmentsAssignUsersRequest $request): RedirectResponse
     {
         Gate::authorize('assignUsers', Infotainment::class);

@@ -12,7 +12,7 @@ use Illuminate\View\View;
 class InfotainmentManufacturerController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Show infotainment manufacturers
      */
     public function index(): View
     {
@@ -31,7 +31,7 @@ class InfotainmentManufacturerController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show form for creating infotainment manufacturer
      */
     public function create(): View
     {
@@ -48,7 +48,7 @@ class InfotainmentManufacturerController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store new infotainment manufacturer
      */
     public function store(InfotainmentManufacturerRequest $request): RedirectResponse
     {
@@ -68,7 +68,7 @@ class InfotainmentManufacturerController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show form for editing of the infotainment manufacturer
      */
     public function edit(InfotainmentManufacturer $infotainmentManufacturer): View
     {
@@ -85,7 +85,7 @@ class InfotainmentManufacturerController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the infotainment manufacturer
      */
     public function update(InfotainmentManufacturerRequest $request, InfotainmentManufacturer $infotainmentManufacturer): RedirectResponse
     {
@@ -103,7 +103,7 @@ class InfotainmentManufacturerController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the infotainment manufacturer
      */
     public function destroy(InfotainmentManufacturer $infotainmentManufacturer): RedirectResponse
     {

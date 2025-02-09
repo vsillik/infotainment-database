@@ -12,7 +12,7 @@ use Illuminate\View\View;
 class SerializerManufacturerController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Show serializer manufacturers
      */
     public function index(): View
     {
@@ -31,7 +31,7 @@ class SerializerManufacturerController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show form for creating new serializer manufacturer
      */
     public function create(): View
     {
@@ -48,7 +48,7 @@ class SerializerManufacturerController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store new serializer manufacturer
      */
     public function store(SerializerManufacturerRequest $request): RedirectResponse
     {
@@ -69,7 +69,7 @@ class SerializerManufacturerController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show form for editing serializer manufacturer
      */
     public function edit(SerializerManufacturer $serializerManufacturer): View
     {
@@ -86,7 +86,7 @@ class SerializerManufacturerController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the serializer manufacturer
      */
     public function update(SerializerManufacturerRequest $request, SerializerManufacturer $serializerManufacturer): RedirectResponse
     {
@@ -105,7 +105,7 @@ class SerializerManufacturerController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the serializer manufacturer
      */
     public function destroy(SerializerManufacturer $serializerManufacturer): RedirectResponse
     {

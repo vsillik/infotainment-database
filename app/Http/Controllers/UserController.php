@@ -7,13 +7,18 @@ use App\Http\Requests\UserRequest;
 use App\Models\Infotainment;
 use App\Models\User;
 use App\UserRole;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    public function index()
+    /**
+     * Show users
+     */
+    public function index(): View
     {
         Gate::authorize('viewAny', User::class);
 
@@ -26,7 +31,10 @@ class UserController extends Controller
         ]);
     }
 
-    public function create()
+    /**
+     * Show form for creating user
+     */
+    public function create(): View
     {
         Gate::authorize('create', User::class);
 
@@ -41,7 +49,10 @@ class UserController extends Controller
         ]);
     }
 
-    public function store(UserRequest $request)
+    /**
+     * Store new user
+     */
+    public function store(UserRequest $request): RedirectResponse
     {
         Gate::authorize('create', User::class);
 
@@ -66,7 +77,10 @@ class UserController extends Controller
             ->with('success', 'User created');
     }
 
-    public function approve(User $user)
+    /**
+     * Approve user
+     */
+    public function approve(User $user): RedirectResponse
     {
         Gate::authorize('approve', $user);
 
@@ -84,7 +98,10 @@ class UserController extends Controller
             ->with('success', sprintf('User %s approved', $user->email));
     }
 
-    public function unapprove(User $user)
+    /**
+     * Unapprove user
+     */
+    public function unapprove(User $user): RedirectResponse
     {
         Gate::authorize('unapprove', $user);
 
@@ -102,7 +119,10 @@ class UserController extends Controller
             ->with('success', sprintf('User %s approval revoked', $user->email));
     }
 
-    public function edit(User $user)
+    /**
+     * Show form for editing user
+     */
+    public function edit(User $user): View
     {
         Gate::authorize('update', $user);
 
@@ -117,7 +137,10 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(UserRequest $request, User $user)
+    /**
+     * Update user
+     */
+    public function update(UserRequest $request, User $user): RedirectResponse
     {
         Gate::authorize('update', $user);
 
@@ -143,7 +166,10 @@ class UserController extends Controller
             ->with('success', sprintf('User %s updated', $user->email));
     }
 
-    public function destroy(User $user)
+    /**
+     * Soft delete the user
+     */
+    public function destroy(User $user): RedirectResponse
     {
         Gate::authorize('delete', $user);
 
@@ -154,7 +180,10 @@ class UserController extends Controller
             ->with('success', sprintf('User %s marked as deleted', $user->email));
     }
 
-    public function indexDeleted()
+    /**
+     * Show soft deleted users
+     */
+    public function indexDeleted(): View
     {
         Gate::authorize('viewAny', User::class);
 
@@ -172,7 +201,10 @@ class UserController extends Controller
         ]);
     }
 
-    public function restore(User $user)
+    /**
+     * Restore soft deleted user
+     */
+    public function restore(User $user): RedirectResponse
     {
         Gate::authorize('restore', $user);
 
@@ -189,7 +221,10 @@ class UserController extends Controller
             ->with('success', sprintf('User %s restored', $user->email));
     }
 
-    public function forceDestroy(User $user)
+    /**
+     * Permanently remove the user
+     */
+    public function forceDestroy(User $user): RedirectResponse
     {
         Gate::authorize('forceDelete', $user);
 
@@ -206,7 +241,10 @@ class UserController extends Controller
             ->with('success', sprintf('User %s permanently deleted', $user->email));
     }
 
-    public function assignInfotainments(User $user)
+    /**
+     * Show form for assigning infotainments to the user
+     */
+    public function assignInfotainments(User $user): View
     {
         Gate::authorize('assignInfotainments', $user);
 
@@ -223,7 +261,10 @@ class UserController extends Controller
         ]);
     }
 
-    public function updateAssignedInfotainments(UserAssignInfotainmentsRequest $request, User $user)
+    /**
+     * Update assignment of infotainments for the user
+     */
+    public function updateAssignedInfotainments(UserAssignInfotainmentsRequest $request, User $user): RedirectResponse
     {
         Gate::authorize('assignInfotainments', $user);
 

@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\Response;
 class UserIsApproved
 {
     /**
-     * Handle an incoming request.
+     * Check if user is not deleted and is approved
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  \Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {

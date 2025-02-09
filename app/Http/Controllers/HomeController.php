@@ -10,6 +10,9 @@ use Illuminate\View\View;
 
 class HomeController extends Controller
 {
+    /**
+     * Show homepage based on user role
+     */
     public function index(Request $request): View
     {
         $userRole = $request->user()->role;
