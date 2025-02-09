@@ -1,0 +1,27 @@
+name: Check code quality
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: json, dom, curl, libxml, mbstring
+
+      - name: Install composer dependencies
+        run: composer install
+
+      - name: Laravel Pint
+        run: vendor/bin/pint
+        continue-on-error: true
+
+      - name: PHPStan
+        run: vendor/bin/phpstan
+
