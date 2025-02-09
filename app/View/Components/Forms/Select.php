@@ -2,7 +2,6 @@
 
 namespace App\View\Components\Forms;
 
-use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
@@ -21,6 +20,9 @@ class Select extends Component
 
     public readonly ?string $extraText;
 
+    /**
+     * @param  array<string>  $options
+     */
     public function __construct(
         string $name,
         string $label,
@@ -37,7 +39,7 @@ class Select extends Component
         $this->extraText = $extraText;
     }
 
-    public function render(): View|Closure|string
+    public function render(): View
     {
         return view('components.forms.select');
     }

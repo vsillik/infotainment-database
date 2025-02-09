@@ -2,7 +2,6 @@
 
 namespace App\View\Components\Forms;
 
-use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
@@ -23,7 +22,8 @@ class Multiselect extends Component
     public readonly ?string $extraText;
 
     /**
-     * Create a new component instance.
+     * @param  array<string>  $options
+     * @param  array<string>|null  $selected
      */
     public function __construct(
         string $name,
@@ -41,10 +41,7 @@ class Multiselect extends Component
         $this->extraText = $extraText;
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     */
-    public function render(): View|Closure|string
+    public function render(): View
     {
         return view('components.forms.multiselect');
     }
