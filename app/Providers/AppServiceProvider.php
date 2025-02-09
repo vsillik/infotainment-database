@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Auth::provider('eloquentWithTrashed', function (Application $app, array $config) {
-            return new EloquentWithTrashedUserProvider($app['hash'], $config['model']);
+            return new EloquentWithTrashedUserProvider($app->get('hash'), $config['model']);
         });
     }
 }
