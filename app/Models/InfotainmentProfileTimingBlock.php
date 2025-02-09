@@ -6,22 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
- * @property int id
- * @property float pixel_clock
- * @property int horizontal_pixels
- * @property int vertical_lines
- * @property int horizontal_blank
- * @property int horizontal_front_porch
- * @property int horizontal_sync_width
- * @property int horizontal_image_size
- * @property int horizontal_border
- * @property int vertical_blank
- * @property int vertical_front_porch
- * @property int vertical_sync_width
- * @property int vertical_image_size
- * @property int vertical_border
- * @property bool signal_horizontal_sync_positive
- * @property bool signal_vertical_sync_positive
+ * @property int $id
+ * @property float $pixel_clock
+ * @property int $horizontal_pixels
+ * @property int $vertical_lines
+ * @property int $horizontal_blank
+ * @property int $horizontal_front_porch
+ * @property int $horizontal_sync_width
+ * @property int $horizontal_image_size
+ * @property int $horizontal_border
+ * @property int $vertical_blank
+ * @property int $vertical_front_porch
+ * @property int $vertical_sync_width
+ * @property int $vertical_image_size
+ * @property int $vertical_border
+ * @property bool $signal_horizontal_sync_positive
+ * @property bool $signal_vertical_sync_positive
  * @property InfotainmentProfile $infotainmentProfile
  */
 class InfotainmentProfileTimingBlock extends Model

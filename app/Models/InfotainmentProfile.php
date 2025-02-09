@@ -7,31 +7,31 @@ use App\DisplayInterface;
 use App\Observers\InfotainmentProfileObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 /**
- * @property int id
- * @property int infotainment_id
- * @property int timing_block_id
- * @property int|null extra_timing_block_id
- * @property bool is_approved
- * @property int color_bit_depth
- * @property string interface
- * @property int horizontal_size
- * @property int vertical_size
- * @property bool is_ycrcb_4_4_4
- * @property bool is_ycrcb_4_2_2
- * @property bool is_srgb
- * @property bool is_continuous_frequency
- * @property string hw_version
- * @property string sw_version
- * @property array<string> vendor_block_1 array of bytes in hex (2 hex chars per byte)
- * @property array<string> vendor_block_2 array of bytes in hex (2 hex chars per byte)
- * @property array<string> vendor_block_3 array of bytes in hex (2 hex chars per byte)
- * @property-read int profile_number dynamically calculated number of profile for assigned infotainment
+ * @property int $id
+ * @property int $infotainment_id
+ * @property int $timing_block_id
+ * @property int|null $extra_timing_block_id
+ * @property bool $is_approved
+ * @property int $color_bit_depth
+ * @property string $interface
+ * @property int $horizontal_size
+ * @property int $vertical_size
+ * @property bool $is_ycrcb_4_4_4
+ * @property bool $is_ycrcb_4_2_2
+ * @property bool $is_srgb
+ * @property bool $is_continuous_frequency
+ * @property string $hw_version
+ * @property string $sw_version
+ * @property array<string> $vendor_block_1 array of bytes in hex (2 hex chars per byte)
+ * @property array<string> $vendor_block_2 array of bytes in hex (2 hex chars per byte)
+ * @property array<string> $vendor_block_3 array of bytes in hex (2 hex chars per byte)
+ * @property-read int $profile_number dynamically calculated number of profile for assigned infotainment
  * @property Infotainment $infotainment
  * @property ?InfotainmentProfileTimingBlock $timing
  * @property ?InfotainmentProfileTimingBlock $extraTiming

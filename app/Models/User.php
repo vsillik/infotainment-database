@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Observers\UserObserver;
 use App\UserRole;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -12,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Collection;
 
 /**
  * @property int $id
@@ -21,8 +21,8 @@ use Illuminate\Support\Collection;
  * @property string $password
  * @property UserRole $role
  * @property bool $is_approved
- * @property Collection<int, Infotainment> $infotainments
  * @property ?User $deletedBy
+ * @property Collection<int, Infotainment> $infotainments
  * @property Collection<int, InfotainmentManufacturer> $createdInfotainmentManufacturers
  * @property Collection<int, InfotainmentManufacturer> $updatedInfotainmentManufacturers
  * @property Collection<string, SerializerManufacturer> $createdSerializerManufacturers
