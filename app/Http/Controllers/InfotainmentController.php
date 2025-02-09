@@ -54,8 +54,7 @@ class InfotainmentController extends Controller
     {
         Gate::authorize('create', Infotainment::class);
 
-        $infotainmentManufacturers = InfotainmentManufacturer::all()
-            ->pluck('name', 'id')->toArray();
+        $infotainmentManufacturers = InfotainmentManufacturer::pluck('name', 'id')->toArray();
 
         if (count($infotainmentManufacturers) === 0) {
             return redirect()
@@ -63,8 +62,7 @@ class InfotainmentController extends Controller
                 ->with('error', 'In order to create infotainment you first need to have at least one infotainment manufacturer created.');
         }
 
-        $serializerManufacturers = SerializerManufacturer::all()
-            ->pluck('name', 'id')->toArray();
+        $serializerManufacturers = SerializerManufacturer::pluck('name', 'id')->toArray();
 
         if (count($serializerManufacturers) === 0) {
             return redirect()
@@ -167,10 +165,8 @@ class InfotainmentController extends Controller
                 'current' => 'Edit infotainment ID: '.$infotainment->id,
             ],
             'infotainment' => $infotainment,
-            'infotainmentManufacturers' => InfotainmentManufacturer::all()
-                ->pluck('name', 'id')->toArray(),
-            'serializerManufacturers' => SerializerManufacturer::all()
-                ->pluck('name', 'id')->toArray(),
+            'infotainmentManufacturers' => InfotainmentManufacturer::pluck('name', 'id')->toArray(),
+            'serializerManufacturers' => SerializerManufacturer::pluck('name', 'id')->toArray(),
         ]);
     }
 

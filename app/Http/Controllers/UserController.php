@@ -38,8 +38,6 @@ class UserController extends Controller
             ],
             'user' => new User,
             'roles' => UserRole::labels(),
-            'infotainments' => Infotainment::all()->pluck('product_id', 'id')->toArray(),
-            'selectedInfotainments' => [],
         ]);
     }
 
@@ -116,8 +114,6 @@ class UserController extends Controller
             ],
             'user' => $user,
             'roles' => UserRole::labels(),
-            'infotainments' => Infotainment::all()->pluck('product_id', 'id')->toArray(),
-            'selectedInfotainments' => $user->infotainments->pluck('id')->toArray(),
         ]);
     }
 

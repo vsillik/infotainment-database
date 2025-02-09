@@ -4,12 +4,14 @@ namespace App\Models;
 
 use App\Observers\InfotainmentManufacturerObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
 /**
+ * @mixin Builder
  * @property int id
  * @property string name
  * @property Collection<int, Infotainment> $infotainments
