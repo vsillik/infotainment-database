@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @mixin Builder
+ * @mixin Builder<SerializerManufacturer>
  *
  * @property string $id
  * @property string $name
@@ -31,16 +31,25 @@ class SerializerManufacturer extends Model
         'name',
     ];
 
+    /**
+     * @return HasMany<Infotainment, $this>
+     */
     public function infotainments(): HasMany
     {
         return $this->hasMany(Infotainment::class);
     }
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function updatedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_by');

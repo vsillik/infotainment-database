@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
+ * @mixin Builder<InfotainmentProfileTimingBlock>
+ *
  * @property int $id
  * @property float $pixel_clock
  * @property int $horizontal_pixels
@@ -44,6 +47,9 @@ class InfotainmentProfileTimingBlock extends Model
         'signal_vertical_sync_positive',
     ];
 
+    /**
+     * @return HasOne<InfotainmentProfile, $this>
+     */
     public function infotainmentProfile(): HasOne
     {
         return $this->hasOne(InfotainmentProfile::class, 'timing_block_id');

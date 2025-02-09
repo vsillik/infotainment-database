@@ -6,6 +6,7 @@ use App\ColorBitDepth;
 use App\DisplayInterface;
 use App\Observers\InfotainmentProfileObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,6 +14,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 /**
+ * @mixin Builder<InfotainmentProfile>
+ *
  * @property int $id
  * @property int $infotainment_id
  * @property int $timing_block_id
@@ -41,14 +44,14 @@ use Illuminate\Support\Facades\DB;
 #[ObservedBy([InfotainmentProfileObserver::class])]
 class InfotainmentProfile extends Model
 {
-    // get all profile numbers for a specific infotainment (map profile id => profile number) - static method
-    // get profile number for this profile
-
     protected $casts = [
         'color_bit_depth' => ColorBitDepth::class,
         'interface' => DisplayInterface::class,
     ];
 
+    /**
+     * @return array<string>
+     */
     protected static function convertVendorBlockFromBin(?string $value): array
     {
         if ($value === null) {
@@ -60,7 +63,10 @@ class InfotainmentProfile extends Model
         return str_split($hex, 2);
     }
 
-    protected function convertVendorBlockToBin(array $hexValues): ?string
+    /**
+     * @param  array<string>  $hexValues
+     */
+    protected static function convertVendorBlockToBin(array $hexValues): ?string
     {
         if ($hexValues === []) {
             return null;
@@ -72,33 +78,55 @@ class InfotainmentProfile extends Model
 
         $hex = implode('', $hexValues);
 
-        return hex2bin($hex);
+        $bin = hex2bin($hex);
+
+        if ($bin === false) {
+            return null;
+        }
+
+        return $bin;
     }
 
+    /**
+     * @return Attribute<array<string>, array<string>>
+     */
+    protected static function makeVendorAttribute(): Attribute
+    {
+        return Attribute::make(
+            get: fn (?string $value): array => self::convertVendorBlockFromBin($value),
+            set: fn (array $hexValues): ?string => self::convertVendorBlockToBin($hexValues),
+        );
+    }
+
+    /**
+     * @return Attribute<array<string>, array<string>>
+     */
     protected function vendorBlock1(): Attribute
     {
-        return Attribute::make(
-            get: fn (?string $value) => self::convertVendorBlockFromBin($value),
-            set: fn (array $hexValues) => self::convertVendorBlockToBin($hexValues),
-        );
+        return self::makeVendorAttribute();
     }
 
+    /**
+     * @return Attribute<array<string>, array<string>>
+     */
     protected function vendorBlock2(): Attribute
     {
-        return Attribute::make(
-            get: fn (?string $value) => self::convertVendorBlockFromBin($value),
-            set: fn (array $hexValues) => self::convertVendorBlockToBin($hexValues),
-        );
+        return self::makeVendorAttribute();
     }
 
+    /**
+     * @return Attribute<array<string>, array<string>>
+     */
     protected function vendorBlock3(): Attribute
     {
-        return Attribute::make(
-            get: fn (?string $value) => self::convertVendorBlockFromBin($value),
-            set: fn (array $hexValues) => self::convertVendorBlockToBin($hexValues),
-        );
+        return self::makeVendorAttribute();
     }
 
+    /**
+     * Read-only attribute
+     *
+     * @return Attribute<int, null>
+     */
     protected function profileNumber(): Attribute
     {
         return Attribute::get(
@@ -109,26 +137,41 @@ class InfotainmentProfile extends Model
         );
     }
 
+    /**
+     * @return BelongsTo<Infotainment, $this>
+     */
     public function infotainment(): BelongsTo
     {
         return $this->belongsTo(Infotainment::class);
     }
 
+    /**
+     * @return BelongsTo<InfotainmentProfileTimingBlock, $this>
+     */
     public function timing(): BelongsTo
     {
         return $this->belongsTo(InfotainmentProfileTimingBlock::class, 'timing_block_id');
     }
 
+    /**
+     * @return BelongsTo<InfotainmentProfileTimingBlock, $this>
+     */
     public function extraTiming(): BelongsTo
     {
         return $this->belongsTo(InfotainmentProfileTimingBlock::class, 'extra_timing_block_id');
     }
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function updatedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_by');
@@ -137,16 +180,15 @@ class InfotainmentProfile extends Model
     /**
      * Returns map of profile ids to profile number for specific infotainment
      *
-     * @return Collection of id to key mapping
+     * @return Collection<int, int> id to key mapping
      */
     public static function mapIdsToProfileNumbers(Infotainment $infotainment): Collection
     {
-        $ids = DB::table('infotainment_profiles')
-            ->select('id')
+        $ids = self::select('id')
             ->where('infotainment_id', $infotainment->id)
             ->orderBy('id')
             ->get();
 
-        return $ids->mapWithKeys(fn (\stdClass $item, int $index) => [$item->id => $index + 1]);
+        return $ids->mapWithKeys(fn (InfotainmentProfile $item, int $index) => [$item->id => $index + 1]);
     }
 }
