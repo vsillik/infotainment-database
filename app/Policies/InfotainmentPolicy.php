@@ -13,7 +13,7 @@ class InfotainmentPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->role->value >= UserRole::CUSTOMER->value;
+        return true;
     }
 
     /**

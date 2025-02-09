@@ -24,7 +24,6 @@ enum DisplayInterface: string
                 self::HDMI_B => 'HDMI-b',
                 self::MDDI => 'MDDI',
                 self::DISPLAYPORT => 'DisplayPort',
-                default => $case->value,
             };
         }
 
