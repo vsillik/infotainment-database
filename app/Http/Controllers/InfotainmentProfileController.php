@@ -12,6 +12,45 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
+/**
+ * @phpstan-type InfotainmentProfileValidatedValues array{
+ *     color_bit_depth: string,
+ *     interface: string,
+ *     horizontal_size: int,
+ *     vertical_size: int,
+ *     hw_version: string,
+ *     sw_version: string,
+ *     vendor_block_1?: array<string>,
+ *     vendor_block_2?: array<string>,
+ *     vendor_block_3?: array<string>,
+ *     pixel_clock: float,
+ *     horizontal_pixels: int,
+ *     horizontal_blank: int,
+ *     horizontal_front_porch?: ?int,
+ *     horizontal_sync_width?: ?int,
+ *     horizontal_image_size?: ?int,
+ *     horizontal_border?: ?int,
+ *     vertical_lines: int,
+ *     vertical_blank: int,
+ *     vertical_front_porch?: ?int,
+ *     vertical_sync_width?: ?int,
+ *     vertical_image_size?: ?int,
+ *     vertical_border?: ?int,
+ *     extra_pixel_clock?: ?float,
+ *     extra_horizontal_pixels?: ?int,
+ *     extra_horizontal_blank?: ?int,
+ *     extra_horizontal_front_porch?: ?int,
+ *     extra_horizontal_sync_width?: ?int,
+ *     extra_horizontal_image_size?: ?int,
+ *     extra_horizontal_border?: ?int,
+ *     extra_vertical_lines?: ?int,
+ *     extra_vertical_blank?: ?int,
+ *     extra_vertical_front_porch?: ?int,
+ *     extra_vertical_sync_width?: ?int,
+ *     extra_vertical_image_size?: ?int,
+ *     extra_vertical_border?: ?int,
+ * }
+ */
 class InfotainmentProfileController extends Controller
 {
     /**
@@ -45,6 +84,7 @@ class InfotainmentProfileController extends Controller
     {
         Gate::authorize('create', InfotainmentProfile::class);
 
+        /** @var InfotainmentProfileValidatedValues $validated */
         $validated = $request->validated();
 
         $infotainmentProfile = new InfotainmentProfile;
@@ -72,7 +112,10 @@ class InfotainmentProfileController extends Controller
         $infotainmentProfile->save();
 
         return redirect()
-            ->route('infotainments.profiles.edit', ['infotainment' => $infotainment->id, 'profile' => $infotainmentProfile->id])
+            ->route('infotainments.profiles.edit', [
+                'infotainment' => $infotainment->id,
+                'profile' => $infotainmentProfile->id,
+            ])
             ->with('success', sprintf('Infotainment profile number %d created', $infotainmentProfile->profile_number));
     }
 
@@ -171,6 +214,7 @@ class InfotainmentProfileController extends Controller
             Gate::authorize('update', $profile);
         }
 
+        /** @var InfotainmentProfileValidatedValues $validated */
         $validated = $request->validated();
 
         if ($request->has('approving_infotainment_profile')) {
@@ -219,7 +263,10 @@ class InfotainmentProfileController extends Controller
         }
 
         return redirect()
-            ->route('infotainments.profiles.edit', ['infotainment' => $infotainment->id, 'profile' => $profile->id])
+            ->route('infotainments.profiles.edit', [
+                'infotainment' => $infotainment->id,
+                'profile' => $profile->id,
+            ])
             ->with('success', sprintf('Infotainment profile number %d updated', $profile->profile_number));
     }
 
@@ -239,10 +286,13 @@ class InfotainmentProfileController extends Controller
             ->with('success', sprintf('Infotainment profile number %d deleted', $profile->profile_number));
     }
 
-    private function setInfotainmentProfileValues(InfotainmentProfile $infotainmentProfile, InfotainmentProfileRequest $request, mixed $validated): void
+    /**
+     * @param  InfotainmentProfileValidatedValues  $validated
+     */
+    private function setInfotainmentProfileValues(InfotainmentProfile $infotainmentProfile, InfotainmentProfileRequest $request, array $validated): void
     {
-        $infotainmentProfile->color_bit_depth = $validated['color_bit_depth'];
-        $infotainmentProfile->interface = $validated['interface'];
+        $infotainmentProfile->color_bit_depth = ColorBitDepth::tryFrom($validated['color_bit_depth']) ?? ColorBitDepth::BIT_8;
+        $infotainmentProfile->interface = DisplayInterface::tryFrom($validated['interface']) ?? DisplayInterface::HDMI_A;
         $infotainmentProfile->horizontal_size = $validated['horizontal_size'];
         $infotainmentProfile->vertical_size = $validated['vertical_size'];
         $infotainmentProfile->is_ycrcb_4_4_4 = $request->has('is_ycrcb_4_4_4');
@@ -251,40 +301,47 @@ class InfotainmentProfileController extends Controller
         $infotainmentProfile->is_continuous_frequency = $request->has('is_continuous_frequency');
         $infotainmentProfile->hw_version = str_pad($validated['hw_version'], 3, '0', STR_PAD_LEFT);
         $infotainmentProfile->sw_version = str_pad($validated['sw_version'], 4, '0', STR_PAD_LEFT);
-        $infotainmentProfile->vendor_block_1 = $this->processVendorBlockInput($request, $validated, 'vendor_block_1');
-        $infotainmentProfile->vendor_block_2 = $this->processVendorBlockInput($request, $validated, 'vendor_block_2');
-        $infotainmentProfile->vendor_block_3 = $this->processVendorBlockInput($request, $validated, 'vendor_block_3');
+        $infotainmentProfile->vendor_block_1 = $this->processVendorBlockInput($validated, 'vendor_block_1');
+        $infotainmentProfile->vendor_block_2 = $this->processVendorBlockInput($validated, 'vendor_block_2');
+        $infotainmentProfile->vendor_block_3 = $this->processVendorBlockInput($validated, 'vendor_block_3');
     }
 
     /**
+     * @param  InfotainmentProfileValidatedValues  $validated
      * @return array<string>
      */
-    private function processVendorBlockInput(InfotainmentProfileRequest $request, mixed $validated, string $inputName): array
+    private function processVendorBlockInput(array $validated, string $inputName): array
     {
-        if (! $request->has($inputName)) {
+        if (! array_key_exists($inputName, $validated) || ! is_array($validated[$inputName])) {
             return [];
         }
 
         return array_map(fn (string $value): string => str_pad($value, 2, '0', STR_PAD_LEFT), $validated[$inputName]);
     }
 
-    private function setTimingBlockValues(InfotainmentProfileTimingBlock $timingBlock, InfotainmentProfileRequest $request, mixed $validated, bool $isExtra): void
+    /**
+     * @param  InfotainmentProfileValidatedValues  $validated
+     */
+    private function setTimingBlockValues(InfotainmentProfileTimingBlock $timingBlock, InfotainmentProfileRequest $request, array $validated, bool $isExtra): void
     {
         $prefix = $isExtra ? 'extra_' : '';
 
-        $timingBlock->pixel_clock = $validated[$prefix.'pixel_clock'];
-        $timingBlock->horizontal_pixels = $validated[$prefix.'horizontal_pixels'];
-        $timingBlock->vertical_lines = $validated[$prefix.'vertical_lines'];
-        $timingBlock->horizontal_blank = $validated[$prefix.'horizontal_blank'];
-        $timingBlock->horizontal_front_porch = $validated[$prefix.'horizontal_front_porch'];
-        $timingBlock->horizontal_sync_width = $validated[$prefix.'horizontal_sync_width'];
-        $timingBlock->horizontal_image_size = $validated[$prefix.'horizontal_image_size'];
-        $timingBlock->horizontal_border = $validated[$prefix.'horizontal_border'];
-        $timingBlock->vertical_blank = $validated[$prefix.'vertical_blank'];
-        $timingBlock->vertical_front_porch = $validated[$prefix.'vertical_front_porch'];
-        $timingBlock->vertical_sync_width = $validated[$prefix.'vertical_sync_width'];
-        $timingBlock->vertical_image_size = $validated[$prefix.'vertical_image_size'];
-        $timingBlock->vertical_border = $validated[$prefix.'vertical_border'];
+        $timingBlock->pixel_clock = $validated[$prefix.'pixel_clock'] ?? 0;
+
+        $timingBlock->horizontal_pixels = $validated[$prefix.'horizontal_pixels'] ?? 0;
+        $timingBlock->horizontal_blank = $validated[$prefix.'horizontal_blank'] ?? 0;
+        $timingBlock->horizontal_front_porch = $validated[$prefix.'horizontal_front_porch'] ?? null;
+        $timingBlock->horizontal_sync_width = $validated[$prefix.'horizontal_sync_width'] ?? null;
+        $timingBlock->horizontal_image_size = $validated[$prefix.'horizontal_image_size'] ?? null;
+        $timingBlock->horizontal_border = $validated[$prefix.'horizontal_border'] ?? null;
+
+        $timingBlock->vertical_lines = $validated[$prefix.'vertical_lines'] ?? 0;
+        $timingBlock->vertical_blank = $validated[$prefix.'vertical_blank'] ?? 0;
+        $timingBlock->vertical_front_porch = $validated[$prefix.'vertical_front_porch'] ?? null;
+        $timingBlock->vertical_sync_width = $validated[$prefix.'vertical_sync_width'] ?? null;
+        $timingBlock->vertical_image_size = $validated[$prefix.'vertical_image_size'] ?? null;
+        $timingBlock->vertical_border = $validated[$prefix.'vertical_border'] ?? null;
+
         $timingBlock->signal_horizontal_sync_positive = $request->has($prefix.'signal_horizontal_sync_positive');
         $timingBlock->signal_vertical_sync_positive = $request->has($prefix.'signal_vertical_sync_positive');
     }

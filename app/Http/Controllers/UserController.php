@@ -56,6 +56,7 @@ class UserController extends Controller
     {
         Gate::authorize('create', User::class);
 
+        /** @var array{name: string, email: string, password: string, role: UserRole} $validated */
         $validated = $request->validated();
 
         $user = new User;
@@ -67,10 +68,6 @@ class UserController extends Controller
         $user->is_approved = false;
 
         $user->save();
-
-        if ($request->has('infotainments')) {
-            $user->infotainments()->sync($validated['infotainments']);
-        }
 
         return redirect()
             ->route('users.edit', ['user' => $user->id])
@@ -144,6 +141,7 @@ class UserController extends Controller
     {
         Gate::authorize('update', $user);
 
+        /** @var array{name: string, email: string, password: ?string, role: UserRole} $validated */
         $validated = $request->validated();
 
         $user->name = $validated['name'];
@@ -156,10 +154,6 @@ class UserController extends Controller
         $user->role = $validated['role'];
 
         $user->save();
-
-        $infotainments = $request->has('infotainments') ? $validated['infotainments'] : [];
-
-        $user->infotainments()->sync($infotainments);
 
         return redirect()
             ->route('users.edit', ['user' => $user->id])
@@ -268,6 +262,7 @@ class UserController extends Controller
     {
         Gate::authorize('assignInfotainments', $user);
 
+        /** @var array{infotainments: array<int>} $validated */
         $validated = $request->validated();
 
         $infotainments = $request->has('infotainments') ? $validated['infotainments'] : [];

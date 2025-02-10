@@ -54,6 +54,7 @@ class SerializerManufacturerController extends Controller
     {
         Gate::authorize('create', SerializerManufacturer::class);
 
+        /** @var array{id: string, name: string} $validated */
         $validated = $request->validated();
 
         $serializerManufacturer = new SerializerManufacturer;
@@ -92,6 +93,7 @@ class SerializerManufacturerController extends Controller
     {
         Gate::authorize('update', $serializerManufacturer);
 
+        /** @var array{id: string, name: string} $validated */
         $validated = $request->validated();
 
         $serializerManufacturer->id = strtoupper($validated['id']);

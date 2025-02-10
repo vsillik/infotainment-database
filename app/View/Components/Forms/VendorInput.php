@@ -31,7 +31,13 @@ class VendorInput extends Component
         $this->label = $label;
         $this->defaultValue = $defaultValue;
         $this->required = $required ?? false;
-        $this->bytesCount = count(old($name, $defaultValue));
+
+        $oldValue = old($name);
+        if (! is_array($oldValue)) {
+            $oldValue = $defaultValue;
+        }
+
+        $this->bytesCount = count($oldValue);
     }
 
     public function render(): View

@@ -20,9 +20,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $product_id
  * @property int $model_year
  * @property string $part_number
- * @property string $compatible_platforms
- * @property string $internal_code
- * @property string $internal_notes
+ * @property ?string $compatible_platforms
+ * @property ?string $internal_code
+ * @property ?string $internal_notes
  * @property InfotainmentManufacturer $infotainmentManufacturer
  * @property SerializerManufacturer $serializerManufacturer
  * @property Collection<int, InfotainmentProfile> $profiles

@@ -16,6 +16,18 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
+/**
+ * @phpstan-type InfotainmentValidatedValues array{
+ *     infotainment_manufacturer_id: int,
+ *     serializer_manufacturer_id: int,
+ *     product_id: string,
+ *     model_year: int,
+ *     part_number: string,
+ *     compatible_platforms?: ?string,
+ *     internal_code?: ?string,
+ *     internal_notes?: ?string,
+ * }
+ */
 class InfotainmentController extends Controller
 {
     /**
@@ -92,6 +104,7 @@ class InfotainmentController extends Controller
     {
         Gate::authorize('create', Infotainment::class);
 
+        /** @var InfotainmentValidatedValues $validated */
         $validated = $request->validated();
 
         $infotainment = new Infotainment;
@@ -182,6 +195,7 @@ class InfotainmentController extends Controller
     {
         Gate::authorize('update', $infotainment);
 
+        /** @var InfotainmentValidatedValues $validated */
         $validated = $request->validated();
 
         $this->setInfotainmentValidatedValues($infotainment, $validated);
@@ -218,7 +232,7 @@ class InfotainmentController extends Controller
     {
         Gate::authorize('assignUsers', Infotainment::class);
 
-        $infotainmentIdsInput = $request->input('infotainments', '');
+        $infotainmentIdsInput = $request->string('infotainments', '')->toString();
 
         $infotainmentIds = explode(',', $infotainmentIdsInput);
 
@@ -271,6 +285,7 @@ class InfotainmentController extends Controller
 
         $validated = $request->validated();
 
+        /** @var array{infotainments: array<int>, users: array<int>} $validated */
         $assignments = [];
 
         foreach ($validated['infotainments'] as $infotainment_id) {
@@ -292,16 +307,19 @@ class InfotainmentController extends Controller
             ->with('success', 'Users were assigned to selected infotainments');
     }
 
-    private function setInfotainmentValidatedValues(Infotainment $infotainment, mixed $validated): void
+    /**
+     * @param  InfotainmentValidatedValues  $validated
+     */
+    private function setInfotainmentValidatedValues(Infotainment $infotainment, array $validated): void
     {
         $infotainment->infotainmentManufacturer()->associate($validated['infotainment_manufacturer_id']);
         $infotainment->serializerManufacturer()->associate($validated['serializer_manufacturer_id']);
         $infotainment->product_id = str_pad($validated['product_id'], 4, '0', STR_PAD_LEFT);
         $infotainment->model_year = $validated['model_year'];
         $infotainment->part_number = $validated['part_number'];
-        $infotainment->compatible_platforms = $validated['compatible_platforms'];
-        $infotainment->internal_code = $validated['internal_code'];
-        $infotainment->internal_notes = $validated['internal_notes'];
+        $infotainment->compatible_platforms = $validated['compatible_platforms'] ?? null;
+        $infotainment->internal_code = $validated['internal_code'] ?? null;
+        $infotainment->internal_notes = $validated['internal_notes'] ?? null;
 
         $infotainment->save();
     }

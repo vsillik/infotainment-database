@@ -54,6 +54,7 @@ class InfotainmentManufacturerController extends Controller
     {
         Gate::authorize('create', InfotainmentManufacturer::class);
 
+        /** @var array{name: string} $validated */
         $validated = $request->validated();
 
         $infotainmentManufacturer = new InfotainmentManufacturer;
@@ -91,6 +92,7 @@ class InfotainmentManufacturerController extends Controller
     {
         Gate::authorize('update', $infotainmentManufacturer);
 
+        /** @var array{name: string} $validated */
         $validated = $request->validated();
 
         $infotainmentManufacturer->name = $validated['name'];

@@ -18,6 +18,7 @@ class UserProfilePasswordRequest extends FormRequest
             'password' => [
                 'required',
                 'confirmed',
+                'string',
                 Password::defaults(),
             ],
         ];

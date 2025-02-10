@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Extensions\EloquentWithTrashedUserProvider;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -33,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Auth::provider('eloquentWithTrashed', function (Application $app, array $config) {
-            return new EloquentWithTrashedUserProvider($app->get('hash'), $config['model']);
+            return new EloquentWithTrashedUserProvider($app->make(Hasher::class), $config['model']);
         });
     }
 }

@@ -31,6 +31,7 @@ class UserProfileController extends Controller
      */
     public function update(UserProfileRequest $request): RedirectResponse
     {
+        /** @var array{name: string} $validated */
         $validated = $request->validated();
         /** @var User $user because user must be logged in, this won't be null */
         $user = $request->user();
@@ -63,6 +64,7 @@ class UserProfileController extends Controller
      */
     public function updatePassword(UserProfilePasswordRequest $request): RedirectResponse
     {
+        /** @var array{password: string} $validated */
         $validated = $request->validated();
         /** @var User $user because user must be logged in, this won't be null */
         $user = $request->user();

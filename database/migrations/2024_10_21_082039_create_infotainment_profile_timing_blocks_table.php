@@ -23,7 +23,7 @@ return new class extends Migration
             $table->tinyInteger('horizontal_border')->unsigned()->nullable();
 
             $table->smallInteger('vertical_lines')->unsigned();
-            $table->smallInteger('vertical_blank');
+            $table->smallInteger('vertical_blank')->unsigned();
             $table->tinyInteger('vertical_front_porch')->unsigned()->nullable();
             $table->tinyInteger('vertical_sync_width')->unsigned()->nullable();
             $table->smallInteger('vertical_image_size')->unsigned()->nullable();

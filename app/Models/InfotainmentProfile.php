@@ -21,8 +21,8 @@ use Illuminate\Support\Facades\DB;
  * @property int $timing_block_id
  * @property int|null $extra_timing_block_id
  * @property bool $is_approved
- * @property int $color_bit_depth
- * @property string $interface
+ * @property ColorBitDepth $color_bit_depth
+ * @property DisplayInterface $interface
  * @property int $horizontal_size
  * @property int $vertical_size
  * @property bool $is_ycrcb_4_4_4
@@ -52,12 +52,8 @@ class InfotainmentProfile extends Model
     /**
      * @return array<string>
      */
-    protected static function convertVendorBlockFromBin(?string $value): array
+    protected static function convertVendorBlockFromBin(string $value): array
     {
-        if ($value === null) {
-            return [];
-        }
-
         $hex = bin2hex($value);
 
         return str_split($hex, 2);
@@ -93,7 +89,7 @@ class InfotainmentProfile extends Model
     protected static function makeVendorAttribute(): Attribute
     {
         return Attribute::make(
-            get: fn (?string $value): array => self::convertVendorBlockFromBin($value),
+            get: fn (mixed $value): array => ! is_string($value) ? [] : self::convertVendorBlockFromBin($value),
             set: fn (array $hexValues): ?string => self::convertVendorBlockToBin($hexValues),
         );
     }

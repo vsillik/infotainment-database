@@ -26,6 +26,7 @@ class RegisterController extends Controller
      */
     public function store(RegisterRequest $request): RedirectResponse
     {
+        /** @var array{name: string, email: string, password: string} $validated */
         $validated = $request->validated();
 
         $user = new User;
