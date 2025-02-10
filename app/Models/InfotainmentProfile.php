@@ -90,7 +90,13 @@ class InfotainmentProfile extends Model
     {
         return Attribute::make(
             get: fn (mixed $value): array => ! is_string($value) ? [] : self::convertVendorBlockFromBin($value),
-            set: fn (array $hexValues): ?string => self::convertVendorBlockToBin($hexValues),
+            set: function (array $hexValues): ?string {
+                if (array_filter($hexValues, 'is_string') !== $hexValues) {
+                    return null;
+                }
+
+                return self::convertVendorBlockToBin($hexValues);
+            },
         );
     }
 

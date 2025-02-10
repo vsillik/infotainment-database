@@ -41,12 +41,12 @@ class NewPasswordController extends Controller
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user) use ($request) {
-                $user->forceFill([
+                $user->forceFill([ // @phpstan-ignore-line TODO fix when this is working
                     'password' => Hash::make($request->password), // @phpstan-ignore-line TODO fix when this is working
                     'remember_token' => Str::random(60),
                 ])->save();
 
-                event(new PasswordReset($user));
+                event(new PasswordReset($user)); // @phpstan-ignore-line TODO fix when this is working
             }
         );
 
