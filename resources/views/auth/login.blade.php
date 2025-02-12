@@ -29,6 +29,10 @@
 
         <x-forms.required-note />
 
+        <div class="mb-2">
+            <a href="{{ route('password.request') }}">Forgot your password?</a>
+        </div>
+
         <button type="submit" class="btn btn-primary">Log in</button>
     </form>
 </x-guest-layout>

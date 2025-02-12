@@ -3,59 +3,57 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Auth\Events\PasswordReset;
+use App\Http\Requests\Auth\NewPasswordRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
 class NewPasswordController extends Controller
 {
     /**
-     * Display the password reset view.
+     * Display the password reset form
      */
     public function create(Request $request): View
     {
-        return view('auth.reset-password', ['request' => $request]);
+        return view('auth.reset-password', [
+            'token' => $request->route('token'),
+            'email' => $request->query('email'),
+        ]);
     }
 
     /**
      * Handle an incoming new password request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(NewPasswordRequest $request): RedirectResponse
     {
-        $request->validate([
-            'token' => ['required'],
-            'email' => ['required', 'email'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        /** @var array{token: string, email: string, password: string} $validated */
+        $validated = $request->validated();
 
-        // Here we will attempt to reset the user's password. If it is successful we
-        // will update the password on an actual user model and persist it to the
-        // database. Otherwise we will parse the error and return the response.
         $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user) use ($request) {
-                $user->forceFill([ // @phpstan-ignore-line TODO fix when this is working
-                    'password' => Hash::make($request->password), // @phpstan-ignore-line TODO fix when this is working
-                    'remember_token' => Str::random(60),
-                ])->save();
-
-                event(new PasswordReset($user)); // @phpstan-ignore-line TODO fix when this is working
+            $validated,
+            function (User $user) use ($validated) {
+                $user->password = Hash::make($validated['password']);
+                // we also should reset the remember token
+                $user->remember_token = null;
+                $user->save();
             }
         );
 
-        // If the password was successfully reset, we will redirect the user back to
-        // the application's home authenticated view. If there is an error we can
-        // redirect them back to where they came from with their error message.
-        return $status == Password::PASSWORD_RESET
-                    ? redirect()->route('login')->with('status', __($status)) // @phpstan-ignore-line TODO fix when this is working
-                    : back()->withInput($request->only('email'))
-                        ->withErrors(['email' => __($status)]);  // @phpstan-ignore-line TODO fix when this is working
+        if ($status === Password::PASSWORD_RESET) {
+            return redirect(route('login'))
+                ->with('success', 'Password reset successfully');
+        }
+
+        return redirect()
+            ->back()
+            ->withInput($request->only('email'))
+            ->with('error', match ($status) {
+                Password::INVALID_USER => 'User with specified token and email could not be found',
+                Password::INVALID_TOKEN => 'The reset token is invalid',
+                default => 'Something went wrong, please try again',
+            });
     }
 }

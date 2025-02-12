@@ -25,6 +25,7 @@ use Illuminate\Notifications\Notifiable;
  * @property string $password
  * @property UserRole $role
  * @property bool $is_approved
+ * @property ?string $remember_token
  * @property ?User $deletedBy
  * @property Collection<int, Infotainment> $infotainments
  * @property Collection<int, InfotainmentManufacturer> $createdInfotainmentManufacturers
