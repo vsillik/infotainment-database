@@ -6,6 +6,7 @@ use App\Http\Requests\UserAssignInfotainmentsRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Infotainment;
 use App\Models\User;
+use App\Notifications\ApprovedNotification;
 use App\UserRole;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
@@ -89,6 +90,8 @@ class UserController extends Controller
 
         $user->is_approved = true;
         $user->save();
+
+        $user->notify(new ApprovedNotification);
 
         return redirect()
             ->route('users.index')

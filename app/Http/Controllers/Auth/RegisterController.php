@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
+use App\Notifications\RegisteredNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -37,8 +38,11 @@ class RegisterController extends Controller
 
         event(new Registered($user));
 
+        $user->notify(new RegisteredNotification);
+
         Auth::login($user);
 
-        return redirect(route('index', absolute: false));
+        return redirect(route('index', absolute: false))
+            ->with('success', 'Successfully registered');
     }
 }
