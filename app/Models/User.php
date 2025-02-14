@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\UserRole;
 use App\Observers\UserObserver;
-use App\UserRole;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;

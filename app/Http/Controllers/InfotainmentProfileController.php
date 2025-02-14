@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\ColorBitDepth;
-use App\DisplayInterface;
+use App\Enums\ColorBitDepth;
+use App\Enums\DisplayInterface;
 use App\Http\Requests\InfotainmentProfileRequest;
 use App\Models\Infotainment;
 use App\Models\InfotainmentProfile;

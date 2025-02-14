@@ -1,5 +1,5 @@
 @php
-    use App\UserRole;
+    use App\Enums\UserRole;
 @endphp
 
 <x-welcome-layout :breadcrumbs="$breadcrumbs">
@@ -71,7 +71,7 @@
                             <td>{{ $user->role->toHumanReadable() }}</td>
                             <td>
                                 @if(!$user->is_approved)
-                                            <x-action-buttons.approve :targetUrl="route('users.approve', $user)" />
+                                    <x-action-buttons.approve :targetUrl="route('users.approve', $user)"/>
                                 @endif
                             </td>
                         </tr>
@@ -87,8 +87,8 @@
         <p>All infotainments have all profiles already approved.</p>
     @else
         <p>
-            Below are listed <span class="fs-5 fw-bolder">{{ count($infotainments) }}</span> infotainments that do not have all profiles
-            approved.
+            Below are listed <span class="fs-5 fw-bolder">{{ count($infotainments) }}</span> infotainments that do not
+            have all profiles approved.
         </p>
 
         <div class="table-responsive">

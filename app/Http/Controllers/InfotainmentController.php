@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserRole;
 use App\Http\Requests\InfotainmentRequest;
 use App\Http\Requests\InfotainmentsAssignUsersRequest;
 use App\Models\Infotainment;
@@ -9,7 +10,6 @@ use App\Models\InfotainmentManufacturer;
 use App\Models\InfotainmentProfile;
 use App\Models\SerializerManufacturer;
 use App\Models\User;
-use App\UserRole;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserRole;
 use App\Models\Infotainment;
 use App\Models\User;
-use App\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 

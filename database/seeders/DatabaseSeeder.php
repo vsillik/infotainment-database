@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\DisplayInterface;
-use App\UserRole;
+use App\Enums\DisplayInterface;
+use App\Enums\UserRole;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;

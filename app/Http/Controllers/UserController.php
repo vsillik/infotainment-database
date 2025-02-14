@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserRole;
 use App\Http\Requests\UserAssignInfotainmentsRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Infotainment;
 use App\Models\User;
 use App\Notifications\ApprovedNotification;
-use App\UserRole;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;

@@ -1,6 +1,6 @@
 <?php
 
-use App\DisplayInterface;
+use App\Enums\DisplayInterface;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

@@ -1,6 +1,6 @@
 @php
-    use App\ColorBitDepth;
-    use App\DisplayInterface;
+    use App\Enums\ColorBitDepth;
+    use App\Enums\DisplayInterface;
 @endphp
 
 <x-layout :breadcrumbs="$breadcrumbs">

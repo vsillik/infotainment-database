@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\ColorBitDepth;
-use App\DisplayInterface;
+use App\Enums\ColorBitDepth;
+use App\Enums\DisplayInterface;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 

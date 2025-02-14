@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
+use App\Enums\UserRole;
 use App\Models\InfotainmentProfile;
 use App\Models\User;
-use App\UserRole;
 
 class InfotainmentProfilePolicy
 {

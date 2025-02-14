@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\ColorBitDepth;
-use App\DisplayInterface;
+use App\Enums\ColorBitDepth;
+use App\Enums\DisplayInterface;
 use App\Observers\InfotainmentProfileObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;

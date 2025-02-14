@@ -1,6 +1,6 @@
 @php
+    use App\Enums\UserRole;
     use App\Models\User;
-    use App\UserRole;
     use Illuminate\Support\Str;
 @endphp
 <x-layout :breadcrumbs="$breadcrumbs">

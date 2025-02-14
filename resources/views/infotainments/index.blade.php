@@ -1,6 +1,5 @@
 @php
     use App\Models\Infotainment;
-    use App\UserRole;
     use Illuminate\Support\Str;
 @endphp
 <x-layout :breadcrumbs="$breadcrumbs">
