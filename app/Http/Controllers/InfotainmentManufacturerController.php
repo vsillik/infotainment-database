@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\InfotainmentManufacturerRequest;
 use App\Models\InfotainmentManufacturer;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -26,7 +27,7 @@ class InfotainmentManufacturerController extends Controller
             'infotainmentManufacturers' => InfotainmentManufacturer::with([
                 'createdBy',
                 'updatedBy',
-            ])->get(),
+            ])->paginate(Config::integer('app.items_per_page')),
         ]);
     }
 

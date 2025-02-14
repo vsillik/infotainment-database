@@ -99,6 +99,12 @@
         </table>
     </div>
 
+    @if($infotainments->hasPages())
+        <div class="mt-2">
+            {{ $infotainments->links() }}
+        </div>
+    @endif
+
     @can('assignUsers', Infotainment::class)
         @pushonce('scripts')
             <script>

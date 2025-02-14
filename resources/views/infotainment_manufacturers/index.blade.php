@@ -65,4 +65,10 @@
             </tbody>
         </table>
     </div>
+
+    @if($infotainmentManufacturers->hasPages())
+        <div class="mt-2">
+            {{ $infotainmentManufacturers->links() }}
+        </div>
+    @endif
 </x-layout>

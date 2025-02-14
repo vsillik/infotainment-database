@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Notifications\ApprovedNotification;
 use App\UserRole;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -28,7 +29,7 @@ class UserController extends Controller
                 route('index') => 'Home',
                 'current' => 'Users',
             ],
-            'users' => User::all(),
+            'users' => User::paginate(Config::integer('app.items_per_page')),
         ]);
     }
 
@@ -194,7 +195,7 @@ class UserController extends Controller
                 ->with([
                     'deletedBy',
                 ])
-                ->get(),
+                ->paginate(Config::integer('app.items_per_page')),
         ]);
     }
 

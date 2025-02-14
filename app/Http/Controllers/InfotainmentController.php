@@ -12,6 +12,7 @@ use App\Models\User;
 use App\UserRole;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
@@ -41,15 +42,17 @@ class InfotainmentController extends Controller
         $user = $request->user();
 
         if ($user->role === UserRole::CUSTOMER) {
-            $infotainments = $user->infotainments->load([
-                'infotainmentManufacturer',
-                'serializerManufacturer',
-            ]);
+            $infotainments = $user->infotainments()
+                ->with([
+                    'infotainmentManufacturer',
+                    'serializerManufacturer',
+                ])
+                ->paginate(Config::integer('app.items_per_page'));
         } else {
             $infotainments = Infotainment::with([
                 'infotainmentManufacturer',
                 'serializerManufacturer',
-            ])->get();
+            ])->paginate(Config::integer('app.items_per_page'));
         }
 
         return view('infotainments.index', [

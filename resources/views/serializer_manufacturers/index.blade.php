@@ -66,4 +66,10 @@
             </tbody>
         </table>
     </div>
+
+    @if($serializerManufacturers->hasPages())
+        <div class="mt-2">
+            {{ $serializerManufacturers->links() }}
+        </div>
+    @endif
 </x-layout>

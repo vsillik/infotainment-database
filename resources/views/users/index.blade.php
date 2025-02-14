@@ -88,4 +88,10 @@
             </tbody>
         </table>
     </div>
+
+    @if($users->hasPages())
+        <div class="mt-2">
+            {{ $users->links() }}
+        </div>
+    @endif
 </x-layout>
