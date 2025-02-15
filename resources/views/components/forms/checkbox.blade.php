@@ -5,12 +5,6 @@
         :isCheckedByDefault="$isCheckedByDefault"
         {{ $attributes }}
     />
-    <input type="checkbox" name="{{ $name }}"
-           value="{{ $value }}" id="{{ $name }}"
-           class="form-check-input"
-        {{ $attributes }}
-        @checked(old($name, $isCheckedByDefault))
-    >
 
     <label for="{{ $name }}" class="form-check-label">
         {{ $label }}
