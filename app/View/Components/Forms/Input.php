@@ -4,21 +4,12 @@ namespace App\View\Components\Forms;
 
 use Closure;
 use Illuminate\Contracts\View\View;
-use Illuminate\View\Component;
 
-class Input extends Component
+class Input extends StandaloneInput
 {
-    public readonly string $name;
-
     public readonly string $label;
 
-    public readonly string $defaultValue;
-
     public readonly bool $required;
-
-    public readonly string $type;
-
-    public readonly ?string $suffixText;
 
     public readonly ?string $extraText;
 
@@ -31,12 +22,9 @@ class Input extends Component
         ?string $suffixText = null,
         ?string $extraText = null,
     ) {
-        $this->name = $name;
+        parent::__construct($name, $defaultValue, $type, $suffixText);
         $this->label = $label;
-        $this->defaultValue = $defaultValue ?? '';
         $this->required = $required ?? false;
-        $this->type = $type ?? 'text';
-        $this->suffixText = $suffixText;
         $this->extraText = $extraText;
     }
 

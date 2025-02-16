@@ -22,26 +22,82 @@
         @endcan
     @endif
 
+    <form action="{{ route('infotainments.index') }}" method="GET" id="filter"></form>
+
     <div class="table-responsive">
         <table class="table">
-            <thead>
-            <tr>
-                @can('assignUsers', Infotainment::class)
-                    <th class="text-center">Select</th>
-                @endcan
 
-                <th>Infotainment manufacturer</th>
+            @if(count($infotainments) > 0 || $hasActiveFilters)
+                <thead>
+                <tr>
+                    @can('assignUsers', Infotainment::class)
+                        <th class="text-center">Select</th>
+                    @endcan
 
-                @if($displayAdvancedColumns)
-                    <th>Serializer manufacturer</th>
-                    <th>Product ID</th>
-                @endif
+                    <th>Infotainment manufacturer</th>
 
-                <th>Model year</th>
-                <th>Part number</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
+                    @if($displayAdvancedColumns)
+                        <th>Serializer manufacturer</th>
+                        <th>Product ID</th>
+                    @endif
+
+                    <th>Model year</th>
+                    <th>Part number</th>
+                    <th>Actions</th>
+                </tr>
+                <tr class="align-top">
+                    @can('assignUsers', Infotainment::class)
+                        <td></td>
+                    @endcan
+
+                    <td>
+                        <x-forms.standalone-input name="infotainment_manufacturer_name"
+                                                  class="form-control-sm"
+                                                  form="filter"
+                                                  :defaultValue="$filters['infotainment_manufacturer_name'] ?? null"
+                        />
+                    </td>
+
+                    @if($displayAdvancedColumns)
+                        <td>
+                            <x-forms.standalone-input name="serializer_manufacturer_name"
+                                                      class="form-control-sm"
+                                                      form="filter"
+                                                      :defaultValue="$filters['serializer_manufacturer_name'] ?? null"
+                            />
+                        </td>
+                        <td>
+                            <x-forms.standalone-input name="product_id"
+                                                      class="form-control-sm"
+                                                      form="filter"
+                                                      :defaultValue="$filters['product_id'] ?? null"
+                            />
+                        </td>
+                    @endif
+
+                    <td>
+                        <x-forms.standalone-input name="model_year"
+                                                  class="form-control-sm"
+                                                  form="filter"
+                                                  :defaultValue="$filters['model_year'] ?? null"
+                        />
+                    </td>
+                    <td>
+                        <x-forms.standalone-input name="part_number"
+                                                  class="form-control-sm"
+                                                  form="filter"
+                                                  :defaultValue="$filters['part_number'] ?? null"
+                        />
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-sm btn-outline-secondary" form="filter">Filter</button>
+                        @if ($hasActiveFilters)
+                            <a href="{{ route('infotainments.index') }}" class="btn btn-sm btn-outline-danger">Reset</a>
+                        @endif
+                    </td>
+                </tr>
+                </thead>
+            @endif
             <tbody>
             @forelse($infotainments as $infotainment)
                 <tr>
@@ -84,13 +140,19 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6">
-                        @can('create', Infotainment::class)
-                            No infotainment found. <a href="{{ route('infotainments.create') }}">Add infotainment</a>
+                    <td colspan="7">
+                        @if($hasActiveFilters)
+                            No infotainment found. Try <a href="{{ route('infotainments.index') }}">resetting
+                                filters</a>.
                         @else
-                            There is no infotainment assigned to your account. If you think this is an error please
-                            contact administrator.
-                        @endcan
+                            @can('create', Infotainment::class)
+                                No infotainment found. <a href="{{ route('infotainments.create') }}">Add
+                                    infotainment</a>
+                            @else
+                                There is no infotainment assigned to your account. If you think this is an error please
+                                contact administrator.
+                            @endcan
+                        @endif
                     </td>
                 </tr>
             @endforelse

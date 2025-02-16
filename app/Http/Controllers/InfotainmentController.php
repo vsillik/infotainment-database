@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserRole;
+use App\Filters\InfotainmentsFilter;
 use App\Http\Requests\InfotainmentRequest;
 use App\Http\Requests\InfotainmentsAssignUsersRequest;
 use App\Models\Infotainment;
@@ -41,25 +42,40 @@ class InfotainmentController extends Controller
         /** @var User $user because user must be logged in, this won't be null */
         $user = $request->user();
 
+        /** @var array<string, ?string> $filters */
+        $filters = [
+            'infotainment_manufacturer_name' => $request->query('infotainment_manufacturer_name'),
+            'serializer_manufacturer_name' => $request->query('serializer_manufacturer_name'),
+            'product_id' => $request->query('product_id'),
+            'model_year' => $request->query('model_year'),
+            'part_number' => $request->query('part_number'),
+        ];
+
+
         if ($user->role === UserRole::CUSTOMER) {
             $infotainments = $user->infotainments()
                 ->with([
                     'infotainmentManufacturer',
                     'serializerManufacturer',
-                ])
-                ->paginate(Config::integer('app.items_per_page'));
+                ])->getQuery();
         } else {
             $infotainments = Infotainment::with([
                 'infotainmentManufacturer',
                 'serializerManufacturer',
-            ])->paginate(Config::integer('app.items_per_page'));
+            ]);
         }
+
+        $infotainmentFilter = new InfotainmentsFilter;
+        $infotainments = $infotainmentFilter->apply($infotainments, $filters)
+            ->paginate(Config::integer('app.items_per_page'))->withQueryString();
 
         return view('infotainments.index', [
             'breadcrumbs' => [
                 route('index') => 'Home',
                 'current' => 'Infotainments',
             ],
+            'filters' => $filters,
+            'hasActiveFilters' => $infotainmentFilter->isAnyFilterSet($filters),
             'infotainments' => $infotainments,
             'displayAdvancedColumns' => $user->role->value > UserRole::CUSTOMER->value,
         ]);
