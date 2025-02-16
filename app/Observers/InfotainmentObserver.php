@@ -11,6 +11,7 @@ class InfotainmentObserver
     {
         if (Auth::check()) {
             $infotainment->createdBy()->associate(Auth::user());
+            $infotainment->updatedBy()->associate(Auth::user());
         }
     }
 

@@ -51,7 +51,6 @@ class InfotainmentController extends Controller
             'part_number' => $request->query('part_number'),
         ];
 
-
         if ($user->role === UserRole::CUSTOMER) {
             $infotainments = $user->infotainments()
                 ->with([

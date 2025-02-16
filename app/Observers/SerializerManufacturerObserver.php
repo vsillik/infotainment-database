@@ -11,6 +11,7 @@ class SerializerManufacturerObserver
     {
         if (Auth::check()) {
             $serializerManufacturer->createdBy()->associate(Auth::user());
+            $serializerManufacturer->updatedBy()->associate(Auth::user());
         }
     }
 

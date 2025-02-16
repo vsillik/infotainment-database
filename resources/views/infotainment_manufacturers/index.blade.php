@@ -9,59 +9,100 @@
     </x-slot:title>
 
     @can('create', InfotainmentManufacturer::class)
-        <x-action-buttons.create :targetUrl="route('infotainment_manufacturers.create')" label="Create infotainment manufacturer" />
+        <x-action-buttons.create :targetUrl="route('infotainment_manufacturers.create')"
+                                 label="Create infotainment manufacturer"/>
     @endcan
+
+    <form action="{{ route('infotainment_manufacturers.index') }}" method="GET" id="filter"></form>
 
     <div class="table-responsive">
         <table class="table">
-            <thead>
+            @if(count($infotainmentManufacturers) > 0 || $hasActiveFilters)
+                <thead>
                 <tr>
                     <th>Name</th>
                     <th>Created at</th>
                     <th>Updated at</th>
                     <th>Actions</th>
                 </tr>
-            </thead>
-            <tbody>
-                @forelse($infotainmentManufacturers as $infotainmentManufacturer)
-                    <tr>
-                        <td>{{ Str::limit($infotainmentManufacturer->name, 70) }}</td>
-                        <td>
-                            @if($infotainmentManufacturer->createdBy)
-                                @date($infotainmentManufacturer->created_at) ({{ $infotainmentManufacturer->createdBy->email }})
-                            @else
-                                N/A
-                            @endif
-                        </td>
-                        <td>
-                            @if($infotainmentManufacturer->updatedBy)
-                                @date($infotainmentManufacturer->updated_at) ({{ $infotainmentManufacturer->updatedBy->email }})
-                            @else
-                                N/A
-                            @endif
-                        </td>
-                        <td>
-                            @can('update', $infotainmentManufacturer)
-                                <x-action-buttons.edit :targetUrl="route('infotainment_manufacturers.edit', $infotainmentManufacturer)" />
-                            @endcan
+                <tr>
+                    <td>
+                        <x-forms.standalone-input name="name"
+                                                  class="form-control-sm"
+                                                  form="filter"
+                                                  :defaultValue="$filters['name'] ?? null"
+                        />
+                    </td>
+                    <td>
+                        <x-forms.standalone-input name="created_at"
+                                                  class="form-control-sm"
+                                                  form="filter"
+                                                  type="date"
+                                                  :defaultValue="$filters['created_at'] ?? null"
+                        />
+                    </td>
+                    <td>
+                        <x-forms.standalone-input name="updated_at"
+                                                  class="form-control-sm"
+                                                  form="filter"
+                                                  type="date"
+                                                  :defaultValue="$filters['updated_at'] ?? null"
+                        />
+                    </td>
 
-                            @can('delete', $infotainmentManufacturer)
-                                <x-action-buttons.delete
-                                    :targetUrl="route('infotainment_manufacturers.destroy', $infotainmentManufacturer)"
-                                    confirmSubject="infotainment manufacturer {{$infotainmentManufacturer->name}}" />
-                            @endcan
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="2">
-                            No infotainment manufacturer found.
+                    <td>
+                        <button type="submit" class="btn btn-sm btn-outline-secondary" form="filter">Filter</button>
+                        @if ($hasActiveFilters)
+                            <a href="{{ route('infotainment_manufacturers.index') }}"
+                               class="btn btn-sm btn-outline-danger">Clear</a>
+                        @endif
+                    </td>
+                </tr>
+                </thead>
+            @endif
+            <tbody>
+            @forelse($infotainmentManufacturers as $infotainmentManufacturer)
+                <tr>
+                    <td>{{ Str::limit($infotainmentManufacturer->name, 70) }}</td>
+                    <td>
+                        <x-audit-date :timestamp="$infotainmentManufacturer->created_at"
+                                      :by="$infotainmentManufacturer->createdBy"
+                        />
+                    </td>
+                    <td>
+                        <x-audit-date :timestamp="$infotainmentManufacturer->updated_at"
+                                      :by="$infotainmentManufacturer->updatedBy"
+                        />
+                    </td>
+                    <td>
+                        @can('update', $infotainmentManufacturer)
+                            <x-action-buttons.edit
+                                :targetUrl="route('infotainment_manufacturers.edit', $infotainmentManufacturer)"/>
+                        @endcan
+
+                        @can('delete', $infotainmentManufacturer)
+                            <x-action-buttons.delete
+                                :targetUrl="route('infotainment_manufacturers.destroy', $infotainmentManufacturer)"
+                                confirmSubject="infotainment manufacturer {{$infotainmentManufacturer->name}}"/>
+                        @endcan
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="4">
+                        No infotainment manufacturer found.
+                        @if($hasActiveFilters)
+                            Try <a href="{{ route('infotainment_manufacturers.index') }}">resetting filters</a>.
+                        @else
                             @can('create', InfotainmentManufacturer::class)
-                                <a href="{{ route('infotainment_manufacturers.create') }}">Add infotainment manufacturer</a>
+                                <a href="{{ route('infotainment_manufacturers.create') }}">
+                                    Add infotainment manufacturer
+                                </a>
                             @endcan
-                        </td>
-                    </tr>
-                @endforelse
+                        @endif
+                    </td>
+                </tr>
+            @endforelse
             </tbody>
         </table>
     </div>

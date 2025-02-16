@@ -28,18 +28,14 @@
                     <td>{{ $serializerManufacturer->id }}</td>
                     <td>{{ Str::limit($serializerManufacturer->name, 70) }}</td>
                     <td>
-                        @if($serializerManufacturer->createdBy)
-                            @date($serializerManufacturer->created_at) ({{ $serializerManufacturer->createdBy->email }})
-                        @else
-                            N/A
-                        @endif
+                        <x-audit-date :timestamp="$serializerManufacturer->created_at"
+                                      :by="$serializerManufacturer->createdBy"
+                        />
                     </td>
                     <td>
-                        @if($serializerManufacturer->updatedBy)
-                            @date($serializerManufacturer->updated_at) ({{ $serializerManufacturer->updatedBy->email }})
-                        @else
-                            N/A
-                        @endif
+                        <x-audit-date :timestamp="$serializerManufacturer->updated_at"
+                                      :by="$serializerManufacturer->updatedBy"
+                        />
                     </td>
                     <td>
                         @can('update', $serializerManufacturer)

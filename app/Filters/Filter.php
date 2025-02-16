@@ -43,7 +43,7 @@ abstract class Filter
     }
 
     /**
-     * @param array<string, string|null> $filters
+     * @param  array<string, string|null>  $filters
      */
     public function isAnyFilterSet(array $filters): bool
     {

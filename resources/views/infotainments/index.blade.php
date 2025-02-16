@@ -26,7 +26,6 @@
 
     <div class="table-responsive">
         <table class="table">
-
             @if(count($infotainments) > 0 || $hasActiveFilters)
                 <thead>
                 <tr>

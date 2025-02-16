@@ -27,11 +27,9 @@
                     <td>{{ Str::limit($user->name, 40) }}</td>
                     <td>{{ $user->role->toHumanReadable() }}</td>
                     <td>
-                        @if($user->deletedBy)
-                            @date($user->deleted_at) ({{ $user->deletedBy->email }})
-                        @else
-                            N/A
-                        @endif
+                        <x-audit-date :timestamp="$user->deleted_at"
+                                      :by="$user->deletedBy"
+                        />
                     </td>
                     <td class="text-end">
                         @can('restore', $user)

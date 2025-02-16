@@ -79,18 +79,14 @@
                     @endif
                 </td>
                 <td>
-                    @if($infotainmentProfile->createdBy)
-                        @date($infotainmentProfile->created_at) ({{ $infotainmentProfile->createdBy->email }})
-                    @else
-                        N/A
-                    @endif
+                    <x-audit-date :timestamp="$infotainmentProfile->created_at"
+                                  :by="$infotainmentProfile->createdBy"
+                    />
                 </td>
                 <td>
-                    @if($infotainmentProfile->updatedBy)
-                        @date($infotainmentProfile->updated_at) ({{ $infotainmentProfile->updatedBy->email }})
-                    @else
-                        N/A
-                    @endif
+                    <x-audit-date :timestamp="$infotainmentProfile->updated_at"
+                                  :by="$infotainmentProfile->updatedBy"
+                    />
                 </td>
                 <td>
                     @if($infotainmentProfile->is_approved)

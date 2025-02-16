@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\InfotainmentManufacturerFilter;
 use App\Http\Requests\InfotainmentManufacturerRequest;
 use App\Models\InfotainmentManufacturer;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
@@ -15,19 +17,33 @@ class InfotainmentManufacturerController extends Controller
     /**
      * Show infotainment manufacturers
      */
-    public function index(): View
+    public function index(Request $request): View
     {
         Gate::authorize('viewAny', InfotainmentManufacturer::class);
+
+        /** @var array<string, ?string> $filters */
+        $filters = [
+            'name' => $request->query('name'),
+            'created_at' => $request->query('created_at'),
+            'updated_at' => $request->query('updated_at'),
+        ];
+
+        $infotainmentManufacturerFilter = new InfotainmentManufacturerFilter;
+        $infotainmentManufacturers = $infotainmentManufacturerFilter
+            ->apply(InfotainmentManufacturer::with([
+                'createdBy',
+                'updatedBy',
+            ]), $filters)
+            ->paginate(Config::integer('app.items_per_page'));
 
         return view('infotainment_manufacturers.index', [
             'breadcrumbs' => [
                 route('index') => 'Home',
                 'current' => 'Infotainment manufacturers',
             ],
-            'infotainmentManufacturers' => InfotainmentManufacturer::with([
-                'createdBy',
-                'updatedBy',
-            ])->paginate(Config::integer('app.items_per_page')),
+            'filters' => $filters,
+            'hasActiveFilters' => $infotainmentManufacturerFilter->isAnyFilterSet($filters),
+            'infotainmentManufacturers' => $infotainmentManufacturers,
         ]);
     }
 

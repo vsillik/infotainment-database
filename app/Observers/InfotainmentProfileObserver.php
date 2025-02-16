@@ -11,6 +11,7 @@ class InfotainmentProfileObserver
     {
         if (Auth::check()) {
             $infotainmentProfile->createdBy()->associate(Auth::user());
+            $infotainmentProfile->updatedBy()->associate(Auth::user());
         }
     }
 
