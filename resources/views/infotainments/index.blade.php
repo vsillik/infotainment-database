@@ -22,7 +22,7 @@
         @endcan
     @endif
 
-    <form action="{{ route('infotainments.index') }}" method="GET" id="filter"></form>
+    <form action="{{ route('infotainments.index') }}" method="GET" id="filter-form"></form>
 
     <div class="table-responsive">
         <table class="table">
@@ -52,7 +52,7 @@
                     <td>
                         <x-forms.standalone-input name="infotainment_manufacturer_name"
                                                   class="form-control-sm"
-                                                  form="filter"
+                                                  form="filter-form"
                                                   :defaultValue="$filters['infotainment_manufacturer_name'] ?? null"
                         />
                     </td>
@@ -61,14 +61,14 @@
                         <td>
                             <x-forms.standalone-input name="serializer_manufacturer_name"
                                                       class="form-control-sm"
-                                                      form="filter"
+                                                      form="filter-form"
                                                       :defaultValue="$filters['serializer_manufacturer_name'] ?? null"
                             />
                         </td>
                         <td>
                             <x-forms.standalone-input name="product_id"
                                                       class="form-control-sm"
-                                                      form="filter"
+                                                      form="filter-form"
                                                       :defaultValue="$filters['product_id'] ?? null"
                             />
                         </td>
@@ -77,19 +77,19 @@
                     <td>
                         <x-forms.standalone-input name="model_year"
                                                   class="form-control-sm"
-                                                  form="filter"
+                                                  form="filter-form"
                                                   :defaultValue="$filters['model_year'] ?? null"
                         />
                     </td>
                     <td>
                         <x-forms.standalone-input name="part_number"
                                                   class="form-control-sm"
-                                                  form="filter"
+                                                  form="filter-form"
                                                   :defaultValue="$filters['part_number'] ?? null"
                         />
                     </td>
                     <td>
-                        <button type="submit" class="btn btn-sm btn-outline-secondary" form="filter">Filter</button>
+                        <button type="submit" class="btn btn-sm btn-outline-secondary" form="filter-form">Filter</button>
                         @if ($hasActiveFilters)
                             <a href="{{ route('infotainments.index') }}" class="btn btn-sm btn-outline-danger">Reset</a>
                         @endif

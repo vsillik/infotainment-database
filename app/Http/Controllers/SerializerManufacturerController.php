@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\SerializerManufacturerFilter;
 use App\Http\Requests\SerializerManufacturerRequest;
 use App\Models\SerializerManufacturer;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
@@ -15,19 +17,34 @@ class SerializerManufacturerController extends Controller
     /**
      * Show serializer manufacturers
      */
-    public function index(): View
+    public function index(Request $request): View
     {
         Gate::authorize('viewAny', SerializerManufacturer::class);
+
+        /** @var array<string, ?string> $filters */
+        $filters = [
+            'identifier' => $request->query('identifier'),
+            'name' => $request->query('name'),
+            'created_at' => $request->query('created_at'),
+            'updated_at' => $request->query('updated_at'),
+        ];
+
+        $serializerManufacturerFilter = new SerializerManufacturerFilter;
+        $serializerManufacturers = $serializerManufacturerFilter
+            ->apply(SerializerManufacturer::with([
+                'createdBy',
+                'updatedBy',
+            ]), $filters)
+            ->paginate(Config::integer('app.items_per_page'));
 
         return view('serializer_manufacturers.index', [
             'breadcrumbs' => [
                 route('index') => 'Home',
                 'current' => 'Serializer manufacturers',
             ],
-            'serializerManufacturers' => SerializerManufacturer::with([
-                'createdBy',
-                'updatedBy',
-            ])->paginate(Config::integer('app.items_per_page')),
+            'filters' => $filters,
+            'hasActiveFilters' => $serializerManufacturerFilter->isAnyFilterSet($filters),
+            'serializerManufacturers' => $serializerManufacturers,
         ]);
     }
 

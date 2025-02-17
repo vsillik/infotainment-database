@@ -13,7 +13,7 @@
                                  label="Create infotainment manufacturer"/>
     @endcan
 
-    <form action="{{ route('infotainment_manufacturers.index') }}" method="GET" id="filter"></form>
+    <form action="{{ route('infotainment_manufacturers.index') }}" method="GET" id="filter-form"></form>
 
     <div class="table-responsive">
         <table class="table">
@@ -29,14 +29,14 @@
                     <td>
                         <x-forms.standalone-input name="name"
                                                   class="form-control-sm"
-                                                  form="filter"
+                                                  form="filter-form"
                                                   :defaultValue="$filters['name'] ?? null"
                         />
                     </td>
                     <td>
                         <x-forms.standalone-input name="created_at"
                                                   class="form-control-sm"
-                                                  form="filter"
+                                                  form="filter-form"
                                                   type="date"
                                                   :defaultValue="$filters['created_at'] ?? null"
                         />
@@ -44,14 +44,14 @@
                     <td>
                         <x-forms.standalone-input name="updated_at"
                                                   class="form-control-sm"
-                                                  form="filter"
+                                                  form="filter-form"
                                                   type="date"
                                                   :defaultValue="$filters['updated_at'] ?? null"
                         />
                     </td>
 
                     <td>
-                        <button type="submit" class="btn btn-sm btn-outline-secondary" form="filter">Filter</button>
+                        <button type="submit" class="btn btn-sm btn-outline-secondary" form="filter-form">Filter</button>
                         @if ($hasActiveFilters)
                             <a href="{{ route('infotainment_manufacturers.index') }}"
                                class="btn btn-sm btn-outline-danger">Clear</a>
