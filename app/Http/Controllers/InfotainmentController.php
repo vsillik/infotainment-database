@@ -51,21 +51,22 @@ class InfotainmentController extends Controller
             'part_number' => $request->query('part_number'),
         ];
 
+        $infotainmentFilter = new InfotainmentsFilter($filters);
+
         if ($user->role === UserRole::CUSTOMER) {
-            $infotainments = $user->infotainments()
+            $infotainmentsQuery = $user->infotainments()
                 ->with([
                     'infotainmentManufacturer',
                     'serializerManufacturer',
                 ])->getQuery();
         } else {
-            $infotainments = Infotainment::with([
+            $infotainmentsQuery = Infotainment::with([
                 'infotainmentManufacturer',
                 'serializerManufacturer',
             ]);
         }
 
-        $infotainmentFilter = new InfotainmentsFilter;
-        $infotainments = $infotainmentFilter->apply($infotainments, $filters)
+        $infotainments = $infotainmentFilter->apply($infotainmentsQuery)
             ->paginate(Config::integer('app.items_per_page'))->withQueryString();
 
         return view('infotainments.index', [
@@ -74,7 +75,7 @@ class InfotainmentController extends Controller
                 'current' => 'Infotainments',
             ],
             'filters' => $filters,
-            'hasActiveFilters' => $infotainmentFilter->isAnyFilterSet($filters),
+            'hasActiveFilters' => $infotainmentFilter->isAnyFilterSet(),
             'infotainments' => $infotainments,
             'displayAdvancedColumns' => $user->role->value > UserRole::CUSTOMER->value,
         ]);

@@ -14,15 +14,18 @@ use Illuminate\Database\Eloquent\Builder;
 class InfotainmentsFilter extends Filter
 {
     /**
-     * @var array<string, FilterValueType>
+     * @param  array<string, ?string>  $filters
      */
-    protected array $validFilters = [
-        'infotainment_manufacturer_name' => FilterValueType::STRING,
-        'serializer_manufacturer_name' => FilterValueType::STRING,
-        'product_id' => FilterValueType::STRING,
-        'model_year' => FilterValueType::NUMERIC,
-        'part_number' => FilterValueType::STRING,
-    ];
+    public function __construct(array $filters)
+    {
+        parent::__construct([
+            'infotainment_manufacturer_name' => FilterValueType::STRING,
+            'serializer_manufacturer_name' => FilterValueType::STRING,
+            'product_id' => FilterValueType::STRING,
+            'model_year' => FilterValueType::NUMERIC,
+            'part_number' => FilterValueType::STRING,
+        ], $filters);
+    }
 
     /**
      * @param  Builder<Infotainment>  $query

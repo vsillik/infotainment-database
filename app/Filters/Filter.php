@@ -19,20 +19,45 @@ abstract class Filter
      *
      * @var array<string, FilterValueType>
      */
-    protected array $validFilters = [];
+    protected readonly array $validFilterTypes;
 
     /**
-     * @param  Builder<TModel>  $query
-     * @param  array<string, string|null>  $filters
-     * @return Builder<TModel>
+     * Filter name => value (only validated filters)
+     *
+     * @var array<string, ?string>
      */
-    public function apply(Builder $query, array $filters): Builder
-    {
+    protected readonly array $activeFilterValues;
+
+    /**
+     * @param  array<string, FilterValueType>  $validFilterTypes
+     * @param  array<string, ?string>  $filters
+     */
+    public function __construct(
+        array $validFilterTypes,
+        array $filters
+    ) {
+        $this->validFilterTypes = $validFilterTypes;
+
+        $activeFilters = [];
+
         foreach ($filters as $filterName => $value) {
             if (! $this->validateFilter($filterName, $value)) {
                 continue;
             }
 
+            $activeFilters[$filterName] = $value;
+        }
+
+        $this->activeFilterValues = $activeFilters;
+    }
+
+    /**
+     * @param  Builder<TModel>  $query
+     * @return Builder<TModel>
+     */
+    public function apply(Builder $query): Builder
+    {
+        foreach ($this->activeFilterValues as $filterName => $value) {
             $methodName = $this->getMethodName($filterName);
 
             /** @var Builder<TModel> $query */
@@ -42,18 +67,9 @@ abstract class Filter
         return $query;
     }
 
-    /**
-     * @param  array<string, string|null>  $filters
-     */
-    public function isAnyFilterSet(array $filters): bool
+    public function isAnyFilterSet(): bool
     {
-        foreach ($filters as $filterName => $value) {
-            if ($this->validateFilter($filterName, $value)) {
-                return true;
-            }
-        }
-
-        return false;
+        return count($this->activeFilterValues) > 0;
     }
 
     protected function getMethodName(string $filterName): string
@@ -63,13 +79,13 @@ abstract class Filter
 
     protected function validateFilter(string $filterName, mixed $value): bool
     {
-        if (! array_key_exists($filterName, $this->validFilters)) {
+        if (! array_key_exists($filterName, $this->validFilterTypes)) {
             return false;
         }
 
-        $type = $this->validFilters[$filterName];
+        $type = $this->validFilterTypes[$filterName];
 
-        if (! $type->validateType($value)) {
+        if (! $type->validateValueType($value)) {
             return false;
         }
 

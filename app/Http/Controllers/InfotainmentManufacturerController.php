@@ -28,13 +28,14 @@ class InfotainmentManufacturerController extends Controller
             'updated_at' => $request->query('updated_at'),
         ];
 
-        $infotainmentManufacturerFilter = new InfotainmentManufacturerFilter;
+        $infotainmentManufacturerFilter = new InfotainmentManufacturerFilter($filters);
+        $infotainmentManufacturerQuery = InfotainmentManufacturer::with([
+            'createdBy',
+            'updatedBy',
+        ]);
         $infotainmentManufacturers = $infotainmentManufacturerFilter
-            ->apply(InfotainmentManufacturer::with([
-                'createdBy',
-                'updatedBy',
-            ]), $filters)
-            ->paginate(Config::integer('app.items_per_page'));
+            ->apply($infotainmentManufacturerQuery)
+            ->paginate(Config::integer('app.items_per_page'))->withQueryString();
 
         return view('infotainment_manufacturers.index', [
             'breadcrumbs' => [
@@ -42,7 +43,7 @@ class InfotainmentManufacturerController extends Controller
                 'current' => 'Infotainment manufacturers',
             ],
             'filters' => $filters,
-            'hasActiveFilters' => $infotainmentManufacturerFilter->isAnyFilterSet($filters),
+            'hasActiveFilters' => $infotainmentManufacturerFilter->isAnyFilterSet(),
             'infotainmentManufacturers' => $infotainmentManufacturers,
         ]);
     }

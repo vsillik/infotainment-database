@@ -29,13 +29,14 @@ class SerializerManufacturerController extends Controller
             'updated_at' => $request->query('updated_at'),
         ];
 
-        $serializerManufacturerFilter = new SerializerManufacturerFilter;
+        $serializerManufacturerFilter = new SerializerManufacturerFilter($filters);
+        $serializerManufacturerQuery = SerializerManufacturer::with([
+            'createdBy',
+            'updatedBy',
+        ]);
         $serializerManufacturers = $serializerManufacturerFilter
-            ->apply(SerializerManufacturer::with([
-                'createdBy',
-                'updatedBy',
-            ]), $filters)
-            ->paginate(Config::integer('app.items_per_page'));
+            ->apply($serializerManufacturerQuery)
+            ->paginate(Config::integer('app.items_per_page'))->withQueryString();
 
         return view('serializer_manufacturers.index', [
             'breadcrumbs' => [
@@ -43,7 +44,7 @@ class SerializerManufacturerController extends Controller
                 'current' => 'Serializer manufacturers',
             ],
             'filters' => $filters,
-            'hasActiveFilters' => $serializerManufacturerFilter->isAnyFilterSet($filters),
+            'hasActiveFilters' => $serializerManufacturerFilter->isAnyFilterSet(),
             'serializerManufacturers' => $serializerManufacturers,
         ]);
     }

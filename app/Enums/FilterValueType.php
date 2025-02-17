@@ -10,7 +10,7 @@ enum FilterValueType: string
 
     case DATE = 'date';
 
-    public function validateType(mixed $value): bool
+    public function validateValueType(mixed $value): bool
     {
         return match ($this) {
             self::STRING, self::DATE => is_string($value) && ! empty($value),

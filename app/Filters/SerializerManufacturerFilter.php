@@ -13,12 +13,18 @@ use Illuminate\Database\Eloquent\Builder;
  */
 final class SerializerManufacturerFilter extends Filter
 {
-    protected array $validFilters = [
-        'identifier' => FilterValueType::STRING,
-        'name' => FilterValueType::STRING,
-        'created_at' => FilterValueType::DATE,
-        'updated_at' => FilterValueType::DATE,
-    ];
+    /**
+     * @param  array<string, ?string>  $filters
+     */
+    public function __construct(array $filters)
+    {
+        parent::__construct([
+            'identifier' => FilterValueType::STRING,
+            'name' => FilterValueType::STRING,
+            'created_at' => FilterValueType::DATE,
+            'updated_at' => FilterValueType::DATE,
+        ], $filters);
+    }
 
     /**
      * @param  Builder<SerializerManufacturer>  $query

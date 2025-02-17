@@ -13,11 +13,17 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class InfotainmentManufacturerFilter extends Filter
 {
-    protected array $validFilters = [
-        'name' => FilterValueType::STRING,
-        'created_at' => FilterValueType::DATE,
-        'updated_at' => FilterValueType::DATE,
-    ];
+    /**
+     * @param  array<string, ?string>  $filters
+     */
+    public function __construct(array $filters)
+    {
+        parent::__construct([
+            'name' => FilterValueType::STRING,
+            'created_at' => FilterValueType::DATE,
+            'updated_at' => FilterValueType::DATE,
+        ], $filters);
+    }
 
     /**
      * @param  Builder<InfotainmentManufacturer>  $query
