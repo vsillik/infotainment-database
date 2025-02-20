@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Filters;
 
@@ -14,8 +12,9 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * @extends Filter<User>
  */
-class UsersFilter extends Filter
+class DeletedUsersFilter extends Filter
 {
+
     /**
      * @use FilterEmail<User>
      * @use FilterName<User>
@@ -27,20 +26,18 @@ class UsersFilter extends Filter
     {
         parent::__construct([
             'email' => FilterValueType::STRING,
-            'approved' => FilterValueType::YES_NO_CHOICE,
             'name' => FilterValueType::STRING,
-            'user_role' => FilterValueType::USER_ROLE,
+            'user_role' => FilterValueType::STRING,
+            'deleted_at' => FilterValueType::DATE,
         ], $filters);
     }
 
     /**
-     * @param  Builder<User>  $query
+     * @param Builder<User> $query
      * @return Builder<User>
      */
-    protected function filterApproved(Builder $query, string $value): Builder
+    protected function filterDeletedAt(Builder $query, string $value): Builder
     {
-        $isApproved = $value === 'yes';
-
-        return $query->where('is_approved', $isApproved);
+        return $query->whereDate('deleted_at', $value);
     }
 }

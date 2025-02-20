@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserRole;
+use App\Filters\DeletedUsersFilter;
 use App\Filters\UsersFilter;
 use App\Http\Requests\UserAssignInfotainmentsRequest;
 use App\Http\Requests\UserRequest;
@@ -200,9 +201,24 @@ class UserController extends Controller
     /**
      * Show soft deleted users
      */
-    public function indexDeleted(): View
+    public function indexDeleted(Request $request): View
     {
         Gate::authorize('viewAny', User::class);
+
+        /** @var array<string, ?string> $filters */
+        $filters = [
+            'email' => $request->query('email'),
+            'name' => $request->query('name'),
+            'user_role' => $request->query('user_role'),
+            'deleted_at' => $request->query('deleted_at'),
+        ];
+
+        $deletedUsersFilter = new DeletedUsersFilter($filters);
+        $usersQuery = User::onlyTrashed()
+            ->with(['deletedBy']);
+        $users = $deletedUsersFilter
+            ->apply($usersQuery)
+            ->paginate(Config::integer('app.items_per_page'))->withQueryString();
 
         return view('users.index-deleted', [
             'breadcrumbs' => [
@@ -210,11 +226,10 @@ class UserController extends Controller
                 route('users.index') => 'Users',
                 'current' => 'Deleted users',
             ],
-            'users' => User::onlyTrashed()
-                ->with([
-                    'deletedBy',
-                ])
-                ->paginate(Config::integer('app.items_per_page')),
+            'filters' => $filters,
+            'hasActiveFilters' => $deletedUsersFilter->isAnyFilterSet(),
+            'users' => $users,
+            'userRoles' => ['any' => 'Any'] + UserRole::labels(),
         ]);
     }
 
@@ -227,14 +242,14 @@ class UserController extends Controller
 
         if (! $user->trashed()) {
             return redirect()
-                ->route('users.index')
+                ->route('users.deleted')
                 ->with('error', sprintf('User %s is already restored', $user->email));
         }
 
         $user->restore();
 
         return redirect()
-            ->route('users.index')
+            ->route('users.deleted')
             ->with('success', sprintf('User %s restored', $user->email));
     }
 

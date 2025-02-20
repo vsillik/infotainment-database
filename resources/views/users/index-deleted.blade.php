@@ -9,17 +9,62 @@
         deleted.
     </p>
 
+    <form action="{{ route('users.deleted') }}" method="GET" id="filter-form"></form>
+
     <div class="table-responsive">
         <table class="table">
-            <thead>
-            <tr>
-                <th>Email</th>
-                <th>Name</th>
-                <th>Role</th>
-                <th>Deleted at</th>
-                <th class="text-end">Actions</th>
-            </tr>
-            </thead>
+            @if(count($users) > 0 || $hasActiveFilters)
+                <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Deleted at</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+                <tr>
+                    <td>
+                        <x-forms.standalone-input name="email"
+                                                  class="form-control-sm"
+                                                  form="filter-form"
+                                                  :defaultValue="$filters['email'] ?? null"
+                        />
+                    </td>
+                    <td>
+                        <x-forms.standalone-input name="name"
+                                                  class="form-control-sm"
+                                                  form="filter-form"
+                                                  :defaultValue="$filters['name'] ?? null"
+                        />
+                    </td>
+                    <td>
+                        <x-forms.standalone-select
+                            name="user_role"
+                            :options="$userRoles"
+                            :defaultValue="($filters['user_role'] ?? 'any')"
+                            class="form-select-sm"
+                            form="filter-form"
+                        />
+                    </td>
+                    <td>
+                        <x-forms.standalone-input name="deleted_at"
+                                                  class="form-control-sm"
+                                                  form="filter-form"
+                                                  type="date"
+                                                  :defaultValue="$filters['deleted_at'] ?? null"
+                        />
+                    </td>
+                    <td class="text-end">
+                        <button type="submit" class="btn btn-sm btn-outline-secondary" form="filter-form">Filter
+                        </button>
+                        @if ($hasActiveFilters)
+                            <a href="{{ route('users.deleted') }}"
+                               class="btn btn-sm btn-outline-danger">Clear</a>
+                        @endif
+                    </td>
+                </tr>
+                </thead>
+            @endif
             <tbody>
             @forelse($users as $user)
                 <tr>
@@ -54,11 +99,13 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4">
+                    <td colspan="5">
                         No deleted users found.
-                        @can('create', User::class)
-                            <a href="{{ route('users.create') }}">Add user</a>
-                        @endcan
+                        @if($hasActiveFilters)
+                            Try <a href="{{ route('users.deleted') }}">resetting filters</a>.
+                        @else
+                            <a href="{{ route('users.index') }}">Show all users.</a>
+                        @endif
                     </td>
                 </tr>
             @endforelse

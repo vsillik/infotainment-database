@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * @extends Filter<SerializerManufacturer>
  */
-final class SerializerManufacturersFilter extends Filter
+class SerializerManufacturersFilter extends Filter
 {
     /**
      * @use ContainsString<SerializerManufacturer>
