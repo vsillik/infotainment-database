@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Filters;
 
 use App\Enums\FilterValueType;
+use App\Filters\Traits\ContainsString;
+use App\Filters\Traits\FilterCreatedAt;
+use App\Filters\Traits\FilterName;
+use App\Filters\Traits\FilterUpdatedAt;
 use App\Models\SerializerManufacturer;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -13,6 +17,14 @@ use Illuminate\Database\Eloquent\Builder;
  */
 final class SerializerManufacturersFilter extends Filter
 {
+    /**
+     * @use ContainsString<SerializerManufacturer>
+     * @use FilterName<SerializerManufacturer>
+     * @use FilterCreatedAt<SerializerManufacturer>
+     * @use FilterUpdatedAt<SerializerManufacturer>
+     */
+    use ContainsString, FilterCreatedAt, FilterName, FilterUpdatedAt;
+
     /**
      * @param  array<string, ?string>  $filters
      */
@@ -32,33 +44,6 @@ final class SerializerManufacturersFilter extends Filter
      */
     protected function filterIdentifier(Builder $query, string $value): Builder
     {
-        return $query->whereLike('id', '%'.$value.'%');
-    }
-
-    /**
-     * @param  Builder<SerializerManufacturer>  $query
-     * @return Builder<SerializerManufacturer>
-     */
-    protected function filterName(Builder $query, string $value): Builder
-    {
-        return $query->whereLike('name', '%'.$value.'%');
-    }
-
-    /**
-     * @param  Builder<SerializerManufacturer>  $query
-     * @return Builder<SerializerManufacturer>
-     */
-    protected function filterCreatedAt(Builder $query, string $value): Builder
-    {
-        return $query->whereDate('created_at', $value);
-    }
-
-    /**
-     * @param  Builder<SerializerManufacturer>  $query
-     * @return Builder<SerializerManufacturer>
-     */
-    protected function filterUpdatedAt(Builder $query, string $value): Builder
-    {
-        return $query->whereDate('updated_at', $value);
+        return $this->columnContainsString($query, 'id', $value);
     }
 }

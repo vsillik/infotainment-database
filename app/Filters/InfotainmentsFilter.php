@@ -5,14 +5,21 @@ declare(strict_types=1);
 namespace App\Filters;
 
 use App\Enums\FilterValueType;
+use App\Filters\Traits\ContainsString;
 use App\Models\Infotainment;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @extends Filter<Infotainment>
  */
 class InfotainmentsFilter extends Filter
 {
+    /**
+     * @use ContainsString<Infotainment>
+     */
+    use ContainsString;
+
     /**
      * @param  array<string, ?string>  $filters
      */
@@ -55,7 +62,7 @@ class InfotainmentsFilter extends Filter
      */
     protected function filterProductId(Builder $query, string $value): Builder
     {
-        return $query->whereLike('product_id', '%'.$value.'%');
+        return $this->columnContainsString($query, 'product_id', $value);
     }
 
     /**
@@ -64,7 +71,7 @@ class InfotainmentsFilter extends Filter
      */
     protected function filterModelYear(Builder $query, string $value): Builder
     {
-        return $query->where('model_year', $value);
+        return $this->columnContainsString($query, DB::raw('CAST(model_year as CHAR)'), $value);
     }
 
     /**
@@ -73,6 +80,6 @@ class InfotainmentsFilter extends Filter
      */
     protected function filterPartNumber(Builder $query, string $value): Builder
     {
-        return $query->whereLike('part_number', '%'.$value.'%');
+        return $this->columnContainsString($query, 'part_number', $value);
     }
 }

@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Filters;
 
 use App\Enums\FilterValueType;
-use App\Enums\UserRole;
+use App\Filters\Traits\FilterEmail;
+use App\Filters\Traits\FilterName;
+use App\Filters\Traits\FilterUserRole;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -14,6 +16,13 @@ use Illuminate\Database\Eloquent\Builder;
  */
 final class UsersFilter extends Filter
 {
+    /**
+     * @use FilterEmail<User>
+     * @use FilterName<User>
+     * @use FilterUserRole<User>
+     */
+    use FilterEmail, FilterName, FilterUserRole;
+
     public function __construct(array $filters)
     {
         parent::__construct([
@@ -28,37 +37,10 @@ final class UsersFilter extends Filter
      * @param  Builder<User>  $query
      * @return Builder<User>
      */
-    protected function filterEmail(Builder $query, string $value): Builder
-    {
-        return $query->whereLike('email', '%'.$value.'%');
-    }
-
-    /**
-     * @param  Builder<User>  $query
-     * @return Builder<User>
-     */
     protected function filterApproved(Builder $query, string $value): Builder
     {
         $isApproved = $value === 'yes';
 
         return $query->where('is_approved', $isApproved);
-    }
-
-    /**
-     * @param  Builder<User>  $query
-     * @return Builder<User>
-     */
-    protected function filterName(Builder $query, string $value): Builder
-    {
-        return $query->whereLike('name', '%'.$value.'%');
-    }
-
-    /**
-     * @param  Builder<User>  $query
-     * @return Builder<User>
-     */
-    protected function filterUserRole(Builder $query, string $value): Builder
-    {
-        return $query->where('role', UserRole::from(intval($value))->value);
     }
 }
