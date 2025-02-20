@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Filters\SerializerManufacturerFilter;
+use App\Filters\SerializerManufacturersFilter;
 use App\Http\Requests\SerializerManufacturerRequest;
 use App\Models\SerializerManufacturer;
 use Illuminate\Http\RedirectResponse;
@@ -29,13 +29,13 @@ class SerializerManufacturerController extends Controller
             'updated_at' => $request->query('updated_at'),
         ];
 
-        $serializerManufacturerFilter = new SerializerManufacturerFilter($filters);
-        $serializerManufacturerQuery = SerializerManufacturer::with([
+        $serializerManufacturersFilter = new SerializerManufacturersFilter($filters);
+        $serializerManufacturersQuery = SerializerManufacturer::with([
             'createdBy',
             'updatedBy',
         ]);
-        $serializerManufacturers = $serializerManufacturerFilter
-            ->apply($serializerManufacturerQuery)
+        $serializerManufacturers = $serializerManufacturersFilter
+            ->apply($serializerManufacturersQuery)
             ->paginate(Config::integer('app.items_per_page'))->withQueryString();
 
         return view('serializer_manufacturers.index', [
@@ -44,7 +44,7 @@ class SerializerManufacturerController extends Controller
                 'current' => 'Serializer manufacturers',
             ],
             'filters' => $filters,
-            'hasActiveFilters' => $serializerManufacturerFilter->isAnyFilterSet(),
+            'hasActiveFilters' => $serializerManufacturersFilter->isAnyFilterSet(),
             'serializerManufacturers' => $serializerManufacturers,
         ]);
     }

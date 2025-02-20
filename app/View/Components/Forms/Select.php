@@ -3,18 +3,10 @@
 namespace App\View\Components\Forms;
 
 use Illuminate\Contracts\View\View;
-use Illuminate\View\Component;
 
-class Select extends Component
+class Select extends StandaloneSelect
 {
-    public readonly string $name;
-
     public readonly string $label;
-
-    /** @var array<string> */
-    public readonly array $options;
-
-    public readonly string $defaultValue;
 
     public readonly bool $required;
 
@@ -31,10 +23,8 @@ class Select extends Component
         ?bool $required = null,
         ?string $extraText = null,
     ) {
-        $this->name = $name;
+        parent::__construct($name, $options, $defaultValue);
         $this->label = $label;
-        $this->options = $options;
-        $this->defaultValue = $defaultValue ?? '';
         $this->required = $required ?? false;
         $this->extraText = $extraText;
     }

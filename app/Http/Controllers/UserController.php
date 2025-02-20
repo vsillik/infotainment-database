@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserRole;
+use App\Filters\UsersFilter;
 use App\Http\Requests\UserAssignInfotainmentsRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Infotainment;
 use App\Models\User;
 use App\Notifications\ApprovedNotification;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
@@ -20,16 +22,33 @@ class UserController extends Controller
     /**
      * Show users
      */
-    public function index(): View
+    public function index(Request $request): View
     {
         Gate::authorize('viewAny', User::class);
+
+        /** @var array<string, ?string> $filters */
+        $filters = [
+            'email' => $request->query('email'),
+            'name' => $request->query('name'),
+            'approved' => $request->query('approved'),
+            'user_role' => $request->query('user_role'),
+        ];
+
+        $usersFilter = new UsersFilter($filters);
+        $usersQuery = User::query();
+        $users = $usersFilter
+            ->apply($usersQuery)
+            ->paginate(Config::integer('app.items_per_page'))->withQueryString();
 
         return view('users.index', [
             'breadcrumbs' => [
                 route('index') => 'Home',
                 'current' => 'Users',
             ],
-            'users' => User::paginate(Config::integer('app.items_per_page')),
+            'filters' => $filters,
+            'hasActiveFilters' => $usersFilter->isAnyFilterSet(),
+            'users' => $users,
+            'userRoles' => ['any' => 'Any'] + UserRole::labels(),
         ]);
     }
 

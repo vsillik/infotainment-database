@@ -6,23 +6,11 @@
         @endif
     </label>
 
-    <select name="{{ $name }}" id="{{ $name }}"
-            @class(['form-select', 'is-invalid' => $errors->has($name)])
-            {{ $attributes }}
-    >
-        @foreach($options as $key => $option)
-            <option value="{{ $key }}"
-                @selected(old($name, $defaultValue) == $key)>
-                {{ $option }}
-            </option>
-        @endforeach
-    </select>
-
-    @error($name)
-    <div class="invalid-feedback">
-        {{ $message }}
-    </div>
-    @enderror
+    <x-forms.standalone-select
+        :name="$name"
+        :options="$options"
+        :defaultValue="$defaultValue"
+    />
 
     @if($extraText !== null)
         <div class="form-text">

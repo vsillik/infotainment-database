@@ -22,24 +22,90 @@
 
     <a class="btn btn-secondary mb-2" href="{{ route('users.deleted') }}">Show deleted</a>
 
+    <form action="{{ route('users.index') }}" method="GET" id="filter-form"></form>
+
     <div class="table-responsive">
         <table class="table">
-            <thead>
-            <tr>
-                <th>Email</th>
-                <th>Name</th>
-                <th>Role</th>
-                <th class="text-end">Actions</th>
-            </tr>
-            </thead>
+            @if(count($users) > 0 || $hasActiveFilters)
+                <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Approved</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+                <tr class="align-top">
+                    <td>
+                        <x-forms.standalone-input name="email"
+                                                  class="form-control-sm"
+                                                  form="filter-form"
+                                                  :defaultValue="$filters['email'] ?? null"
+                        />
+                    </td>
+                    <td>
+                        <x-forms.radio name="approved"
+                                       value="any"
+                                       label="Any"
+                                       form="filter-form"
+                                       class="small"
+                                       :isCheckedByDefault="!in_array($filters['approved'] ?? null, ['yes', 'no'])"
+                        />
+
+                        <x-forms.radio name="approved"
+                                       value="yes"
+                                       label="Approved"
+                                       form="filter-form"
+                                       class="small"
+                                       :isCheckedByDefault="($filters['approved'] ?? null) === 'yes'"
+                        />
+
+                        <x-forms.radio name="approved"
+                                       value="no"
+                                       label="Unapproved"
+                                       form="filter-form"
+                                       class="small"
+                                       :isCheckedByDefault="($filters['approved'] ?? null) === 'no'"
+                        />
+                    </td>
+                    <td>
+                        <x-forms.standalone-input name="name"
+                                                  class="form-control-sm"
+                                                  form="filter-form"
+                                                  :defaultValue="$filters['name'] ?? null"
+                        />
+                    </td>
+                    <td>
+                        <x-forms.standalone-select
+                            name="user_role"
+                            :options="$userRoles"
+                            :defaultValue="($filters['user_role'] ?? 'any')"
+                            class="form-select-sm"
+                            form="filter-form"
+                        />
+                    </td>
+                    <td class="text-end">
+                        <button type="submit" class="btn btn-sm btn-outline-secondary" form="filter-form">Filter
+                        </button>
+                        @if ($hasActiveFilters)
+                            <a href="{{ route('users.index') }}"
+                               class="btn btn-sm btn-outline-danger">Clear</a>
+                        @endif
+                    </td>
+                </tr>
+                </thead>
+            @endif
             <tbody>
             @forelse($users as $user)
                 <tr>
                     <td>
                         {{ Str::limit($user->email, 35) }}
-
+                    </td>
+                    <td>
                         @if($user->is_approved)
                             <span class="badge rounded-pill text-bg-success">Approved</span>
+                        @else
+                            <span class="badge rounded-pill text-bg-danger">Unapproved</span>
                         @endif
                     </td>
                     <td>{{ Str::limit($user->name, 40) }}</td>
@@ -77,11 +143,15 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4">
+                    <td colspan="5">
                         No user found.
-                        @can('create', User::class)
-                            <a href="{{ route('users.create') }}">Add user</a>
-                        @endcan
+                        @if($hasActiveFilters)
+                            Try <a href="{{ route('users.index') }}">resetting filters</a>.
+                        @else
+                            @can('create', User::class)
+                                <a href="{{ route('users.create') }}">Add user</a>
+                            @endcan
+                        @endif
                     </td>
                 </tr>
             @endforelse

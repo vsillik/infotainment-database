@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * @extends Filter<SerializerManufacturer>
  */
-final class SerializerManufacturerFilter extends Filter
+final class SerializerManufacturersFilter extends Filter
 {
     /**
      * @param  array<string, ?string>  $filters

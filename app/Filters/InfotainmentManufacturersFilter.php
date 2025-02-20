@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * @extends Filter<InfotainmentManufacturer>
  */
-class InfotainmentManufacturerFilter extends Filter
+class InfotainmentManufacturersFilter extends Filter
 {
     /**
      * @param  array<string, ?string>  $filters

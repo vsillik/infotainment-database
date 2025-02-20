@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Filters\InfotainmentManufacturerFilter;
+use App\Filters\InfotainmentManufacturersFilter;
 use App\Http\Requests\InfotainmentManufacturerRequest;
 use App\Models\InfotainmentManufacturer;
 use Illuminate\Http\RedirectResponse;
@@ -28,13 +28,13 @@ class InfotainmentManufacturerController extends Controller
             'updated_at' => $request->query('updated_at'),
         ];
 
-        $infotainmentManufacturerFilter = new InfotainmentManufacturerFilter($filters);
-        $infotainmentManufacturerQuery = InfotainmentManufacturer::with([
+        $infotainmentManufacturersFilter = new InfotainmentManufacturersFilter($filters);
+        $infotainmentManufacturersQuery = InfotainmentManufacturer::with([
             'createdBy',
             'updatedBy',
         ]);
-        $infotainmentManufacturers = $infotainmentManufacturerFilter
-            ->apply($infotainmentManufacturerQuery)
+        $infotainmentManufacturers = $infotainmentManufacturersFilter
+            ->apply($infotainmentManufacturersQuery)
             ->paginate(Config::integer('app.items_per_page'))->withQueryString();
 
         return view('infotainment_manufacturers.index', [
@@ -43,7 +43,7 @@ class InfotainmentManufacturerController extends Controller
                 'current' => 'Infotainment manufacturers',
             ],
             'filters' => $filters,
-            'hasActiveFilters' => $infotainmentManufacturerFilter->isAnyFilterSet(),
+            'hasActiveFilters' => $infotainmentManufacturersFilter->isAnyFilterSet(),
             'infotainmentManufacturers' => $infotainmentManufacturers,
         ]);
     }
