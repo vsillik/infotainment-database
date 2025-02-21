@@ -17,15 +17,15 @@
 
     <div class="table-responsive">
         <table class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Created at</th>
+                <th>Updated at</th>
+                <th class="text-end">Actions</th>
+            </tr>
             @if(count($infotainmentManufacturers) > 0 || $hasActiveFilters)
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Created at</th>
-                    <th>Updated at</th>
-                    <th>Actions</th>
-                </tr>
-                <tr>
+                <tr class="align-top">
                     <td>
                         <x-forms.standalone-input name="name"
                                                   class="form-control-sm"
@@ -49,17 +49,17 @@
                                                   :defaultValue="$filters['updated_at'] ?? null"
                         />
                     </td>
-
-                    <td>
-                        <button type="submit" class="btn btn-sm btn-outline-secondary" form="filter-form">Filter</button>
+                    <td class="text-end">
+                        <button type="submit" class="btn btn-sm btn-outline-secondary" form="filter-form">Filter
+                        </button>
                         @if ($hasActiveFilters)
                             <a href="{{ route('infotainment_manufacturers.index') }}"
                                class="btn btn-sm btn-outline-danger">Clear</a>
                         @endif
                     </td>
                 </tr>
-                </thead>
             @endif
+            </thead>
             <tbody>
             @forelse($infotainmentManufacturers as $infotainmentManufacturer)
                 <tr>
@@ -74,7 +74,7 @@
                                       :by="$infotainmentManufacturer->updatedBy"
                         />
                     </td>
-                    <td>
+                    <td class="text-end">
                         @can('update', $infotainmentManufacturer)
                             <x-action-buttons.edit
                                 :targetUrl="route('infotainment_manufacturers.edit', $infotainmentManufacturer)"/>

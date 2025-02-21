@@ -16,16 +16,16 @@
 
     <div class="table-responsive">
         <table class="table">
+            <thead>
+            <tr>
+                <th>Identifier</th>
+                <th>Name</th>
+                <th>Created at</th>
+                <th>Updated at</th>
+                <th class="text-end">Actions</th>
+            </tr>
             @if(count($serializerManufacturers) > 0 || $hasActiveFilters)
-                <thead>
-                <tr>
-                    <th>Identifier</th>
-                    <th>Name</th>
-                    <th>Created at</th>
-                    <th>Updated at</th>
-                    <th>Actions</th>
-                </tr>
-                <tr>
+                <tr class="align-top">
                     <td>
                         <x-forms.standalone-input name="identifier"
                                                   class="form-control-sm"
@@ -56,8 +56,7 @@
                                                   :defaultValue="$filters['updated_at'] ?? null"
                         />
                     </td>
-
-                    <td>
+                    <td class="text-end">
                         <button type="submit" class="btn btn-sm btn-outline-secondary" form="filter-form">Filter
                         </button>
                         @if ($hasActiveFilters)
@@ -66,8 +65,8 @@
                         @endif
                     </td>
                 </tr>
-                </thead>
             @endif
+            </thead>
             <tbody>
             @forelse($serializerManufacturers as $serializerManufacturer)
                 <tr>
@@ -83,7 +82,7 @@
                                       :by="$serializerManufacturer->updatedBy"
                         />
                     </td>
-                    <td>
+                    <td class="text-end">
                         @can('update', $serializerManufacturer)
                             <x-action-buttons.edit
                                 :targetUrl="route('serializer_manufacturers.edit', $serializerManufacturer)"/>

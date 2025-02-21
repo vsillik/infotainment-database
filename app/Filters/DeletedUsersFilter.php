@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Filters;
 
@@ -14,7 +16,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class DeletedUsersFilter extends Filter
 {
-
     /**
      * @use FilterEmail<User>
      * @use FilterName<User>
@@ -33,7 +34,7 @@ class DeletedUsersFilter extends Filter
     }
 
     /**
-     * @param Builder<User> $query
+     * @param  Builder<User>  $query
      * @return Builder<User>
      */
     protected function filterDeletedAt(Builder $query, string $value): Builder

@@ -13,16 +13,16 @@
 
     <div class="table-responsive">
         <table class="table">
+            <thead>
+            <tr>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Deleted at</th>
+                <th class="text-end">Actions</th>
+            </tr>
             @if(count($users) > 0 || $hasActiveFilters)
-                <thead>
-                <tr>
-                    <th>Email</th>
-                    <th>Name</th>
-                    <th>Role</th>
-                    <th>Deleted at</th>
-                    <th class="text-end">Actions</th>
-                </tr>
-                <tr>
+                <tr class="align-top">
                     <td>
                         <x-forms.standalone-input name="email"
                                                   class="form-control-sm"
@@ -63,8 +63,8 @@
                         @endif
                     </td>
                 </tr>
-                </thead>
             @endif
+            </thead>
             <tbody>
             @forelse($users as $user)
                 <tr>

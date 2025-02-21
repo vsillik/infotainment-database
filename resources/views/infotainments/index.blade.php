@@ -26,24 +26,24 @@
 
     <div class="table-responsive">
         <table class="table">
+            <thead>
+            <tr>
+                @can('assignUsers', Infotainment::class)
+                    <th class="text-center">Select</th>
+                @endcan
+
+                <th>Infotainment manufacturer</th>
+
+                @if($displayAdvancedColumns)
+                    <th>Serializer manufacturer</th>
+                    <th>Product ID</th>
+                @endif
+
+                <th>Model year</th>
+                <th>Part number</th>
+                <th class="text-end">Actions</th>
+            </tr>
             @if(count($infotainments) > 0 || $hasActiveFilters)
-                <thead>
-                <tr>
-                    @can('assignUsers', Infotainment::class)
-                        <th class="text-center">Select</th>
-                    @endcan
-
-                    <th>Infotainment manufacturer</th>
-
-                    @if($displayAdvancedColumns)
-                        <th>Serializer manufacturer</th>
-                        <th>Product ID</th>
-                    @endif
-
-                    <th>Model year</th>
-                    <th>Part number</th>
-                    <th>Actions</th>
-                </tr>
                 <tr class="align-top">
                     @can('assignUsers', Infotainment::class)
                         <td></td>
@@ -88,15 +88,16 @@
                                                   :defaultValue="$filters['part_number'] ?? null"
                         />
                     </td>
-                    <td>
-                        <button type="submit" class="btn btn-sm btn-outline-secondary" form="filter-form">Filter</button>
+                    <td class="text-end">
+                        <button type="submit" class="btn btn-sm btn-outline-secondary" form="filter-form">Filter
+                        </button>
                         @if ($hasActiveFilters)
                             <a href="{{ route('infotainments.index') }}" class="btn btn-sm btn-outline-danger">Reset</a>
                         @endif
                     </td>
                 </tr>
-                </thead>
             @endif
+            </thead>
             <tbody>
             @forelse($infotainments as $infotainment)
                 <tr>
@@ -121,7 +122,7 @@
 
                     <td>{{ $infotainment->model_year }}</td>
                     <td>{{ $infotainment->part_number }}</td>
-                    <td>
+                    <td class="text-end">
                         @can('view', $infotainment)
                             <x-action-buttons.show :targetUrl="route('infotainments.show', $infotainment)"/>
                         @endcan
