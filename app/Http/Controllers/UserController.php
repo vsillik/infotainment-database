@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\UserRole;
 use App\Filters\DeletedUsersFilter;
+use App\Filters\Exceptions\InvalidFilterValueException;
 use App\Filters\UsersFilter;
 use App\Http\Requests\UserAssignInfotainmentsRequest;
 use App\Http\Requests\UserRequest;
@@ -12,6 +13,7 @@ use App\Models\User;
 use App\Notifications\ApprovedNotification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
@@ -35,11 +37,17 @@ class UserController extends Controller
             'user_role' => $request->query('user_role'),
         ];
 
-        $usersFilter = new UsersFilter($filters);
-        $usersQuery = User::query();
-        $users = $usersFilter
-            ->apply($usersQuery)
-            ->paginate(Config::integer('app.items_per_page'))->withQueryString();
+        try {
+            $usersFilter = new UsersFilter($filters);
+            $usersQuery = User::query();
+            $users = $usersFilter
+                ->apply($usersQuery)
+                ->paginate(Config::integer('app.items_per_page'))->withQueryString();
+            $hasActiveFilters = $usersFilter->isAnyFilterSet();
+        } catch (InvalidFilterValueException) {
+            $users = new LengthAwarePaginator([], 0, Config::integer('app.items_per_page'));
+            $hasActiveFilters = true;
+        }
 
         return view('users.index', [
             'breadcrumbs' => [
@@ -47,7 +55,7 @@ class UserController extends Controller
                 'current' => 'Users',
             ],
             'filters' => $filters,
-            'hasActiveFilters' => $usersFilter->isAnyFilterSet(),
+            'hasActiveFilters' => $hasActiveFilters,
             'users' => $users,
             'userRoles' => ['any' => 'Any'] + UserRole::labels(),
         ]);
@@ -210,15 +218,22 @@ class UserController extends Controller
             'email' => $request->query('email'),
             'name' => $request->query('name'),
             'user_role' => $request->query('user_role'),
-            'deleted_at' => $request->query('deleted_at'),
+            'deleted_from' => $request->query('deleted_from'),
+            'deleted_to' => $request->query('deleted_to'),
         ];
 
-        $deletedUsersFilter = new DeletedUsersFilter($filters);
-        $usersQuery = User::onlyTrashed()
-            ->with(['deletedBy']);
-        $users = $deletedUsersFilter
-            ->apply($usersQuery)
-            ->paginate(Config::integer('app.items_per_page'))->withQueryString();
+        try {
+            $deletedUsersFilter = new DeletedUsersFilter($filters);
+            $usersQuery = User::onlyTrashed()
+                ->with(['deletedBy']);
+            $users = $deletedUsersFilter
+                ->apply($usersQuery)
+                ->paginate(Config::integer('app.items_per_page'))->withQueryString();
+            $hasActiveFilters = $deletedUsersFilter->isAnyFilterSet();
+        } catch (InvalidFilterValueException) {
+            $users = new LengthAwarePaginator([], 0, Config::integer('app.items_per_page'));
+            $hasActiveFilters = true;
+        }
 
         return view('users.index-deleted', [
             'breadcrumbs' => [
@@ -227,7 +242,7 @@ class UserController extends Controller
                 'current' => 'Deleted users',
             ],
             'filters' => $filters,
-            'hasActiveFilters' => $deletedUsersFilter->isAnyFilterSet(),
+            'hasActiveFilters' => $hasActiveFilters,
             'users' => $users,
             'userRoles' => ['any' => 'Any'] + UserRole::labels(),
         ]);

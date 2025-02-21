@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filters;
 
 use App\Enums\FilterValueType;
+use App\Filters\Exceptions\InvalidFilterValueException;
 use App\Filters\Traits\FilterEmail;
 use App\Filters\Traits\FilterName;
 use App\Filters\Traits\FilterUserRole;
@@ -20,6 +21,8 @@ class UsersFilter extends Filter
      * @use FilterEmail<User>
      * @use FilterName<User>
      * @use FilterUserRole<User>
+     *
+     * @throws InvalidFilterValueException
      */
     use FilterEmail, FilterName, FilterUserRole;
 

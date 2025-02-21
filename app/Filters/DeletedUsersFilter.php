@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filters;
 
 use App\Enums\FilterValueType;
+use App\Filters\Exceptions\InvalidFilterValueException;
 use App\Filters\Traits\FilterEmail;
 use App\Filters\Traits\FilterName;
 use App\Filters\Traits\FilterUserRole;
@@ -20,6 +21,8 @@ class DeletedUsersFilter extends Filter
      * @use FilterEmail<User>
      * @use FilterName<User>
      * @use FilterUserRole<User>
+     *
+     * @throws InvalidFilterValueException
      */
     use FilterEmail, FilterName, FilterUserRole;
 
@@ -28,8 +31,9 @@ class DeletedUsersFilter extends Filter
         parent::__construct([
             'email' => FilterValueType::STRING,
             'name' => FilterValueType::STRING,
-            'user_role' => FilterValueType::STRING,
-            'deleted_at' => FilterValueType::DATE,
+            'user_role' => FilterValueType::USER_ROLE,
+            'deleted_from' => FilterValueType::DATE,
+            'deleted_to' => FilterValueType::DATE,
         ], $filters);
     }
 
@@ -37,8 +41,17 @@ class DeletedUsersFilter extends Filter
      * @param  Builder<User>  $query
      * @return Builder<User>
      */
-    protected function filterDeletedAt(Builder $query, string $value): Builder
+    protected function filterDeletedFrom(Builder $query, string $value): Builder
     {
-        return $query->whereDate('deleted_at', $value);
+        return $query->whereDate('deleted_at', '>=', $value);
+    }
+
+    /**
+     * @param  Builder<User>  $query
+     * @return Builder<User>
+     */
+    protected function filterDeletedTo(Builder $query, string $value): Builder
+    {
+        return $query->whereDate('deleted_at', '<=', $value);
     }
 }

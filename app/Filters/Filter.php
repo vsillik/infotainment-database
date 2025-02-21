@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filters;
 
 use App\Enums\FilterValueType;
+use App\Filters\Exceptions\InvalidFilterValueException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -31,6 +32,8 @@ abstract class Filter
     /**
      * @param  array<string, FilterValueType>  $validFilterTypes
      * @param  array<string, ?string>  $filters
+     *
+     * @throws InvalidFilterValueException
      */
     public function __construct(
         array $validFilterTypes,
@@ -41,7 +44,15 @@ abstract class Filter
         $activeFilters = [];
 
         foreach ($filters as $filterName => $value) {
-            if (! $this->validateFilter($filterName, $value)) {
+            if ($value === '' || $value === null) {
+                continue;
+            }
+
+            if (! $this->validateFilterValue($filterName, $value)) {
+                throw new InvalidFilterValueException($filterName);
+            }
+
+            if ($value === 'any' && in_array($this->validFilterTypes[$filterName], [FilterValueType::USER_ROLE, FilterValueType::YES_NO_CHOICE], true)) {
                 continue;
             }
 
@@ -77,7 +88,7 @@ abstract class Filter
         return 'filter'.Str::studly($filterName);
     }
 
-    protected function validateFilter(string $filterName, mixed $value): bool
+    protected function validateFilterValue(string $filterName, mixed $value): bool
     {
         if (! array_key_exists($filterName, $this->validFilterTypes)) {
             return false;

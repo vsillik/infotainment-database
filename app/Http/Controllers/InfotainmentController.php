@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserRole;
+use App\Filters\Exceptions\InvalidFilterValueException;
 use App\Filters\InfotainmentsFilter;
 use App\Http\Requests\InfotainmentRequest;
 use App\Http\Requests\InfotainmentsAssignUsersRequest;
@@ -13,6 +14,7 @@ use App\Models\SerializerManufacturer;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -47,27 +49,35 @@ class InfotainmentController extends Controller
             'infotainment_manufacturer_name' => $request->query('infotainment_manufacturer_name'),
             'serializer_manufacturer_name' => $request->query('serializer_manufacturer_name'),
             'product_id' => $request->query('product_id'),
-            'model_year' => $request->query('model_year'),
+            'model_year_from' => $request->query('model_year_from'),
+            'model_year_to' => $request->query('model_year_to'),
             'part_number' => $request->query('part_number'),
         ];
 
-        $infotainmentsFilter = new InfotainmentsFilter($filters);
+        try {
+            $infotainmentsFilter = new InfotainmentsFilter($filters);
 
-        if ($user->role === UserRole::CUSTOMER) {
-            $infotainmentsQuery = $user->infotainments()
-                ->with([
+            if ($user->role === UserRole::CUSTOMER) {
+                $infotainmentsQuery = $user->infotainments()
+                    ->with([
+                        'infotainmentManufacturer',
+                        'serializerManufacturer',
+                    ])->getQuery();
+            } else {
+                $infotainmentsQuery = Infotainment::with([
                     'infotainmentManufacturer',
                     'serializerManufacturer',
-                ])->getQuery();
-        } else {
-            $infotainmentsQuery = Infotainment::with([
-                'infotainmentManufacturer',
-                'serializerManufacturer',
-            ]);
-        }
+                ]);
+            }
 
-        $infotainments = $infotainmentsFilter->apply($infotainmentsQuery)
-            ->paginate(Config::integer('app.items_per_page'))->withQueryString();
+            $infotainments = $infotainmentsFilter->apply($infotainmentsQuery)
+                ->paginate(Config::integer('app.items_per_page'))->withQueryString();
+
+            $hasActiveFilters = $infotainmentsFilter->isAnyFilterSet();
+        } catch (InvalidFilterValueException) {
+            $infotainments = new LengthAwarePaginator([], 0, Config::integer('app.items_per_page'));
+            $hasActiveFilters = true;
+        }
 
         return view('infotainments.index', [
             'breadcrumbs' => [
@@ -75,7 +85,7 @@ class InfotainmentController extends Controller
                 'current' => 'Infotainments',
             ],
             'filters' => $filters,
-            'hasActiveFilters' => $infotainmentsFilter->isAnyFilterSet(),
+            'hasActiveFilters' => $hasActiveFilters,
             'infotainments' => $infotainments,
             'displayAdvancedColumns' => $user->role->value > UserRole::CUSTOMER->value,
         ]);

@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Filters;
 
 use App\Enums\FilterValueType;
-use App\Filters\Traits\FilterCreatedAt;
+use App\Filters\Exceptions\InvalidFilterValueException;
+use App\Filters\Traits\FilterCreated;
 use App\Filters\Traits\FilterName;
-use App\Filters\Traits\FilterUpdatedAt;
+use App\Filters\Traits\FilterUpdated;
 use App\Models\InfotainmentManufacturer;
 
 /**
@@ -16,11 +17,13 @@ use App\Models\InfotainmentManufacturer;
 class InfotainmentManufacturersFilter extends Filter
 {
     /**
-     * @use FilterCreatedAt<InfotainmentManufacturer>
+     * @use FilterCreated<InfotainmentManufacturer>
      * @use FilterName<InfotainmentManufacturer>
-     * @use FilterUpdatedAt<InfotainmentManufacturer>
+     * @use FilterUpdated<InfotainmentManufacturer>
+     *
+     * @throws InvalidFilterValueException
      */
-    use FilterCreatedAt, FilterName, FilterUpdatedAt;
+    use FilterCreated, FilterName, FilterUpdated;
 
     /**
      * @param  array<string, ?string>  $filters
@@ -29,8 +32,10 @@ class InfotainmentManufacturersFilter extends Filter
     {
         parent::__construct([
             'name' => FilterValueType::STRING,
-            'created_at' => FilterValueType::DATE,
-            'updated_at' => FilterValueType::DATE,
+            'created_from' => FilterValueType::DATE,
+            'created_to' => FilterValueType::DATE,
+            'updated_from' => FilterValueType::DATE,
+            'updated_to' => FilterValueType::DATE,
         ], $filters);
     }
 }

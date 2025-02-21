@@ -47,12 +47,32 @@
                         />
                     </td>
                     <td>
-                        <x-forms.standalone-input name="deleted_at"
-                                                  class="form-control-sm"
-                                                  form="filter-form"
-                                                  type="date"
-                                                  :defaultValue="$filters['deleted_at'] ?? null"
-                        />
+                        <div class="row mb-1">
+                            <div class="col-2 col-form-label col-form-label-sm">
+                                From
+                            </div>
+                            <div class="col-10">
+                                <x-forms.standalone-input name="deleted_from"
+                                                          class="form-control-sm"
+                                                          form="filter-form"
+                                                          type="date"
+                                                          :defaultValue="$filters['deleted_from'] ?? null"
+                                />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2 col-form-label col-form-label-sm">
+                                To
+                            </div>
+                            <div class="col-10">
+                                <x-forms.standalone-input name="deleted_to"
+                                                          class="form-control-sm"
+                                                          form="filter-form"
+                                                          type="date"
+                                                          :defaultValue="$filters['deleted_to'] ?? null"
+                                />
+                            </div>
+                        </div>
                     </td>
                     <td class="text-end">
                         <button type="submit" class="btn btn-sm btn-outline-secondary" form="filter-form">Filter

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\Exceptions\InvalidFilterValueException;
 use App\Filters\SerializerManufacturersFilter;
 use App\Http\Requests\SerializerManufacturerRequest;
 use App\Models\SerializerManufacturer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
@@ -25,18 +27,26 @@ class SerializerManufacturerController extends Controller
         $filters = [
             'identifier' => $request->query('identifier'),
             'name' => $request->query('name'),
-            'created_at' => $request->query('created_at'),
-            'updated_at' => $request->query('updated_at'),
+            'created_from' => $request->query('created_from'),
+            'created_to' => $request->query('created_to'),
+            'updated_from' => $request->query('updated_from'),
+            'updated_to' => $request->query('updated_to'),
         ];
 
-        $serializerManufacturersFilter = new SerializerManufacturersFilter($filters);
-        $serializerManufacturersQuery = SerializerManufacturer::with([
-            'createdBy',
-            'updatedBy',
-        ]);
-        $serializerManufacturers = $serializerManufacturersFilter
-            ->apply($serializerManufacturersQuery)
-            ->paginate(Config::integer('app.items_per_page'))->withQueryString();
+        try {
+            $serializerManufacturersFilter = new SerializerManufacturersFilter($filters);
+            $serializerManufacturersQuery = SerializerManufacturer::with([
+                'createdBy',
+                'updatedBy',
+            ]);
+            $serializerManufacturers = $serializerManufacturersFilter
+                ->apply($serializerManufacturersQuery)
+                ->paginate(Config::integer('app.items_per_page'))->withQueryString();
+            $hasActiveFilters = $serializerManufacturersFilter->isAnyFilterSet();
+        } catch (InvalidFilterValueException) {
+            $serializerManufacturers = new LengthAwarePaginator([], 0, Config::integer('app.items_per_page'));
+            $hasActiveFilters = true;
+        }
 
         return view('serializer_manufacturers.index', [
             'breadcrumbs' => [
@@ -44,7 +54,7 @@ class SerializerManufacturerController extends Controller
                 'current' => 'Serializer manufacturers',
             ],
             'filters' => $filters,
-            'hasActiveFilters' => $serializerManufacturersFilter->isAnyFilterSet(),
+            'hasActiveFilters' => $hasActiveFilters,
             'serializerManufacturers' => $serializerManufacturers,
         ]);
     }

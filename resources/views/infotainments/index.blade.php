@@ -48,7 +48,6 @@
                     @can('assignUsers', Infotainment::class)
                         <td></td>
                     @endcan
-
                     <td>
                         <x-forms.standalone-input name="infotainment_manufacturer_name"
                                                   class="form-control-sm"
@@ -56,7 +55,6 @@
                                                   :defaultValue="$filters['infotainment_manufacturer_name'] ?? null"
                         />
                     </td>
-
                     @if($displayAdvancedColumns)
                         <td>
                             <x-forms.standalone-input name="serializer_manufacturer_name"
@@ -73,13 +71,31 @@
                             />
                         </td>
                     @endif
-
                     <td>
-                        <x-forms.standalone-input name="model_year"
-                                                  class="form-control-sm"
-                                                  form="filter-form"
-                                                  :defaultValue="$filters['model_year'] ?? null"
-                        />
+                        <div class="row mb-1 justify-content-between">
+                            <div class="col-auto col-form-label col-form-label-sm">
+                                From
+                            </div>
+                            <div class="col-10" style="max-width: 100px">
+                                <x-forms.standalone-input name="model_year_from"
+                                                          class="form-control-sm"
+                                                          form="filter-form"
+                                                          :defaultValue="$filters['model_year_from'] ?? null"
+                                />
+                            </div>
+                        </div>
+                        <div class="row justify-content-between">
+                            <div class="col-auto col-form-label col-form-label-sm">
+                                To
+                            </div>
+                            <div class="col-10" style="max-width: 100px;">
+                                <x-forms.standalone-input name="model_year_to"
+                                                          class="form-control-sm"
+                                                          form="filter-form"
+                                                          :defaultValue="$filters['model_year_to'] ?? null"
+                                />
+                            </div>
+                        </div>
                     </td>
                     <td>
                         <x-forms.standalone-input name="part_number"
