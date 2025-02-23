@@ -76,7 +76,7 @@
                             <div class="col-auto col-form-label col-form-label-sm">
                                 From
                             </div>
-                            <div class="col-10" style="max-width: 100px">
+                            <div class="col-10" style="max-width: 80px">
                                 <x-forms.standalone-input name="model_year_from"
                                                           class="form-control-sm"
                                                           form="filter-form"
@@ -88,7 +88,7 @@
                             <div class="col-auto col-form-label col-form-label-sm">
                                 To
                             </div>
-                            <div class="col-10" style="max-width: 100px;">
+                            <div class="col-10" style="max-width: 80px;">
                                 <x-forms.standalone-input name="model_year_to"
                                                           class="form-control-sm"
                                                           form="filter-form"
