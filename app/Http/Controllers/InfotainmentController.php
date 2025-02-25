@@ -12,10 +12,10 @@ use App\Models\InfotainmentManufacturer;
 use App\Models\InfotainmentProfile;
 use App\Models\SerializerManufacturer;
 use App\Models\User;
+use App\Paginator\Exceptions\InvalidPageException;
+use App\Paginator\Paginator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
@@ -37,7 +37,7 @@ class InfotainmentController extends Controller
     /**
      * Show infotainments
      */
-    public function index(Request $request): View
+    public function index(Request $request): RedirectResponse|View
     {
         Gate::authorize('viewAny', Infotainment::class);
 
@@ -53,6 +53,11 @@ class InfotainmentController extends Controller
             'model_year_to' => $request->query('model_year_to'),
             'part_number' => $request->query('part_number'),
         ];
+
+        $perPageQuery = $request->query('per_page');
+        if (is_array($perPageQuery)) {
+            $perPageQuery = null;
+        }
 
         try {
             $infotainmentsFilter = new InfotainmentsFilter($filters);
@@ -70,12 +75,16 @@ class InfotainmentController extends Controller
                 ]);
             }
 
-            $infotainments = $infotainmentsFilter->apply($infotainmentsQuery)
-                ->paginate(Config::integer('app.items_per_page'))->withQueryString();
+            $filteredInfotainmentsQuery = $infotainmentsFilter->apply($infotainmentsQuery);
 
+            $infotainments = Paginator::paginate($filteredInfotainmentsQuery, $perPageQuery);
             $hasActiveFilters = $infotainmentsFilter->isAnyFilterSet();
+        } catch (InvalidPageException) {
+            return redirect()
+                ->route('infotainments.index')
+                ->with('error', 'Invalid page number');
         } catch (InvalidFilterValueException) {
-            $infotainments = new LengthAwarePaginator([], 0, Config::integer('app.items_per_page'));
+            $infotainments = Paginator::emptyPagination();
             $hasActiveFilters = true;
         }
 
@@ -84,6 +93,7 @@ class InfotainmentController extends Controller
                 route('index') => 'Home',
                 'current' => 'Infotainments',
             ],
+            'perPageQuery' => $perPageQuery,
             'filters' => $filters,
             'hasActiveFilters' => $hasActiveFilters,
             'infotainments' => $infotainments,

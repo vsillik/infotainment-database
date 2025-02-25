@@ -48,8 +48,28 @@ const attachSelectButtons = () => {
     }
 };
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', attachSelectButtons);
-} else {
+const attachPerPageSelect = () => {
+  const perPageSelects = document.getElementsByClassName('pagination-per-page');
+
+  for (const perPageSelect of perPageSelects) {
+      perPageSelect.addEventListener('change', () => {
+          const url = new URL(window.location.href);
+
+          url.searchParams.delete('page');
+          url.searchParams.set('per_page', perPageSelect.value);
+
+          window.location.href = url.toString();
+      });
+  }
+};
+
+const onLoad = () => {
     attachSelectButtons();
+    attachPerPageSelect();
+};
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', onLoad);
+} else {
+    onLoad();
 }

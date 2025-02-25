@@ -22,7 +22,11 @@
         @endcan
     @endif
 
-    <form action="{{ route('infotainments.index') }}" method="GET" id="filter-form"></form>
+    <form action="{{ route('infotainments.index') }}" method="GET" id="filter-form">
+        @if($perPageQuery)
+            <input type="hidden" name="per_page" value="{{ $perPageQuery }}">
+        @endif
+    </form>
 
     <div class="table-responsive">
         <table class="table">
@@ -108,7 +112,7 @@
                         <button type="submit" class="btn btn-sm btn-outline-secondary" form="filter-form">Filter
                         </button>
                         @if ($hasActiveFilters)
-                            <a href="{{ route('infotainments.index') }}" class="btn btn-sm btn-outline-danger">Reset</a>
+                            <a href="{{ route('infotainments.index', ['per_page' => $perPageQuery]) }}" class="btn btn-sm btn-outline-danger">Reset</a>
                         @endif
                     </td>
                 </tr>
@@ -158,12 +162,11 @@
                 <tr>
                     <td colspan="7">
                         @if($hasActiveFilters)
-                            No infotainment found. Try <a href="{{ route('infotainments.index') }}">resetting
-                                filters</a>.
+                            No infotainment found. Try <a href="{{ route('infotainments.index', ['per_page' => $perPageQuery]) }}">resetting filters</a>.
                         @else
                             @can('create', Infotainment::class)
-                                No infotainment found. <a href="{{ route('infotainments.create') }}">Add
-                                    infotainment</a>
+                                No infotainment found.
+                                <a href="{{ route('infotainments.create') }}">Add infotainment</a>
                             @else
                                 There is no infotainment assigned to your account. If you think this is an error please
                                 contact administrator.
@@ -176,11 +179,7 @@
         </table>
     </div>
 
-    @if($infotainments->hasPages())
-        <div class="mt-2">
-            {{ $infotainments->links() }}
-        </div>
-    @endif
+    {{ $infotainments->links() }}
 
     @can('assignUsers', Infotainment::class)
         @pushonce('scripts')
