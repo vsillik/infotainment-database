@@ -10,8 +10,6 @@ use App\Paginator\Exceptions\InvalidPageException;
 use App\Paginator\Paginator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -55,7 +53,7 @@ class SerializerManufacturerController extends Controller
                 ->route('serializer_manufacturers.index')
                 ->with('error', 'Invalid page number');
         } catch (InvalidFilterValueException) {
-            $serializerManufacturers = new LengthAwarePaginator([], 0, Config::integer('app.items_per_page'));
+            $serializerManufacturers = Paginator::emptyPagination();
             $hasActiveFilters = true;
         }
 
