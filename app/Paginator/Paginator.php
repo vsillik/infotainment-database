@@ -18,7 +18,7 @@ class Paginator
     public static function perPageOptions(): array
     {
         return [
-            25 => 2,
+            25 => 25,
             100 => 100,
             'all' => 'all',
         ];
