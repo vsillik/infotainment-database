@@ -6,6 +6,8 @@ use App\Filters\Exceptions\InvalidFilterValueException;
 use App\Filters\SerializerManufacturersFilter;
 use App\Http\Requests\SerializerManufacturerRequest;
 use App\Models\SerializerManufacturer;
+use App\Paginator\Exceptions\InvalidPageException;
+use App\Paginator\Paginator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -19,7 +21,7 @@ class SerializerManufacturerController extends Controller
     /**
      * Show serializer manufacturers
      */
-    public function index(Request $request): View
+    public function index(Request $request): RedirectResponse|View
     {
         Gate::authorize('viewAny', SerializerManufacturer::class);
 
@@ -33,16 +35,25 @@ class SerializerManufacturerController extends Controller
             'updated_to' => $request->query('updated_to'),
         ];
 
+        $perPageQuery = $request->query('per_page');
+        if (is_array($perPageQuery)) {
+            $perPageQuery = null;
+        }
+
         try {
             $serializerManufacturersFilter = new SerializerManufacturersFilter($filters);
             $serializerManufacturersQuery = SerializerManufacturer::with([
                 'createdBy',
                 'updatedBy',
             ]);
-            $serializerManufacturers = $serializerManufacturersFilter
-                ->apply($serializerManufacturersQuery)
-                ->paginate(Config::integer('app.items_per_page'))->withQueryString();
+            $filteredSerializerManufacturersQuery = $serializerManufacturersFilter->apply($serializerManufacturersQuery);
+
+            $serializerManufacturers = Paginator::paginate($filteredSerializerManufacturersQuery, $perPageQuery);
             $hasActiveFilters = $serializerManufacturersFilter->isAnyFilterSet();
+        } catch (InvalidPageException) {
+            return redirect()
+                ->route('serializer_manufacturers.index')
+                ->with('error', 'Invalid page number');
         } catch (InvalidFilterValueException) {
             $serializerManufacturers = new LengthAwarePaginator([], 0, Config::integer('app.items_per_page'));
             $hasActiveFilters = true;
@@ -53,6 +64,7 @@ class SerializerManufacturerController extends Controller
                 route('index') => 'Home',
                 'current' => 'Serializer manufacturers',
             ],
+            'perPageQuery' => $perPageQuery,
             'filters' => $filters,
             'hasActiveFilters' => $hasActiveFilters,
             'serializerManufacturers' => $serializerManufacturers,

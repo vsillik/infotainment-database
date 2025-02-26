@@ -22,7 +22,11 @@
 
     <a class="btn btn-secondary mb-2" href="{{ route('users.deleted') }}">Show deleted</a>
 
-    <form action="{{ route('users.index') }}" method="GET" id="filter-form"></form>
+    <form action="{{ route('users.index') }}" method="GET" id="filter-form">
+        @if($perPageQuery)
+            <input type="hidden" name="per_page" value="{{ $perPageQuery }}">
+        @endif
+    </form>
 
     <div class="table-responsive">
         <table class="table">
@@ -88,7 +92,7 @@
                         <button type="submit" class="btn btn-sm btn-outline-secondary" form="filter-form">Filter
                         </button>
                         @if ($hasActiveFilters)
-                            <a href="{{ route('users.index') }}"
+                            <a href="{{ route('users.index', ['per_page' => $perPageQuery]) }}"
                                class="btn btn-sm btn-outline-danger">Clear</a>
                         @endif
                     </td>
@@ -146,7 +150,7 @@
                     <td colspan="5">
                         No user found.
                         @if($hasActiveFilters)
-                            Try <a href="{{ route('users.index') }}">resetting filters</a>.
+                            Try <a href="{{ route('users.index', ['per_page' => $perPageQuery]) }}">resetting filters</a>.
                         @else
                             @can('create', User::class)
                                 <a href="{{ route('users.create') }}">Add user</a>
@@ -159,9 +163,5 @@
         </table>
     </div>
 
-    @if($users->hasPages())
-        <div class="mt-2">
-            {{ $users->links() }}
-        </div>
-    @endif
+    {{ $users->links() }}
 </x-layout>

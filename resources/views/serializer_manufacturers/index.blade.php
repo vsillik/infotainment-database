@@ -12,7 +12,11 @@
                                  label="Create serializer manufacturer"/>
     @endcan
 
-    <form action="{{ route('serializer_manufacturers.index') }}" method="GET" id="filter-form"></form>
+    <form action="{{ route('serializer_manufacturers.index') }}" method="GET" id="filter-form">
+        @if($perPageQuery)
+            <input type="hidden" name="per_page" value="{{ $perPageQuery }}">
+        @endif
+    </form>
 
     <div class="table-responsive">
         <table class="table">
@@ -100,7 +104,7 @@
                         <button type="submit" class="btn btn-sm btn-outline-secondary" form="filter-form">Filter
                         </button>
                         @if ($hasActiveFilters)
-                            <a href="{{ route('serializer_manufacturers.index') }}"
+                            <a href="{{ route('serializer_manufacturers.index', ['per_page' => $perPageQuery]) }}"
                                class="btn btn-sm btn-outline-danger">Clear</a>
                         @endif
                     </td>
@@ -140,7 +144,7 @@
                     <td colspan="5">
                         No serializer manufacturer found.
                         @if($hasActiveFilters)
-                            Try <a href="{{ route('serializer_manufacturers.index') }}">resetting filters</a>.
+                            Try <a href="{{ route('serializer_manufacturers.index', ['per_page' => $perPageQuery]) }}">resetting filters</a>.
                         @else
                             @can('create', SerializerManufacturer::class)
                                 <a href="{{ route('serializer_manufacturers.create') }}">Add serializer manufacturer</a>
@@ -153,9 +157,5 @@
         </table>
     </div>
 
-    @if($serializerManufacturers->hasPages())
-        <div class="mt-2">
-            {{ $serializerManufacturers->links() }}
-        </div>
-    @endif
+    {{ $serializerManufacturers->links() }}
 </x-layout>

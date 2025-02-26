@@ -11,10 +11,10 @@ use App\Http\Requests\UserRequest;
 use App\Models\Infotainment;
 use App\Models\User;
 use App\Notifications\ApprovedNotification;
+use App\Paginator\Exceptions\InvalidPageException;
+use App\Paginator\Paginator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -25,7 +25,7 @@ class UserController extends Controller
     /**
      * Show users
      */
-    public function index(Request $request): View
+    public function index(Request $request): RedirectResponse|View
     {
         Gate::authorize('viewAny', User::class);
 
@@ -37,15 +37,24 @@ class UserController extends Controller
             'user_role' => $request->query('user_role'),
         ];
 
+        $perPageQuery = $request->query('per_page');
+        if (is_array($perPageQuery)) {
+            $perPageQuery = null;
+        }
+
         try {
             $usersFilter = new UsersFilter($filters);
             $usersQuery = User::query();
-            $users = $usersFilter
-                ->apply($usersQuery)
-                ->paginate(Config::integer('app.items_per_page'))->withQueryString();
+            $filteredUsersQuery = $usersFilter->apply($usersQuery);
+
+            $users = Paginator::paginate($filteredUsersQuery, $perPageQuery);
             $hasActiveFilters = $usersFilter->isAnyFilterSet();
+        } catch (InvalidPageException) {
+            return redirect()
+                ->route('users.index')
+                ->with('error', 'Invalid page number');
         } catch (InvalidFilterValueException) {
-            $users = new LengthAwarePaginator([], 0, Config::integer('app.items_per_page'));
+            $users = Paginator::emptyPagination();
             $hasActiveFilters = true;
         }
 
@@ -54,6 +63,7 @@ class UserController extends Controller
                 route('index') => 'Home',
                 'current' => 'Users',
             ],
+            'perPageQuery' => $perPageQuery,
             'filters' => $filters,
             'hasActiveFilters' => $hasActiveFilters,
             'users' => $users,
@@ -209,7 +219,7 @@ class UserController extends Controller
     /**
      * Show soft deleted users
      */
-    public function indexDeleted(Request $request): View
+    public function indexDeleted(Request $request): RedirectResponse|View
     {
         Gate::authorize('viewAny', User::class);
 
@@ -222,16 +232,25 @@ class UserController extends Controller
             'deleted_to' => $request->query('deleted_to'),
         ];
 
+        $perPageQuery = $request->query('per_page');
+        if (is_array($perPageQuery)) {
+            $perPageQuery = null;
+        }
+
         try {
             $deletedUsersFilter = new DeletedUsersFilter($filters);
-            $usersQuery = User::onlyTrashed()
-                ->with(['deletedBy']);
-            $users = $deletedUsersFilter
-                ->apply($usersQuery)
-                ->paginate(Config::integer('app.items_per_page'))->withQueryString();
+            $usersQuery = User::onlyTrashed()->with(['deletedBy']);
+
+            $filteredUsersQuery = $deletedUsersFilter->apply($usersQuery);
+
+            $users = Paginator::paginate($filteredUsersQuery, $perPageQuery);
             $hasActiveFilters = $deletedUsersFilter->isAnyFilterSet();
+        } catch (InvalidPageException) {
+            return redirect()
+                ->route('users.index-deleted')
+                ->with('error', 'Invalid page number');
         } catch (InvalidFilterValueException) {
-            $users = new LengthAwarePaginator([], 0, Config::integer('app.items_per_page'));
+            $users = Paginator::emptyPagination();
             $hasActiveFilters = true;
         }
 
@@ -241,6 +260,7 @@ class UserController extends Controller
                 route('users.index') => 'Users',
                 'current' => 'Deleted users',
             ],
+            'perPageQuery' => $perPageQuery,
             'filters' => $filters,
             'hasActiveFilters' => $hasActiveFilters,
             'users' => $users,

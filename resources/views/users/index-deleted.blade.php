@@ -9,7 +9,11 @@
         deleted.
     </p>
 
-    <form action="{{ route('users.deleted') }}" method="GET" id="filter-form"></form>
+    <form action="{{ route('users.deleted') }}" method="GET" id="filter-form">
+        @if($perPageQuery)
+            <input type="hidden" name="per_page" value="{{ $perPageQuery }}">
+        @endif
+    </form>
 
     <div class="table-responsive">
         <table class="table">
@@ -78,7 +82,7 @@
                         <button type="submit" class="btn btn-sm btn-outline-secondary" form="filter-form">Filter
                         </button>
                         @if ($hasActiveFilters)
-                            <a href="{{ route('users.deleted') }}"
+                            <a href="{{ route('users.deleted', ['per_page' => $perPageQuery]) }}"
                                class="btn btn-sm btn-outline-danger">Clear</a>
                         @endif
                     </td>
@@ -122,7 +126,7 @@
                     <td colspan="5">
                         No deleted users found.
                         @if($hasActiveFilters)
-                            Try <a href="{{ route('users.deleted') }}">resetting filters</a>.
+                            Try <a href="{{ route('users.deleted', ['per_page' => $perPageQuery]) }}">resetting filters</a>.
                         @else
                             <a href="{{ route('users.index') }}">Show all users.</a>
                         @endif
@@ -133,9 +137,5 @@
         </table>
     </div>
 
-    @if($users->hasPages())
-        <div class="mt-2">
-            {{ $users->links() }}
-        </div>
-    @endif
+    {{ $users->links() }}
 </x-layout>

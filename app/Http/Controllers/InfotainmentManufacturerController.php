@@ -6,6 +6,8 @@ use App\Filters\Exceptions\InvalidFilterValueException;
 use App\Filters\InfotainmentManufacturersFilter;
 use App\Http\Requests\InfotainmentManufacturerRequest;
 use App\Models\InfotainmentManufacturer;
+use App\Paginator\Exceptions\InvalidPageException;
+use App\Paginator\Paginator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -19,7 +21,7 @@ class InfotainmentManufacturerController extends Controller
     /**
      * Show infotainment manufacturers
      */
-    public function index(Request $request): View
+    public function index(Request $request): RedirectResponse|View
     {
         Gate::authorize('viewAny', InfotainmentManufacturer::class);
 
@@ -32,16 +34,25 @@ class InfotainmentManufacturerController extends Controller
             'updated_to' => $request->query('updated_to'),
         ];
 
+        $perPageQuery = $request->query('per_page');
+        if (is_array($perPageQuery)) {
+            $perPageQuery = null;
+        }
+
         try {
             $infotainmentManufacturersFilter = new InfotainmentManufacturersFilter($filters);
             $infotainmentManufacturersQuery = InfotainmentManufacturer::with([
                 'createdBy',
                 'updatedBy',
             ]);
-            $infotainmentManufacturers = $infotainmentManufacturersFilter
-                ->apply($infotainmentManufacturersQuery)
-                ->paginate(Config::integer('app.items_per_page'))->withQueryString();
+            $filteredInfotainmentManufacturersQuery = $infotainmentManufacturersFilter->apply($infotainmentManufacturersQuery);
+
+            $infotainmentManufacturers = Paginator::paginate($filteredInfotainmentManufacturersQuery, $perPageQuery);
             $hasActiveFilters = $infotainmentManufacturersFilter->isAnyFilterSet();
+        } catch (InvalidPageException) {
+            return redirect()
+                ->route('infotainment_manufacturers.index')
+                ->with('error', 'Invalid page number');
         } catch (InvalidFilterValueException) {
             $infotainmentManufacturers = new LengthAwarePaginator([], 0, Config::integer('app.items_per_page'));
             $hasActiveFilters = true;
@@ -52,6 +63,7 @@ class InfotainmentManufacturerController extends Controller
                 route('index') => 'Home',
                 'current' => 'Infotainment manufacturers',
             ],
+            'perPageQuery' => $perPageQuery,
             'filters' => $filters,
             'hasActiveFilters' => $hasActiveFilters,
             'infotainmentManufacturers' => $infotainmentManufacturers,
