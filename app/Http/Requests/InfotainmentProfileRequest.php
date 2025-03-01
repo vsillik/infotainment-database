@@ -232,4 +232,20 @@ class InfotainmentProfileRequest extends FormRequest
             ],
         ];
     }
+
+    /**
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        $requiredMessage = 'This field is required when extra timing block is enabled';
+
+        return [
+            'extra_pixel_clock.required_if_accepted' => $requiredMessage,
+            'extra_horizontal_pixels.required_if_accepted' => $requiredMessage,
+            'extra_horizontal_blank.required_if_accepted' => $requiredMessage,
+            'extra_vertical_lines.required_if_accepted' => $requiredMessage,
+            'extra_vertical_blank.required_if_accepted' => $requiredMessage,
+        ];
+    }
 }
