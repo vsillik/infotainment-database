@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->smallInteger('role')->default(UserRole::CUSTOMER);
             $table->boolean('is_approved')->default(false);
+            $table->text('internal_notes')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->foreignId('deleted_by')

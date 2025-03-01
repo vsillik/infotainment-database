@@ -26,6 +26,9 @@ class InfotainmentManufacturerRequest extends FormRequest
                 'max:255',
                 $uniqueName,
             ],
+            'internal_notes' => [
+                'max:1500',
+            ],
         ];
     }
 }

@@ -92,12 +92,14 @@ class InfotainmentManufacturerController extends Controller
     {
         Gate::authorize('create', InfotainmentManufacturer::class);
 
-        /** @var array{name: string} $validated */
+        /** @var array{name: string, internal_notes?: ?string} $validated */
         $validated = $request->validated();
 
         $infotainmentManufacturer = new InfotainmentManufacturer;
 
         $infotainmentManufacturer->name = $validated['name'];
+
+        $infotainmentManufacturer->internal_notes = $validated['internal_notes'] ?? null;
 
         $infotainmentManufacturer->save();
 
@@ -130,10 +132,11 @@ class InfotainmentManufacturerController extends Controller
     {
         Gate::authorize('update', $infotainmentManufacturer);
 
-        /** @var array{name: string} $validated */
+        /** @var array{name: string, internal_notes?: ?string} $validated */
         $validated = $request->validated();
 
         $infotainmentManufacturer->name = $validated['name'];
+        $infotainmentManufacturer->internal_notes = $validated['internal_notes'] ?? null;
 
         $infotainmentManufacturer->save();
 

@@ -51,6 +51,12 @@
             required="true"
         />
 
+        <x-forms.textarea
+            name="internal_notes"
+            label="Internal notes"
+            :defaultValue="$user->internal_notes"
+            extraText="Maximum length 1500 characters."/>
+
         <x-forms.required-note />
 
         <button type="submit" class="btn btn-primary">Save</button>

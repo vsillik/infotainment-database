@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('infotainment_manufacturers', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255)->unique();
+            $table->text('internal_notes')->nullable();
             $table->foreignId('created_by')
                 ->nullable()
                 ->constrained('users')

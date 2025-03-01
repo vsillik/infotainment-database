@@ -48,6 +48,9 @@ class UserRequest extends FormRequest
                 'required',
                 new Enum(UserRole::class),
             ],
+            'internal_notes' => [
+                'max:1500',
+            ],
         ];
     }
 }

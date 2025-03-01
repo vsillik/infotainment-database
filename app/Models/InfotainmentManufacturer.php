@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property int $id
  * @property string $name
+ * @property ?string $internal_notes
  * @property Collection<int, Infotainment> $infotainments
  * @property ?User $createdBy
  * @property ?User $updatedBy

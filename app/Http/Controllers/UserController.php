@@ -96,7 +96,7 @@ class UserController extends Controller
     {
         Gate::authorize('create', User::class);
 
-        /** @var array{name: string, email: string, password: string, role: UserRole} $validated */
+        /** @var array{name: string, email: string, password: string, role: UserRole, internal_notes?: ?string} $validated */
         $validated = $request->validated();
 
         $user = new User;
@@ -105,6 +105,7 @@ class UserController extends Controller
         $user->email = $validated['email'];
         $user->password = Hash::make($validated['password']);
         $user->role = $validated['role'];
+        $user->internal_notes = $validated['internal_notes'] ?? null;
         $user->is_approved = false;
 
         $user->save();
@@ -183,7 +184,7 @@ class UserController extends Controller
     {
         Gate::authorize('update', $user);
 
-        /** @var array{name: string, email: string, password: ?string, role: UserRole} $validated */
+        /** @var array{name: string, email: string, password: ?string, role: UserRole, internal_notes?: ?string} $validated */
         $validated = $request->validated();
 
         $user->name = $validated['name'];
@@ -194,6 +195,7 @@ class UserController extends Controller
         }
 
         $user->role = $validated['role'];
+        $user->internal_notes = $validated['internal_notes'] ?? null;
 
         $user->save();
 
