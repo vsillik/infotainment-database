@@ -8,33 +8,26 @@ use App\Models\User;
 
 class SerializerManufacturerPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
     public function viewAny(User $user): bool
     {
         return $user->role->value >= UserRole::OPERATOR->value;
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
+    public function view(User $user, SerializerManufacturer $serializerManufacturer): bool
+    {
+        return $this->viewAny($user);
+    }
+
     public function create(User $user): bool
     {
         return $user->role->value >= UserRole::OPERATOR->value;
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
     public function update(User $user, SerializerManufacturer $serializerManufacturer): bool
     {
         return $this->create($user);
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
     public function delete(User $user, SerializerManufacturer $serializerManufacturer): bool
     {
         return $user->role->value >= UserRole::ADMINISTRATOR->value;

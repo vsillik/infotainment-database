@@ -21,11 +21,9 @@ Route::middleware(['auth', 'approved'])->group(function () {
         Route::patch('/profile/password', 'updatePassword')->name('profile.password.update');
     });
 
-    Route::resource('infotainment_manufacturers', InfotainmentManufacturerController::class)
-        ->except(['show']);
+    Route::resource('infotainment_manufacturers', InfotainmentManufacturerController::class);
 
-    Route::resource('serializer_manufacturers', SerializerManufacturerController::class)
-        ->except(['show']);
+    Route::resource('serializer_manufacturers', SerializerManufacturerController::class);
 
     Route::controller(InfotainmentController::class)->group(function () {
         Route::get('/infotainments/assign', 'assignUsers')->name('infotainments.assign');
@@ -42,9 +40,6 @@ Route::middleware(['auth', 'approved'])->group(function () {
         Route::get('/infotainments/{infotainment}/profiles/{profile}/copy', 'copy')->name('infotainments.profiles.copy');
     });
 
-    Route::resource('users', UserController::class)
-        ->except(['show']);
-
     Route::controller(UserController::class)->group(function () {
         Route::get('/users/deleted', 'indexDeleted')->name('users.deleted');
         Route::patch('/users/{user}/restore', 'restore')->withTrashed()->name('users.restore');
@@ -54,6 +49,8 @@ Route::middleware(['auth', 'approved'])->group(function () {
         Route::get('/users/{user}/assign-infotainments', 'assignInfotainments')->name('users.assign-infotainments');
         Route::patch('/users/{user}/assign-infotainments', 'updateAssignedInfotainments')->name('users.assign-infotainments.update');
     });
+
+    Route::resource('users', UserController::class);
 });
 
 require __DIR__.'/auth.php';

@@ -109,6 +109,23 @@ class InfotainmentManufacturerController extends Controller
     }
 
     /**
+     * Show specific infotainment_manufacturer
+     */
+    public function show(InfotainmentManufacturer $infotainmentManufacturer): View
+    {
+        Gate::authorize('view', $infotainmentManufacturer);
+
+        return view('infotainment_manufacturers.show', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('infotainment_manufacturers.index') => 'Infotainment manufacturers',
+                'current' => 'User '.Str::limit($infotainmentManufacturer->name, 30),
+            ],
+            'infotainmentManufacturer' => $infotainmentManufacturer,
+        ]);
+    }
+
+    /**
      * Show form for editing of the infotainment manufacturer
      */
     public function edit(InfotainmentManufacturer $infotainmentManufacturer): View

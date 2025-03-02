@@ -32,20 +32,12 @@
 
     <h4>Created at</h4>
     <p>
-        @if($infotainment->createdBy)
-            @date($infotainment->created_at) ({{ $infotainment->createdBy->email }})
-        @else
-            N/A
-        @endif
+        <x-audit-date :timestamp="$infotainment->created_at" :by="$infotainment->createdBy" />
     </p>
 
     <h4>Updated at</h4>
     <p>
-        @if($infotainment->updatedBy)
-            @date($infotainment->updated_at) ({{ $infotainment->updatedBy->email }})
-        @else
-            N/A
-        @endif
+        <x-audit-date :timestamp="$infotainment->updated_at" :by="$infotainment->updatedBy" />
     </p>
 
     <h3>Infotainment profiles</h3>

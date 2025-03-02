@@ -134,6 +134,10 @@
                             @endcan
                         @endif
 
+                        @can('view', $user)
+                            <x-action-buttons.show :targetUrl="route('users.show', $user)"/>
+                        @endcan
+
                         @can('update', $user)
                             <x-action-buttons.edit :targetUrl="route('users.edit', $user)"/>
                         @endcan

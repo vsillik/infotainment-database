@@ -116,6 +116,23 @@ class UserController extends Controller
     }
 
     /**
+     * Show specific user
+     */
+    public function show(User $user): View
+    {
+        Gate::authorize('view', $user);
+
+        return view('users.show', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('users.index') => 'Users',
+                'current' => 'User '.Str::limit($user->email, 30),
+            ],
+            'user' => $user,
+        ]);
+    }
+
+    /**
      * Approve user
      */
     public function approve(User $user): RedirectResponse

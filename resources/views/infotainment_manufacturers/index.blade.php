@@ -119,6 +119,10 @@
                         />
                     </td>
                     <td class="text-end">
+                        @can('view', $infotainmentManufacturer)
+                            <x-action-buttons.show :targetUrl="route('infotainment_manufacturers.show', $infotainmentManufacturer)"/>
+                        @endcan
+
                         @can('update', $infotainmentManufacturer)
                             <x-action-buttons.edit
                                 :targetUrl="route('infotainment_manufacturers.edit', $infotainmentManufacturer)"/>

@@ -109,6 +109,23 @@ class SerializerManufacturerController extends Controller
     }
 
     /**
+     * Show specific serializer manufacturer
+     */
+    public function show(SerializerManufacturer $serializerManufacturer): View
+    {
+        Gate::authorize('view', $serializerManufacturer);
+
+        return view('serializer_manufacturers.show', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('serializer_manufacturers.index') => 'Serializer manufacturers',
+                'current' => 'Serializer manufacturer '.Str::limit($serializerManufacturer->name, 30),
+            ],
+            'serializerManufacturer' => $serializerManufacturer,
+        ]);
+    }
+
+    /**
      * Show form for editing serializer manufacturer
      */
     public function edit(SerializerManufacturer $serializerManufacturer): View

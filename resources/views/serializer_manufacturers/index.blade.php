@@ -127,6 +127,10 @@
                         />
                     </td>
                     <td class="text-end">
+                        @can('view', $serializerManufacturer)
+                            <x-action-buttons.show :targetUrl="route('serializer_manufacturers.show', $serializerManufacturer)"/>
+                        @endcan
+
                         @can('update', $serializerManufacturer)
                             <x-action-buttons.edit
                                 :targetUrl="route('serializer_manufacturers.edit', $serializerManufacturer)"/>
