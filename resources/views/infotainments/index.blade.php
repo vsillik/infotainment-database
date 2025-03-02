@@ -169,7 +169,7 @@
                                 <a href="{{ route('infotainments.create') }}">Add infotainment</a>
                             @else
                                 There is no infotainment assigned to your account. If you think this is an error please
-                                contact administrator.
+                                contact administrator at {{ config('app.admin_email') }}.
                             @endcan
                         @endif
                     </td>

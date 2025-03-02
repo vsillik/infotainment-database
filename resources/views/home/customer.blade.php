@@ -4,7 +4,7 @@
         <li>
             <p>
                 Find infotainment you are looking for <a href="{{ route('infotainments.index') }}">here</a>. <br>
-                <span class="text-secondary">If you can't find infotainment you are looking for, consider contacting administrator.</span>
+                <span class="text-secondary">If you can't find infotainment you are looking for, consider contacting administrator at {{ config('app.admin_email') }}.</span>
             <p>
         </li>
         <li>

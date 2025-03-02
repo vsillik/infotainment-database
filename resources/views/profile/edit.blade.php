@@ -25,7 +25,7 @@
             type="email"
             label="Email"
             :defaultValue="$user->email"
-            extraText="If you need to change your email contact administrator."
+            extraText="If you need to change your email contact administrator at {{ config('app.admin_email') }}."
             disabled
         />
 

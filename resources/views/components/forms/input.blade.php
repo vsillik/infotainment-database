@@ -10,6 +10,7 @@
                               :defaultValue="$defaultValue"
                               :type="$type"
                               :suffixText="$suffixText"
+                              {{ $attributes }}
     />
 
     @if($extraText !== null)
