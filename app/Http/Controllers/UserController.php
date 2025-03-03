@@ -126,7 +126,7 @@ class UserController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('users.index') => 'Users',
-                'current' => 'User '.Str::limit($user->email, 30),
+                'current' => Str::limit($user->email, 30),
             ],
             'user' => $user,
         ]);

@@ -199,7 +199,7 @@ class InfotainmentController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('infotainments.index') => 'Infotainments',
-                'current' => 'Infotainment ID: '.$infotainment->id,
+                'current' => 'ID: '.$infotainment->id,
             ],
             'infotainment' => $infotainment,
             'infotainmentProfiles' => $infotainmentProfiles,

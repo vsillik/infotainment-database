@@ -3,6 +3,19 @@
         Serializer manufacturer
     </x-slot:title>
 
+    <div class="mb-2">
+        @can('update', $serializerManufacturer)
+            <x-action-buttons.edit
+                :targetUrl="route('serializer_manufacturers.edit', $serializerManufacturer)"/>
+        @endcan
+
+        @can('delete', $serializerManufacturer)
+            <x-action-buttons.delete
+                :targetUrl="route('serializer_manufacturers.destroy', $serializerManufacturer)"
+                confirmSubject="serializer manufacturer {{ $serializerManufacturer->name }}"/>
+        @endcan
+    </div>
+
     <h4>Identifier</h4>
     <p>{{ $serializerManufacturer->id }}</p>
 

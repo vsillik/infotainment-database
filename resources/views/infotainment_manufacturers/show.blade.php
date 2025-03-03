@@ -3,6 +3,20 @@
         Infotainment manufacturer
     </x-slot:title>
 
+    <div class="mb-2">
+        @can('update', $infotainmentManufacturer)
+            <x-action-buttons.edit
+                :targetUrl="route('infotainment_manufacturers.edit', $infotainmentManufacturer)"/>
+        @endcan
+
+
+        @can('delete', $infotainmentManufacturer)
+            <x-action-buttons.delete
+                :targetUrl="route('infotainment_manufacturers.destroy', $infotainmentManufacturer)"
+                confirmSubject="infotainment manufacturer {{$infotainmentManufacturer->name}}"/>
+        @endcan
+    </div>
+
     <h4>Name</h4>
     <p class="text-break">{{ $infotainmentManufacturer->name }}</p>
 

@@ -3,6 +3,18 @@
         User
     </x-slot:title>
 
+    <div class="mb-2">
+        @can('update', $user)
+            <x-action-buttons.edit :targetUrl="route('users.edit', $user)"/>
+        @endcan
+
+        @can('delete', $user)
+            <x-action-buttons.delete
+                :targetUrl="route('users.destroy', $user)"
+                confirmSubject="user {{ $user->email }}"/>
+        @endcan
+    </div>
+
     <h4>Name</h4>
     <p class="text-break">{{ $user->name }}</p>
 
