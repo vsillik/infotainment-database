@@ -104,7 +104,7 @@ class InfotainmentManufacturerController extends Controller
         $infotainmentManufacturer->save();
 
         return redirect()
-            ->route('infotainment_manufacturers.edit', ['infotainment_manufacturer' => $infotainmentManufacturer->id])
+            ->route('infotainment_manufacturers.show', ['infotainment_manufacturer' => $infotainmentManufacturer->id])
             ->with('success', sprintf('Infotainment manufacturer %s created', $infotainmentManufacturer->name));
     }
 
@@ -136,7 +136,8 @@ class InfotainmentManufacturerController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('infotainment_manufacturers.index') => 'Infotainment manufacturers',
-                'current' => 'Edit infotainment manufacturer '.Str::limit($infotainmentManufacturer->name, 30),
+                route('infotainment_manufacturers.show', $infotainmentManufacturer) => Str::limit($infotainmentManufacturer->name, 30),
+                'current' => 'Edit',
             ],
             'infotainmentManufacturer' => $infotainmentManufacturer,
         ]);
@@ -158,7 +159,7 @@ class InfotainmentManufacturerController extends Controller
         $infotainmentManufacturer->save();
 
         return redirect()
-            ->route('infotainment_manufacturers.edit', ['infotainment_manufacturer' => $infotainmentManufacturer->id])
+            ->route('infotainment_manufacturers.show', $infotainmentManufacturer)
             ->with('success', sprintf('Infotainment manufacturer %s updated', $infotainmentManufacturer->name));
     }
 
@@ -171,7 +172,7 @@ class InfotainmentManufacturerController extends Controller
 
         if ($infotainmentManufacturer->infotainments->isNotEmpty()) {
             return redirect()
-                ->route('infotainment_manufacturers.index')
+                ->back()
                 ->with('error', sprintf('Infotainment manufacturer %s can\'t be deleted because it is assigned to some infotainments', $infotainmentManufacturer->name));
         }
 

@@ -219,7 +219,8 @@ class InfotainmentController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('infotainments.index') => 'Infotainments',
-                'current' => 'Edit infotainment ID: '.$infotainment->id,
+                route('infotainments.show', $infotainment->id) => 'ID: '.$infotainment->id,
+                'current' => 'Edit',
             ],
             'infotainment' => $infotainment,
             'infotainmentManufacturers' => InfotainmentManufacturer::pluck('name', 'id')->toArray(),
@@ -240,7 +241,7 @@ class InfotainmentController extends Controller
         $this->setInfotainmentValidatedValues($infotainment, $validated);
 
         return redirect()
-            ->route('infotainments.edit', ['infotainment' => $infotainment->id])
+            ->route('infotainments.show', ['infotainment' => $infotainment->id])
             ->with('success', 'Infotainment updated');
     }
 
@@ -253,7 +254,7 @@ class InfotainmentController extends Controller
 
         if ($infotainment->profiles->isNotEmpty()) {
             return redirect()
-                ->route('infotainments.index')
+                ->back()
                 ->with('error', sprintf('Infotainment ID: %s can\'t be deleted because it has profiles assigned', $infotainment->id));
         }
 
@@ -301,14 +302,14 @@ class InfotainmentController extends Controller
         if ($users->isEmpty()) {
             return redirect()
                 ->route('infotainments.index')
-                ->with('error', 'There are no available customers');
+                ->with('error', 'There are no available approved customers');
         }
 
         return view('infotainments.assign-users', [
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('infotainments.index') => 'Infotainments',
-                'current' => 'Assign users to infotainments',
+                'current' => 'Assign users',
             ],
             'infotainments' => $infotainments,
             'users' => $users,

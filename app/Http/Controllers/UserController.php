@@ -111,7 +111,7 @@ class UserController extends Controller
         $user->save();
 
         return redirect()
-            ->route('users.edit', ['user' => $user->id])
+            ->route('users.show', $user)
             ->with('success', 'User created');
     }
 
@@ -141,7 +141,7 @@ class UserController extends Controller
 
         if ($user->is_approved) {
             return redirect()
-                ->route('users.index')
+                ->back()
                 ->with('error', sprintf('User %s is already approved', $user->email));
         }
 
@@ -151,7 +151,7 @@ class UserController extends Controller
         $user->notify(new ApprovedNotification);
 
         return redirect()
-            ->route('users.index')
+            ->back()
             ->with('success', sprintf('User %s approved', $user->email));
     }
 
@@ -164,7 +164,7 @@ class UserController extends Controller
 
         if (! $user->is_approved) {
             return redirect()
-                ->route('users.index')
+                ->back()
                 ->with('error', sprintf('User %s is not approved', $user->email));
         }
 
@@ -172,7 +172,7 @@ class UserController extends Controller
         $user->save();
 
         return redirect()
-            ->route('users.index')
+            ->back()
             ->with('success', sprintf('User %s approval revoked', $user->email));
     }
 
@@ -187,7 +187,8 @@ class UserController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('users.index') => 'Users',
-                'current' => 'Edit user '.Str::limit($user->email, 30),
+                route('users.show', $user) => Str::limit($user->email, 30),
+                'current' => 'Edit',
             ],
             'user' => $user,
             'roles' => UserRole::labels(),
@@ -217,7 +218,7 @@ class UserController extends Controller
         $user->save();
 
         return redirect()
-            ->route('users.edit', ['user' => $user->id])
+            ->route('users.show', ['user' => $user->id])
             ->with('success', sprintf('User %s updated', $user->email));
     }
 
@@ -266,7 +267,7 @@ class UserController extends Controller
             $hasActiveFilters = $deletedUsersFilter->isAnyFilterSet();
         } catch (InvalidPageException) {
             return redirect()
-                ->route('users.index-deleted')
+                ->route('users.deleted')
                 ->with('error', 'Invalid page number');
         } catch (InvalidFilterValueException) {
             $users = Paginator::emptyPagination();
@@ -323,7 +324,7 @@ class UserController extends Controller
         $user->forceDelete();
 
         return redirect()
-            ->route('users.index')
+            ->route('users.deleted')
             ->with('success', sprintf('User %s permanently deleted', $user->email));
     }
 
@@ -338,6 +339,7 @@ class UserController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('users.index') => 'Users',
+                route('users.show', $user) => Str::limit($user->email, 30),
                 'current' => 'Assign infotainments',
             ],
             'user' => $user,
@@ -364,6 +366,5 @@ class UserController extends Controller
         return redirect()
             ->route('users.assign-infotainments', ['user' => $user->id])
             ->with('success', sprintf('User %s infotainments assignment updated', $user->email));
-
     }
 }

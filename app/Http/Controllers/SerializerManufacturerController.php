@@ -104,7 +104,7 @@ class SerializerManufacturerController extends Controller
         $serializerManufacturer->save();
 
         return redirect()
-            ->route('serializer_manufacturers.edit', ['serializer_manufacturer' => $serializerManufacturer->id])
+            ->route('serializer_manufacturers.show', ['serializer_manufacturer' => $serializerManufacturer->id])
             ->with('success', sprintf('Serializer manufacturer %s created', $serializerManufacturer->name));
     }
 
@@ -136,7 +136,8 @@ class SerializerManufacturerController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('serializer_manufacturers.index') => 'Serializer manufacturers',
-                'current' => 'Edit serializer manufacturer '.Str::limit($serializerManufacturer->name, 30),
+                route('serializer_manufacturers.show', $serializerManufacturer) => Str::limit($serializerManufacturer->name, 30),
+                'current' => 'Edit',
             ],
             'serializerManufacturer' => $serializerManufacturer,
         ]);
@@ -158,7 +159,7 @@ class SerializerManufacturerController extends Controller
         $serializerManufacturer->save();
 
         return redirect()
-            ->route('serializer_manufacturers.edit', ['serializer_manufacturer' => $serializerManufacturer->id])
+            ->route('serializer_manufacturers.show', $serializerManufacturer)
             ->with('success', sprintf('Serializer manufacturer %s updated', $serializerManufacturer->name));
     }
 
@@ -171,7 +172,7 @@ class SerializerManufacturerController extends Controller
 
         if ($serializerManufacturer->infotainments->isNotEmpty()) {
             return redirect()
-                ->route('serializer_manufacturers.index')
+                ->back()
                 ->with('error', sprintf('Serializer manufacturer %s can\'t be deleted because it is assigned to some infotainments', $serializerManufacturer->name));
         }
 

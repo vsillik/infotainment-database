@@ -64,7 +64,7 @@ class InfotainmentProfileController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('infotainments.index') => 'Infotainments',
-                route('infotainments.show', $infotainment->id) => 'Infotainment ID: '.$infotainment->id,
+                route('infotainments.show', $infotainment->id) => 'ID: '.$infotainment->id,
                 'current' => 'Create profile',
             ],
             'colorBitDepths' => ColorBitDepth::labels(),
@@ -136,7 +136,7 @@ class InfotainmentProfileController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('infotainments.index') => 'Infotainments',
-                route('infotainments.show', $infotainment->id) => 'Infotainment ID: '.$infotainment->id,
+                route('infotainments.show', $infotainment->id) => 'ID: '.$infotainment->id,
                 'current' => 'Edit profile number '.$profile->profile_number,
             ],
             'colorBitDepths' => ColorBitDepth::labels(),
@@ -159,14 +159,14 @@ class InfotainmentProfileController extends Controller
         if ($profile->is_approved) {
             return redirect()
                 ->route('infotainments.show', ['infotainment' => $infotainment->id])
-                ->with('error', sprintf('Infotainment profile (profile number %d) is already approved', $profile->profile_number));
+                ->with('error', sprintf('Infotainment profile number %d is already approved', $profile->profile_number));
         }
 
         return view('infotainment_profiles.create-or-edit', [
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('infotainments.index') => 'Infotainments',
-                route('infotainments.show', $infotainment->id) => 'Infotainment ID: '.$infotainment->id,
+                route('infotainments.show', $infotainment->id) => 'ID: '.$infotainment->id,
                 'current' => 'Approve profile number '.$profile->profile_number,
             ],
             'colorBitDepths' => ColorBitDepth::labels(),
@@ -190,7 +190,7 @@ class InfotainmentProfileController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('infotainments.index') => 'Infotainments',
-                route('infotainments.show', $infotainment->id) => 'Infotainment ID: '.$infotainment->id,
+                route('infotainments.show', $infotainment->id) => 'ID: '.$infotainment->id,
                 'current' => 'Copy profile number '.$profile->profile_number,
             ],
             'colorBitDepths' => ColorBitDepth::labels(),
@@ -228,7 +228,7 @@ class InfotainmentProfileController extends Controller
         } elseif ($profile->is_approved) {
             return redirect()
                 ->route('infotainments.show', ['infotainment' => $infotainment->id])
-                ->with('error', sprintf('Cannot edit approved profile (profile number %d)', $profile->profile_number));
+                ->with('error', sprintf('Cannot edit approved profile number %d', $profile->profile_number));
         }
 
         $this->setInfotainmentProfileValues($profile, $request, $validated);
