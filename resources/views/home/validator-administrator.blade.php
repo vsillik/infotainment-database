@@ -58,7 +58,7 @@
                         <th>Email</th>
                         <th>Name</th>
                         <th>Role</th>
-                        <th>Actions</th>
+                        <th class="text-end">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -69,10 +69,12 @@
                             </td>
                             <td>{{ Str::limit($user->name, 40) }}</td>
                             <td>{{ $user->role->toHumanReadable() }}</td>
-                            <td>
+                            <td class="text-end">
                                 @if(!$user->is_approved)
                                     <x-action-buttons.approve :targetUrl="route('users.approve', $user)"/>
                                 @endif
+
+                                <x-action-buttons.show :targetUrl="route('users.show', $user)"/>
                             </td>
                         </tr>
                     @endforeach
@@ -100,7 +102,7 @@
                     <th>Product ID</th>
                     <th>Model year</th>
                     <th>Part number</th>
-                    <th>Actions</th>
+                    <th class="text-end">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -111,7 +113,7 @@
                         <td>{{ $infotainment->product_id }}</td>
                         <td>{{ $infotainment->model_year }}</td>
                         <td>{{ $infotainment->part_number }}</td>
-                        <td>
+                        <td class="text-end">
                             <x-action-buttons.show :targetUrl="route('infotainments.show', $infotainment)"/>
                         </td>
                     </tr>

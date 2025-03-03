@@ -102,14 +102,9 @@
                     </td>
                     <td class="text-end">
                         @can('restore', $user)
-                            <form action="{{ route('users.restore', $user) }}" method="POST" class="d-inline-block">
-                                @csrf
-                                @method('PATCH')
-                                <button type="submit"
-                                        class="btn btn-sm btn-success">
-                                    Restore
-                                </button>
-                            </form>
+                            <x-action-buttons.restore
+                                :targetUrl="route('users.restore', $user)"
+                            />
                         @endcan
 
                         @can('forceDelete', $user)

@@ -1,12 +1,21 @@
 @php
+    use App\Models\Infotainment;
     use App\Models\InfotainmentProfile;
 @endphp
+
 <x-layout :breadcrumbs="$breadcrumbs">
     <x-slot:title>
         Infotainment
     </x-slot:title>
 
     <div class="mb-2">
+        @can('assignUsers', Infotainment::class)
+            <x-action-buttons.assign
+                :targetUrl="route('infotainments.assign', ['infotainments' => $infotainment->id])"
+                label="Assign users"
+            />
+        @endcan
+
         @can('update', $infotainment)
             <x-action-buttons.edit :targetUrl="route('infotainments.edit', $infotainment)"/>
         @endcan

@@ -72,6 +72,7 @@
                                                       class="form-control-sm"
                                                       form="filter-form"
                                                       :defaultValue="$filters['product_id'] ?? null"
+                                                      style="max-width: 80px"
                             />
                         </td>
                     @endif
