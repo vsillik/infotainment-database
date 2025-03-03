@@ -3,28 +3,7 @@
 @endphp
 
 <x-welcome-layout :breadcrumbs="$breadcrumbs">
-    @if($userRole === UserRole::VALIDATOR)
-        <h3>How to approve profile</h3>
-        <ol>
-            <li>
-                <p>
-                    You can either view all infotainments with not approved profiles below in a table or select
-                    infotainment from
-                    <a href="{{ route('infotainments.index') }}">here</a> via the action
-                    <span class="btn btn-outline-primary btn-sm disabled opacity-75">Show</span> in the "Actions"
-                    column.
-                <p>
-            </li>
-            <li>
-                <p>
-                    From there select profile that is not approved (does not have the
-                    <span class="badge rounded-pill text-bg-success">Approved</span> badge) to approve via the
-                    <span class="btn btn-outline-success btn-sm disabled opacity-75">Approve</span> action in "Actions"
-                    column. Then you can check there all the values and fix them if needed.
-                </p>
-            </li>
-        </ol>
-    @elseif($userRole === UserRole::ADMINISTRATOR)
+    @if($userRole === UserRole::ADMINISTRATOR)
         <h3>How to approve user</h3>
         <ol>
             <li>
@@ -39,9 +18,31 @@
                 </p>
             </li>
         </ol>
+    @endif
 
-        <hr>
+    <h3>How to approve profile</h3>
+    <ol>
+        <li>
+            <p>
+                You can either view all infotainments with not approved profiles below in a table or select
+                infotainment from
+                <a href="{{ route('infotainments.index') }}">here</a> via the action
+                <span class="btn btn-outline-primary btn-sm disabled opacity-75">Show</span> in the "Actions"
+                column.
+            <p>
+        </li>
+        <li>
+            <p>
+                From there select profile that is not approved (does not have the
+                <span class="badge rounded-pill text-bg-success">Approved</span> badge) to approve via the
+                <span class="btn btn-outline-success btn-sm disabled opacity-75">Approve</span> action in "Actions"
+                column. Then you can check there all the values and fix them if needed.
+            </p>
+        </li>
+    </ol>
 
+    <hr>
+    @if($userRole === UserRole::ADMINISTRATOR)
         <h3 class="mt-4">Users to approve</h3>
 
         @if(count($users) === 0)
