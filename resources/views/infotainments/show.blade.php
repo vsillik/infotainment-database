@@ -103,7 +103,7 @@
                 </td>
                 <td>
                     @if($infotainmentProfile->is_approved)
-                        <x-action-buttons.download targetUrl="#" label="Download EDID" />
+                        <x-action-buttons.download :targetUrl="route('infotainments.profiles.download', [$infotainment, $infotainmentProfile])" label="Download EDID" />
                     @else
                         @can('approve', $infotainmentProfile)
                             <x-action-buttons.approve :targetUrl="route('infotainments.profiles.approve', [$infotainment, $infotainmentProfile])" />

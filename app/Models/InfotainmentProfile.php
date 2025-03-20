@@ -47,6 +47,10 @@ class InfotainmentProfile extends Model
     protected $casts = [
         'color_bit_depth' => ColorBitDepth::class,
         'interface' => DisplayInterface::class,
+        'is_ycrcb_4_4_4' => 'boolean',
+        'is_ycrcb_4_2_2' => 'boolean',
+        'is_srgb' => 'boolean',
+        'is_continuous_frequency' => 'boolean',
     ];
 
     /**

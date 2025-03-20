@@ -8,9 +8,11 @@ use App\Http\Requests\InfotainmentProfileRequest;
 use App\Models\Infotainment;
 use App\Models\InfotainmentProfile;
 use App\Models\InfotainmentProfileTimingBlock;
+use App\Services\Edid\EdidBuilder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * @phpstan-type InfotainmentProfileValidatedValues array{
@@ -284,6 +286,23 @@ class InfotainmentProfileController extends Controller
         return redirect()
             ->route('infotainments.show', $infotainment)
             ->with('success', sprintf('Infotainment profile number %d deleted', $profile->profile_number));
+    }
+
+    public function downloadEdid(Infotainment $infotainment, InfotainmentProfile $profile): RedirectResponse|StreamedResponse
+    {
+        if (! $profile->is_approved) {
+            return redirect()
+                ->route('infotainments.show', $infotainment)
+                ->with('error', sprintf('Infotainment profile %d can not be downloaded (must be approved first)', $profile->profile_number));
+        }
+
+        $bytes = EdidBuilder::build($infotainment, $profile);
+
+        $binary = pack('C*', ...$bytes);
+
+        return response()->streamDownload(function () use ($binary) {
+            echo $binary;
+        }, 'edid.bin');
     }
 
     /**

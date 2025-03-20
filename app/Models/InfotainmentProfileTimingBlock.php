@@ -47,6 +47,12 @@ class InfotainmentProfileTimingBlock extends Model
         'signal_vertical_sync_positive',
     ];
 
+    protected $casts = [
+        'pixel_clock' => 'float',
+        'signal_horizontal_sync_positive' => 'boolean',
+        'signal_vertical_sync_positive' => 'boolean',
+    ];
+
     /**
      * @return HasOne<InfotainmentProfile, $this>
      */

@@ -323,7 +323,7 @@
                             label="Horizontal image size"
                             :defaultValue="$timing->horizontal_image_size"
                             suffixText="mm"
-                            extraText="The value must be between 0-255."
+                            extraText="The value must be between 0-4095."
                         />
 
                         <x-forms.input
