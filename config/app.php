@@ -130,5 +130,5 @@ return [
      */
 
     'admin_email' => env('APP_ADMIN_EMAIL'),
-    'vendor_id' => env('APP_VENDOR_ID', '0'),
+    'vendor_id' => env('APP_VENDOR_ID', '000000'),
 ];
