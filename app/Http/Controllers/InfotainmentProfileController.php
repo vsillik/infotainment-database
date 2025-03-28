@@ -296,13 +296,27 @@ class InfotainmentProfileController extends Controller
                 ->with('error', sprintf('Infotainment profile %d can not be downloaded (must be approved first)', $profile->profile_number));
         }
 
-        $bytes = EdidBuilder::build($infotainment, $profile);
+        try {
+            $bytes = EdidBuilder::build($infotainment, $profile);
+        } catch (\InvalidArgumentException $e) {
+            return redirect()
+                ->route('infotainments.show', $infotainment)
+                ->with('error', sprintf('Could not generate EDID file, the infotainment profile %d is invalid: %s.', $profile->profile_number, $e->getMessage()));
+        }
 
+        // <manufacturer name>_<part_number>_<width pixels>x<height pixels>_<created date>_<created time>.bin
+        $filename = sprintf('%s_%s_%dx%d_%s.bin',
+            str_replace(' ', '-', $infotainment->infotainmentManufacturer->name),
+            $infotainment->part_number,
+            $profile->timing->horizontal_image_size,
+            $profile->timing->vertical_image_size,
+            $profile->created_at?->format('Ymd_Hi') ?? '00000000_0000',
+        );
         $binary = pack('C*', ...$bytes);
 
         return response()->streamDownload(function () use ($binary) {
             echo $binary;
-        }, 'edid.bin');
+        }, $filename);
     }
 
     /**
