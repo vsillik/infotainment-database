@@ -39,11 +39,11 @@ class InfotainmentProfileRequest extends FormRequest
             ],
             'hw_version' => [
                 'required',
-                'regex:/^[0-9]{1,3}$/',
+                'regex:/^[a-z0-9]{1,3}$/i',
             ],
             'sw_version' => [
                 'required',
-                'regex:/^[0-9]{1,4}$/',
+                'regex:/^[a-z0-9]{1,4}$/i',
             ],
             'vendor_block_1' => [
                 'array',

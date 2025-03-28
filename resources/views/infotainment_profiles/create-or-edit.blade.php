@@ -233,7 +233,7 @@
                     label="HW version"
                     :defaultValue="$infotainmentProfile->hw_version"
                     required="true"
-                    extraText="Must be in range 000-999 (3 numbers). If you enter less than 3 numbers, leading 0s will be added automatically."
+                    extraText="Must be 3 characters (letters or numbers). If you enter less than 3 characters, leading 0s will be added automatically."
                 />
 
                 <x-forms.input
@@ -241,7 +241,7 @@
                     label="SW version"
                     :defaultValue="$infotainmentProfile->sw_version"
                     required="true"
-                    extraText="Must be in range 0000-9999 (4 numbers). If you enter less than 4 numbers, leading 0s will be added automatically."
+                    extraText="Must be 4 characters (letters or numbers). If you enter less than 4 characters, leading 0s will be added automatically."
                 />
 
                 <x-forms.vendor-input

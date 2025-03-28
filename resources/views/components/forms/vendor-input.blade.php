@@ -8,7 +8,7 @@
 
     <div class="form-text mt-0 mb-2">
         Each byte must contain up to 2 hexadecimal characters. Once the byte is added it must by filled in. <br>
-        Bytes 0-3 are automatically filled in when at least 1 byte is added.
+        Bytes 1-3 will be automatically filled in with vendor ID (IEEE ID).
     </div>
 
     <a href="#"
