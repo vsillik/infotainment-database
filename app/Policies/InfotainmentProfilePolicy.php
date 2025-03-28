@@ -17,6 +17,14 @@ class InfotainmentProfilePolicy
     }
 
     /**
+     * Determine whether the user can view the model.
+     */
+    public function view(User $user, InfotainmentProfile $infotainmentProfile): bool
+    {
+        return $this->create($user);
+    }
+
+    /**
      * Determine whether the user can update the model.
      */
     public function update(User $user, InfotainmentProfile $infotainmentProfile): bool
@@ -35,5 +43,10 @@ class InfotainmentProfilePolicy
     public function approve(User $user, InfotainmentProfile $infotainmentProfile): bool
     {
         return $user->role->value >= UserRole::VALIDATOR->value;
+    }
+
+    public function download(User $user, InfotainmentProfile $infotainmentProfile): bool
+    {
+        return true;
     }
 }

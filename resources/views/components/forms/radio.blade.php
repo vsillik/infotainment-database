@@ -4,6 +4,7 @@
            id="{{ $name }}_{{ $value }}"
            value="{{ $value }}"
         @checked($isCheckedByDefault)
+        @disabled($isDisabled)
         {{ $attributes }}
     >
     <label class="form-check-label" for="{{ $name }}_{{ $value }}">

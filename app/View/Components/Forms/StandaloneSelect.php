@@ -14,6 +14,8 @@ class StandaloneSelect extends Component
 
     public readonly string $defaultValue;
 
+    public readonly bool $isDisabled;
+
     /**
      * @param  array<string>  $options
      */
@@ -21,10 +23,12 @@ class StandaloneSelect extends Component
         string $name,
         array $options,
         ?string $defaultValue,
+        ?bool $isDisabled = false
     ) {
         $this->name = $name;
         $this->options = $options;
         $this->defaultValue = $defaultValue ?? '';
+        $this->isDisabled = $isDisabled ?? false;
     }
 
     public function render(): View

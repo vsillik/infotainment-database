@@ -102,27 +102,23 @@
                     />
                 </td>
                 <td>
-                    @if($infotainmentProfile->is_approved)
-                        <x-action-buttons.download :targetUrl="route('infotainments.profiles.download', [$infotainment, $infotainmentProfile])" label="Download EDID" />
-                    @else
-                        @can('approve', $infotainmentProfile)
-                            <x-action-buttons.approve :targetUrl="route('infotainments.profiles.approve', [$infotainment, $infotainmentProfile])" />
-                        @endcan
+                    @can('view', $infotainmentProfile)
+                        <x-action-buttons.show :targetUrl="route('infotainments.profiles.show', [$infotainment, $infotainmentProfile])"/>
+                    @endcan
 
+                    @if($infotainmentProfile->is_approved)
+                        @can('download', $infotainmentProfile)
+                            <x-action-buttons.download :targetUrl="route('infotainments.profiles.download', [$infotainment, $infotainmentProfile])" label="Download EDID" />
+                        @endcan
+                    @else
                         @can('update', $infotainmentProfile)
                             <x-action-buttons.edit :targetUrl="route('infotainments.profiles.edit', [$infotainment, $infotainmentProfile])" />
                         @endcan
+
+                        @can('approve', $infotainmentProfile)
+                                <x-action-buttons.approve :targetUrl="route('infotainments.profiles.approve', [$infotainment, $infotainmentProfile])" />
+                        @endcan
                     @endif
-
-                    @can('create', InfotainmentProfile::class)
-                        <x-action-buttons.copy :targetUrl="route('infotainments.profiles.copy', [$infotainment, $infotainmentProfile])" />
-                    @endcan
-
-                    @can('delete', $infotainmentProfile)
-                        <x-action-buttons.delete
-                            :targetUrl="route('infotainments.profiles.destroy', [$infotainment, $infotainmentProfile])"
-                            confirmSubject="infotainment profile ID: {{ $infotainment->id }} (profile number: {{ $profileNumbers->get($infotainmentProfile->id) ?? 'N/A' }})" />
-                    @endcan
                 </td>
             </tr>
         @empty

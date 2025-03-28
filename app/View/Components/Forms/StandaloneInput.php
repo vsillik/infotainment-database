@@ -16,16 +16,20 @@ class StandaloneInput extends Component
 
     public readonly ?string $suffixText;
 
+    public readonly bool $isDisabled;
+
     public function __construct(
         string $name,
         ?string $defaultValue = null,
         ?string $type = null,
         ?string $suffixText = null,
+        ?bool $isDisabled = false
     ) {
         $this->name = $name;
         $this->defaultValue = $defaultValue ?? '';
         $this->type = $type ?? 'text';
         $this->suffixText = $suffixText;
+        $this->isDisabled = $isDisabled ?? false;
     }
 
     public function render(): View|Closure|string

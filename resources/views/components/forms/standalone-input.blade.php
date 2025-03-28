@@ -2,6 +2,7 @@
     <input type="{{ $type }}" name="{{ $name }}"
            value="{{ old($name, $defaultValue) }}"
            id="{{ $name }}"
+           @disabled($isDisabled)
         {{ $attributes->class([
             'form-control',
             'is-invalid' => $errors->has($name),

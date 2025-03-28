@@ -22,8 +22,9 @@ class Select extends StandaloneSelect
         ?string $defaultValue,
         ?bool $required = null,
         ?string $extraText = null,
+        ?bool $isDisabled = false
     ) {
-        parent::__construct($name, $options, $defaultValue);
+        parent::__construct($name, $options, $defaultValue, $isDisabled);
         $this->label = $label;
         $this->required = $required ?? false;
         $this->extraText = $extraText;

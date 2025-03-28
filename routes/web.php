@@ -33,7 +33,7 @@ Route::middleware(['auth', 'approved'])->group(function () {
     Route::resource('infotainments', InfotainmentController::class);
 
     Route::resource('infotainments.profiles', InfotainmentProfileController::class)
-        ->except(['show', 'index']);
+        ->except(['index']);
 
     Route::controller(InfotainmentProfileController::class)->group(function () {
         Route::get('/infotainments/{infotainment}/profiles/{profile}/approve', 'approve')->name('infotainments.profiles.approve');

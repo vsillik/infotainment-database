@@ -21,8 +21,9 @@ class Input extends StandaloneInput
         ?string $type = null,
         ?string $suffixText = null,
         ?string $extraText = null,
+        ?bool $isDisabled = false
     ) {
-        parent::__construct($name, $defaultValue, $type, $suffixText);
+        parent::__construct($name, $defaultValue, $type, $suffixText, $isDisabled);
         $this->label = $label;
         $this->required = $required ?? false;
         $this->extraText = $extraText;

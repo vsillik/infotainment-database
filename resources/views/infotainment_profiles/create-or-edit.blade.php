@@ -1,11 +1,15 @@
 @php
     use App\Enums\ColorBitDepth;
     use App\Enums\DisplayInterface;
+    use App\Models\InfotainmentProfile;
 @endphp
 
 <x-layout :breadcrumbs="$breadcrumbs">
     <x-slot:title>
         @switch($mode)
+            @case('show')
+                Infotainment profile
+                @break
             @case('edit')
                 Edit infotainment profile
                 @break
@@ -17,6 +21,32 @@
         @endswitch
     </x-slot:title>
 
+    @if($mode === 'show')
+        @if($infotainmentProfile->is_approved)
+            @can('download', $infotainmentProfile)
+                <x-action-buttons.download :targetUrl="route('infotainments.profiles.download', [$infotainment, $infotainmentProfile])" label="Download EDID" />
+            @endcan
+        @else
+            @can('update', $infotainmentProfile)
+                <x-action-buttons.edit :targetUrl="route('infotainments.profiles.edit', [$infotainment, $infotainmentProfile])" />
+            @endcan
+
+            @can('approve', $infotainmentProfile)
+                <x-action-buttons.approve :targetUrl="route('infotainments.profiles.approve', [$infotainment, $infotainmentProfile])" />
+            @endcan
+        @endif
+
+        @can('create', InfotainmentProfile::class)
+            <x-action-buttons.copy :targetUrl="route('infotainments.profiles.copy', [$infotainment, $infotainmentProfile])" />
+        @endcan
+
+        @can('delete', $infotainmentProfile)
+            <x-action-buttons.delete
+                :targetUrl="route('infotainments.profiles.destroy', [$infotainment, $infotainmentProfile])"
+                confirmSubject="infotainment profile ID: {{ $infotainment->id }} (profile number: {{ $infotainmentProfile->profile_number }})" />
+        @endcan
+    @endif
+
     <div class="table-responsive">
         <table class="table">
             <tr>
@@ -25,7 +55,7 @@
             </tr>
             <tr>
                 <th>Serializer manufacturer</th>
-                <td>{{ $infotainment->serializerManufacturer->name }}</td>
+                <td>{{ $infotainment->serializerManufacturer->name }} ({{ $infotainment->serializerManufacturer->id }})</td>
             </tr>
             <tr>
                 <th>Product ID</th>
@@ -44,6 +74,9 @@
 
     <form action="
         @switch($mode)
+            @case('show')
+                #
+                @break
             @case('edit')
             @case('approve')
                 {{ route('infotainments.profiles.update', [$infotainment, $infotainmentProfile]) }}
@@ -171,6 +204,7 @@
                     :options="$colorBitDepths"
                     :defaultValue="($infotainmentProfile->color_bit_depth ?? ColorBitDepth::BIT_8)->value"
                     required="true"
+                    :isDisabled="$mode === 'show'"
                 />
 
                 <x-forms.select
@@ -179,6 +213,7 @@
                     :options="$interfaces"
                     :defaultValue="($infotainmentProfile->interface ?? DisplayInterface::HDMI_A)->value"
                     required="true"
+                    :isDisabled="$mode === 'show'"
                 />
 
                 <x-forms.input
@@ -189,6 +224,7 @@
                     required="true"
                     suffixText="cm"
                     extraText="The value must be between 1-255."
+                    :isDisabled="$mode === 'show'"
                 />
 
                 <x-forms.input
@@ -199,30 +235,35 @@
                     required="true"
                     suffixText="cm"
                     extraText="The value must be between 1-255."
+                    :isDisabled="$mode === 'show'"
                 />
 
                 <x-forms.checkbox
                     name="is_ycrcb_4_4_4"
                     label="YCrCb 4:4:4"
                     :isCheckedByDefault="$infotainmentProfile->is_ycrcb_4_4_4"
+                    :isDisabled="$mode === 'show'"
                 />
 
                 <x-forms.checkbox
                     name="is_ycrcb_4_2_2"
                     label="YCrCb 4:2:2"
                     :isCheckedByDefault="$infotainmentProfile->is_ycrcb_4_2_2"
+                    :isDisabled="$mode === 'show'"
                 />
 
                 <x-forms.checkbox
                     name="is_srgb"
                     label="sRGB"
                     :isCheckedByDefault="$infotainmentProfile->is_srgb"
+                    :isDisabled="$mode === 'show'"
                 />
 
                 <x-forms.checkbox
                     name="is_continuous_frequency"
                     label="Continuous frequency"
                     :isCheckedByDefault="$infotainmentProfile->is_continuous_frequency"
+                    :isDisabled="$mode === 'show'"
                 />
             </div>
             <div class="tab-pane fade" id="additional-tab-pane" role="tabpanel" aria-labelledby="additional-tab"
@@ -234,6 +275,7 @@
                     :defaultValue="$infotainmentProfile->hw_version"
                     required="true"
                     extraText="Must be 3 characters (letters or numbers). If you enter less than 3 characters, leading 0s will be added automatically."
+                    :isDisabled="$mode === 'show'"
                 />
 
                 <x-forms.input
@@ -242,24 +284,28 @@
                     :defaultValue="$infotainmentProfile->sw_version"
                     required="true"
                     extraText="Must be 4 characters (letters or numbers). If you enter less than 4 characters, leading 0s will be added automatically."
+                    :isDisabled="$mode === 'show'"
                 />
 
                 <x-forms.vendor-input
                     name="vendor_block_1"
                     label="Vendor block 1"
                     :defaultValue="$infotainmentProfile->vendor_block_1"
+                    :isDisabled="$mode === 'show'"
                 />
 
                 <x-forms.vendor-input
                     name="vendor_block_2"
                     label="Vendor block 2"
                     :defaultValue="$infotainmentProfile->vendor_block_2"
+                    :isDisabled="$mode === 'show'"
                 />
 
                 <x-forms.vendor-input
                     name="vendor_block_3"
                     label="Vendor block 3"
                     :defaultValue="$infotainmentProfile->vendor_block_3"
+                    :isDisabled="$mode === 'show'"
                 />
             </div>
             <div class="tab-pane fade" id="timing-tab-pane" role="tabpanel" aria-labelledby="timing-tab"
@@ -274,6 +320,7 @@
                     step="0.01"
                     suffixText="MHz"
                     extraText="The value must be between 0.01-655.35. Only increments of 0.01 MHz are allowed."
+                    :isDisabled="$mode === 'show'"
                 />
 
                 <div class="row">
@@ -287,6 +334,7 @@
                             required="true"
                             suffixText="pixels"
                             extraText="The value must be between 0-4095."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.input
@@ -297,6 +345,7 @@
                             required="true"
                             suffixText="pixels"
                             extraText="The value must be between 0-4095."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.input
@@ -306,6 +355,7 @@
                             :defaultValue="$timing->horizontal_front_porch"
                             suffixText="pixels"
                             extraText="The value must be between 0-1023."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.input
@@ -315,6 +365,7 @@
                             :defaultValue="$timing->horizontal_sync_width"
                             suffixText="pixels"
                             extraText="The value must be between 0-1023."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.input
@@ -324,6 +375,7 @@
                             :defaultValue="$timing->horizontal_image_size"
                             suffixText="mm"
                             extraText="The value must be between 0-4095."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.input
@@ -333,12 +385,14 @@
                             :defaultValue="$timing->horizontal_border"
                             suffixText="pixels"
                             extraText="The value must be between 0-255."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.checkbox
                             name="signal_horizontal_sync_positive"
                             label="Horizontal signal sync polarity (+)"
                             :isCheckedByDefault="$timing->signal_horizontal_sync_positive"
+                            :isDisabled="$mode === 'show'"
                         />
                     </div>
                     <div class="col-md-6">
@@ -350,6 +404,7 @@
                             required="true"
                             suffixText="lines"
                             extraText="The value must be between 0-4095."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.input
@@ -360,6 +415,7 @@
                             required="true"
                             suffixText="lines"
                             extraText="The value must be between 0-4095."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.input
@@ -369,6 +425,7 @@
                             :defaultValue="$timing->vertical_front_porch"
                             suffixText="lines"
                             extraText="The value must be between 0-63."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.input
@@ -378,6 +435,7 @@
                             :defaultValue="$timing->vertical_sync_width"
                             suffixText="lines"
                             extraText="The value must be between 0-63."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.input
@@ -387,6 +445,7 @@
                             :defaultValue="$timing->vertical_image_size"
                             suffixText="mm"
                             extraText="The value must be between 0-4095."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.input
@@ -396,12 +455,14 @@
                             :defaultValue="$timing->vertical_border"
                             suffixText="lines"
                             extraText="The value must be between 0-255."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.checkbox
                             name="signal_vertical_sync_positive"
                             label="Vertical signal sync polarity (+)"
                             :isCheckedByDefault="$timing->signal_vertical_sync_positive"
+                            :isDisabled="$mode === 'show'"
                         />
                     </div>
                 </div>
@@ -415,6 +476,7 @@
                     :isCheckedByDefault="$extraTiming->exists"
                     extraText="If you disable this option, you will loose all the settings from this section.
                     Marked fields in this section are required only if this option is enabled."
+                    :isDisabled="$mode === 'show'"
                 />
 
                 <x-forms.input
@@ -426,6 +488,7 @@
                     step="0.01"
                     suffixText="MHz"
                     extraText="The value must be between 0.01-655.35. Only increments of 0.01 MHz are allowed."
+                    :isDisabled="$mode === 'show'"
                 />
 
                 <div class="row">
@@ -438,6 +501,7 @@
                             required="true"
                             suffixText="pixels"
                             extraText="The value must be between 0-4095."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.input
@@ -448,6 +512,7 @@
                             required="true"
                             suffixText="pixels"
                             extraText="The value must be between 0-4095."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.input
@@ -457,6 +522,7 @@
                             :defaultValue="$extraTiming->horizontal_front_porch"
                             suffixText="pixels"
                             extraText="The value must be between 0-1023."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.input
@@ -466,6 +532,7 @@
                             :defaultValue="$extraTiming->horizontal_sync_width"
                             suffixText="pixels"
                             extraText="The value must be between 0-1023."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.input
@@ -475,6 +542,7 @@
                             :defaultValue="$extraTiming->horizontal_image_size"
                             suffixText="mm"
                             extraText="The value must be between 0-4095."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.input
@@ -484,12 +552,14 @@
                             :defaultValue="$extraTiming->horizontal_border"
                             suffixText="pixels"
                             extraText="The value must be between 0-255."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.checkbox
                             name="extra_signal_horizontal_sync_positive"
                             label="Horizontal signal sync polarity (+)"
                             :isCheckedByDefault="$extraTiming->signal_horizontal_sync_positive"
+                            :isDisabled="$mode === 'show'"
                         />
                     </div>
                     <div class="col-md-6">
@@ -501,6 +571,7 @@
                             required="true"
                             suffixText="lines"
                             extraText="The value must be between 0-4095."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.input
@@ -511,6 +582,7 @@
                             required="true"
                             suffixText="lines"
                             extraText="The value must be between 0-4095."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.input
@@ -520,6 +592,7 @@
                             :defaultValue="$extraTiming->vertical_front_porch"
                             suffixText="lines"
                             extraText="The value must be between 0-63."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.input
@@ -529,6 +602,7 @@
                             :defaultValue="$extraTiming->vertical_sync_width"
                             suffixText="lines"
                             extraText="The value must be between 0-63."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.input
@@ -538,6 +612,7 @@
                             :defaultValue="$extraTiming->vertical_image_size"
                             suffixText="mm"
                             extraText="The value must be between 0-4095."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.input
@@ -547,12 +622,14 @@
                             :defaultValue="$extraTiming->vertical_border"
                             suffixText="lines"
                             extraText="The value must be between 0-255."
+                            :isDisabled="$mode === 'show'"
                         />
 
                         <x-forms.checkbox
                             name="extra_signal_vertical_sync_positive"
                             label="Vertical signal sync polarity (+)"
                             :isCheckedByDefault="$extraTiming->signal_vertical_sync_positive"
+                            :isDisabled="$mode === 'show'"
                         />
                     </div>
                 </div>
@@ -564,7 +641,7 @@
         @if($mode === 'approve')
             <button type="submit" class="btn btn-primary">Approve</button>
             <a href="{{ route('infotainments.show', $infotainment) }}" class="btn btn-outline-danger">Cancel</a>
-        @else
+        @elseif($mode !== 'show')
             <button type="submit" class="btn btn-primary">Save</button>
         @endif
     </form>

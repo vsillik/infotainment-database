@@ -15,16 +15,20 @@ class Radio extends Component
 
     public readonly bool $isCheckedByDefault;
 
+    public readonly bool $isDisabled;
+
     public function __construct(
         string $name,
         string $label,
         string $value,
-        bool $isCheckedByDefault = false
+        bool $isCheckedByDefault = false,
+        ?bool $isDisabled = false
     ) {
         $this->name = $name;
         $this->label = $label;
         $this->value = $value;
         $this->isCheckedByDefault = $isCheckedByDefault;
+        $this->isDisabled = $isDisabled ?? false;
     }
 
     public function render(): View

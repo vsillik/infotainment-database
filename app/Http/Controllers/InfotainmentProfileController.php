@@ -122,6 +122,30 @@ class InfotainmentProfileController extends Controller
     }
 
     /**
+     * Show specific infotainment profile
+     */
+    public function show(Infotainment $infotainment, InfotainmentProfile $profile): View
+    {
+        Gate::authorize('view', $profile);
+
+        return view('infotainment_profiles.create-or-edit', [
+            'breadcrumbs' => [
+                route('index') => 'Home',
+                route('infotainments.index') => 'Infotainments',
+                route('infotainments.show', $infotainment->id) => 'ID: '.$infotainment->id,
+                'current' => 'Profile number '.$profile->profile_number,
+            ],
+            'colorBitDepths' => ColorBitDepth::labels(),
+            'interfaces' => DisplayInterface::labels(),
+            'infotainment' => $infotainment,
+            'infotainmentProfile' => $profile,
+            'timing' => $profile->timing,
+            'extraTiming' => $profile->extraTiming ?? new InfotainmentProfileTimingBlock,
+            'mode' => 'show',
+        ]);
+    }
+
+    /**
      * Show form for editing of the infotainment profile
      */
     public function edit(Infotainment $infotainment, InfotainmentProfile $profile): RedirectResponse|View

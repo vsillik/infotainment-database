@@ -3,6 +3,7 @@
         :name="$name"
         :value="$value"
         :isCheckedByDefault="$isCheckedByDefault"
+        :isDisabled="$isDisabled"
         {{ $attributes }}
     />
 

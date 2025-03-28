@@ -20,6 +20,8 @@ class Checkbox extends Component
 
     public readonly ?string $extraText;
 
+    public readonly bool $isDisabled;
+
     public function __construct(
         string $name,
         string $label,
@@ -27,6 +29,7 @@ class Checkbox extends Component
         ?string $value = null,
         ?bool $required = null,
         ?string $extraText = null,
+        ?bool $isDisabled = false
     ) {
         $this->name = $name;
         $this->label = $label;
@@ -34,6 +37,7 @@ class Checkbox extends Component
         $this->value = $value ?? '1';
         $this->required = $required ?? false;
         $this->extraText = $extraText;
+        $this->isDisabled = $isDisabled ?? false;
     }
 
     public function render(): View|Closure|string

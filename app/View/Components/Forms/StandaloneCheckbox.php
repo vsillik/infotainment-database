@@ -13,14 +13,18 @@ class StandaloneCheckbox extends Component
 
     public readonly string $value;
 
+    public readonly bool $isDisabled;
+
     public function __construct(
         string $name,
         ?bool $isCheckedByDefault = null,
         ?string $value = null,
+        ?bool $isDisabled = false
     ) {
         $this->name = $name;
         $this->isCheckedByDefault = $isCheckedByDefault ?? false;
         $this->value = $value ?? '1';
+        $this->isDisabled = $isDisabled ?? false;
     }
 
     public function render(): View

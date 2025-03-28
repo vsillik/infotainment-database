@@ -9,6 +9,7 @@
     <textarea name="{{ $name }}"
               id="{{ $name }}"
               @class(['form-control', 'is-invalid' => $errors->has($name)])
+              @disabled($isDisabled)
               {{ $attributes }}
     >{{ old($name, $defaultValue) }}</textarea>
 

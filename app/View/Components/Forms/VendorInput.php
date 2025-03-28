@@ -18,6 +18,8 @@ class VendorInput extends Component
 
     public readonly int $bytesCount;
 
+    public readonly bool $isDisabled;
+
     /**
      * @param  array<string>  $defaultValue
      */
@@ -26,11 +28,13 @@ class VendorInput extends Component
         string $label,
         array $defaultValue = [],
         ?bool $required = null,
+        ?bool $isDisabled = false
     ) {
         $this->name = $name;
         $this->label = $label;
         $this->defaultValue = $defaultValue;
         $this->required = $required ?? false;
+        $this->isDisabled = $isDisabled ?? false;
 
         $oldValue = old($name);
         if (! is_array($oldValue)) {

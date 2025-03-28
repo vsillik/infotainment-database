@@ -10,6 +10,7 @@
         :name="$name"
         :options="$options"
         :defaultValue="$defaultValue"
+        :isDisabled="$isDisabled"
     />
 
     @if($extraText !== null)

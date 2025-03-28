@@ -18,7 +18,7 @@
             'btn-sm',
             'btn-success',
             'btn-add-byte',
-            'disabled' => $bytesCount >= 28
+            'disabled' => $bytesCount >= 28 || $isDisabled
        ])
        data-target="{{ $name }}"
     >
@@ -32,7 +32,7 @@
             'btn-sm',
             'btn-danger',
             'btn-remove-byte',
-            'disabled' => $bytesCount === 0
+            'disabled' => $bytesCount === 0 || $isDisabled
        ])
        data-target="{{ $name }}"
     >
@@ -59,7 +59,7 @@
                            value="{{ old(sprintf('%s.%s', $name, $i), array_key_exists($i, $defaultValue) ? $defaultValue[$i] : null) }}"
                            id="{{$name}}_{{$i}}"
                         @class(['form-control', 'px-2', 'is-invalid' => $errors->has(sprintf('%s.%s', $name, $i))])
-                        @disabled($i >= $bytesCount)
+                        @disabled($i >= $bytesCount || $isDisabled)
                     >
                     @error(sprintf('%s.%s', $name, $i))
                     <div class="invalid-feedback">

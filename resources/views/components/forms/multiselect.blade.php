@@ -9,6 +9,7 @@
     <select name="{{ $name }}[]" id="{{ $name }}"
         @class(['form-select', 'is-invalid' => $errors->has($name)])
         {{ $attributes }}
+        @disabled($isDisabled)
         multiple
     >
         @foreach($options as $key => $option)

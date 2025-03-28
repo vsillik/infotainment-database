@@ -10,6 +10,7 @@
                               :defaultValue="$defaultValue"
                               :type="$type"
                               :suffixText="$suffixText"
+                              :isDisabled="$isDisabled"
                               {{ $attributes }}
     />
 

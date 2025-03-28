@@ -21,6 +21,8 @@ class Multiselect extends Component
 
     public readonly ?string $extraText;
 
+    public readonly bool $isDisabled;
+
     /**
      * @param  array<string>  $options
      * @param  array<string>|null  $selected
@@ -32,6 +34,7 @@ class Multiselect extends Component
         ?array $selected = null,
         ?bool $required = null,
         ?string $extraText = null,
+        ?bool $isDisabled = false
     ) {
         $this->name = $name;
         $this->label = $label;
@@ -39,6 +42,7 @@ class Multiselect extends Component
         $this->selected = $selected ?? [];
         $this->required = $required ?? false;
         $this->extraText = $extraText;
+        $this->isDisabled = $isDisabled ?? false;
     }
 
     public function render(): View
