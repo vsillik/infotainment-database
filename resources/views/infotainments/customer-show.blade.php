@@ -15,7 +15,7 @@
     <h3>Infotainment profiles</h3>
     <hr/>
 
-    @if($onlyUnapprovedProfiles)
+    @if(count($infotainmentProfiles) > 0 && $onlyUnapprovedProfiles)
         <div class="alert alert-warning">
             There were no validated profiles found. Below is list of profiles that were not checked yet and may not be
             working properly, proceed with caution.
@@ -44,7 +44,9 @@
                     @endif
                 </td>
                 <td>
-                    <x-action-buttons.download targetUrl="#" label="Download EDID"/>
+                    @can('download', $infotainmentProfile)
+                        <x-action-buttons.download :targetUrl="route('infotainments.profiles.download', [$infotainment, $infotainmentProfile])" label="Download EDID" />
+                    @endcan
                 </td>
             </tr>
         @empty

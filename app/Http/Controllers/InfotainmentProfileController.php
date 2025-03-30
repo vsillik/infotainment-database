@@ -314,12 +314,6 @@ class InfotainmentProfileController extends Controller
 
     public function downloadEdid(Infotainment $infotainment, InfotainmentProfile $profile): RedirectResponse|StreamedResponse
     {
-        if (! $profile->is_approved) {
-            return redirect()
-                ->route('infotainments.show', $infotainment)
-                ->with('error', sprintf('Infotainment profile %d can not be downloaded (must be approved first)', $profile->profile_number));
-        }
-
         try {
             $bytes = EdidBuilder::build($infotainment, $profile);
         } catch (\InvalidArgumentException $e) {

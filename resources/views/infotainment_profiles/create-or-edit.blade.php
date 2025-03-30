@@ -22,11 +22,11 @@
     </x-slot:title>
 
     @if($mode === 'show')
-        @if($infotainmentProfile->is_approved)
-            @can('download', $infotainmentProfile)
-                <x-action-buttons.download :targetUrl="route('infotainments.profiles.download', [$infotainment, $infotainmentProfile])" label="Download EDID" />
-            @endcan
-        @else
+        @can('download', $infotainmentProfile)
+            <x-action-buttons.download :targetUrl="route('infotainments.profiles.download', [$infotainment, $infotainmentProfile])" label="Download EDID" />
+        @endcan
+
+        @if(!$infotainmentProfile->is_approved)
             @can('update', $infotainmentProfile)
                 <x-action-buttons.edit :targetUrl="route('infotainments.profiles.edit', [$infotainment, $infotainmentProfile])" />
             @endcan
