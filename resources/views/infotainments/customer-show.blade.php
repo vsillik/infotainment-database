@@ -51,7 +51,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="2">
+                <td colspan="3">
                     No infotainment profile found.
                 </td>
             </tr>

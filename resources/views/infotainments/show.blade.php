@@ -123,7 +123,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="2">
+                <td colspan="4">
                     No infotainment profile found.
                     @can('create', InfotainmentProfile::class)
                         <a href="{{ route('infotainments.profiles.create', $infotainment) }}">Add infotainment profile</a>
