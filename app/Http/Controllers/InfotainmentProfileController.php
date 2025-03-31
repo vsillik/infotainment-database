@@ -114,7 +114,7 @@ class InfotainmentProfileController extends Controller
         $infotainmentProfile->save();
 
         return redirect()
-            ->route('infotainments.profiles.edit', [
+            ->route('infotainments.profiles.show', [
                 'infotainment' => $infotainment->id,
                 'profile' => $infotainmentProfile->id,
             ])
@@ -163,7 +163,8 @@ class InfotainmentProfileController extends Controller
                 route('index') => 'Home',
                 route('infotainments.index') => 'Infotainments',
                 route('infotainments.show', $infotainment->id) => 'ID: '.$infotainment->id,
-                'current' => 'Edit profile number '.$profile->profile_number,
+                route('infotainments.profiles.show', [$infotainment->id, $profile->id]) => 'Profile number '.$profile->profile_number,
+                'current' => 'Edit',
             ],
             'colorBitDepths' => ColorBitDepth::labels(),
             'interfaces' => DisplayInterface::labels(),
@@ -193,7 +194,8 @@ class InfotainmentProfileController extends Controller
                 route('index') => 'Home',
                 route('infotainments.index') => 'Infotainments',
                 route('infotainments.show', $infotainment->id) => 'ID: '.$infotainment->id,
-                'current' => 'Approve profile number '.$profile->profile_number,
+                route('infotainments.profiles.show', [$infotainment->id, $profile->id]) => 'Profile number '.$profile->profile_number,
+                'current' => 'Approve',
             ],
             'colorBitDepths' => ColorBitDepth::labels(),
             'interfaces' => DisplayInterface::labels(),
@@ -217,7 +219,8 @@ class InfotainmentProfileController extends Controller
                 route('index') => 'Home',
                 route('infotainments.index') => 'Infotainments',
                 route('infotainments.show', $infotainment->id) => 'ID: '.$infotainment->id,
-                'current' => 'Copy profile number '.$profile->profile_number,
+                route('infotainments.profiles.show', [$infotainment->id, $profile->id]) => 'Profile number '.$profile->profile_number,
+                'current' => 'Copy',
             ],
             'colorBitDepths' => ColorBitDepth::labels(),
             'interfaces' => DisplayInterface::labels(),
@@ -289,7 +292,7 @@ class InfotainmentProfileController extends Controller
         }
 
         return redirect()
-            ->route('infotainments.profiles.edit', [
+            ->route('infotainments.profiles.show', [
                 'infotainment' => $infotainment->id,
                 'profile' => $profile->id,
             ])
@@ -303,13 +306,16 @@ class InfotainmentProfileController extends Controller
     {
         Gate::authorize('delete', $profile);
 
+        // we need to find out the profile number before the deletion occurs
+        $profileNumber = $profile->profile_number;
+
         $profile->delete();
         $profile->timing->delete();
         $profile->extraTiming?->delete();
 
         return redirect()
             ->route('infotainments.show', $infotainment)
-            ->with('success', sprintf('Infotainment profile number %d deleted', $profile->profile_number));
+            ->with('success', sprintf('Infotainment profile number %d deleted', $profileNumber));
     }
 
     public function downloadEdid(Infotainment $infotainment, InfotainmentProfile $profile): RedirectResponse|StreamedResponse

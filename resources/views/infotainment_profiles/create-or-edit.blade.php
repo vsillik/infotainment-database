@@ -9,6 +9,9 @@
         @switch($mode)
             @case('show')
                 Infotainment profile
+                @if($infotainmentProfile->is_approved)
+                    <span class="badge rounded-pill text-bg-success fs-6 align-middle">Approved</span>
+                @endif
                 @break
             @case('edit')
                 Edit infotainment profile
