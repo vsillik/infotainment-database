@@ -391,16 +391,16 @@ class InfotainmentProfileController extends Controller
 
         $timingBlock->horizontal_pixels = $validated[$prefix.'horizontal_pixels'] ?? 0;
         $timingBlock->horizontal_blank = $validated[$prefix.'horizontal_blank'] ?? 0;
-        $timingBlock->horizontal_front_porch = $validated[$prefix.'horizontal_front_porch'] ?? null;
-        $timingBlock->horizontal_sync_width = $validated[$prefix.'horizontal_sync_width'] ?? null;
-        $timingBlock->horizontal_image_size = $validated[$prefix.'horizontal_image_size'] ?? null;
+        $timingBlock->horizontal_front_porch = $validated[$prefix.'horizontal_front_porch'] ?? 0;
+        $timingBlock->horizontal_sync_width = $validated[$prefix.'horizontal_sync_width'] ?? 0;
+        $timingBlock->horizontal_image_size = $validated[$prefix.'horizontal_image_size'] ?? 0;
         $timingBlock->horizontal_border = $validated[$prefix.'horizontal_border'] ?? null;
 
         $timingBlock->vertical_lines = $validated[$prefix.'vertical_lines'] ?? 0;
         $timingBlock->vertical_blank = $validated[$prefix.'vertical_blank'] ?? 0;
-        $timingBlock->vertical_front_porch = $validated[$prefix.'vertical_front_porch'] ?? null;
-        $timingBlock->vertical_sync_width = $validated[$prefix.'vertical_sync_width'] ?? null;
-        $timingBlock->vertical_image_size = $validated[$prefix.'vertical_image_size'] ?? null;
+        $timingBlock->vertical_front_porch = $validated[$prefix.'vertical_front_porch'] ?? 0;
+        $timingBlock->vertical_sync_width = $validated[$prefix.'vertical_sync_width'] ?? 0;
+        $timingBlock->vertical_image_size = $validated[$prefix.'vertical_image_size'] ?? 0;
         $timingBlock->vertical_border = $validated[$prefix.'vertical_border'] ?? null;
 
         $timingBlock->signal_horizontal_sync_positive = $request->has($prefix.'signal_horizontal_sync_positive');
