@@ -67,7 +67,7 @@ class EdidBuilder
         $vendorSection = new VendorProductIdentificationSection(
             $infotainment->serializerManufacturer->id,
             sprintf('%04s', $infotainment->product_id),
-            $infotainmentProfile->created_at ?? new Carbon,
+            $infotainmentProfile->updated_at ?? new Carbon,
             $infotainment->model_year,
         );
 
@@ -100,8 +100,8 @@ class EdidBuilder
 
         // get maximum of timing and extra timing pixel clock
         $pixelClock = max($infotainmentProfile->timing->pixel_clock, $infotainmentProfile->extraTiming->pixel_clock ?? 0);
-        // if hdmi interface is selected and pixel clock is higher than 165 MHz
-        if (($infotainmentProfile->interface === DisplayInterface::HDMI_A || $infotainmentProfile->interface === DisplayInterface::HDMI_B) && $pixelClock >= 165) {
+        // if hdmi interface is selected add hdmi extension
+        if ($infotainmentProfile->interface === DisplayInterface::HDMI_A || $infotainmentProfile->interface === DisplayInterface::HDMI_B) {
             // HDMI vendor specific data block must be added
             $ctaExtension->addDataBlock(new HdmiVendorSpecificDataBlock(
                 // round up the pixel clock divided by 5 as max TMDS clock

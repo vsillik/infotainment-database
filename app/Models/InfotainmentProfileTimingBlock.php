@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Carbon;
 
 /**
  * @mixin Builder<InfotainmentProfileTimingBlock>
@@ -26,6 +27,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property bool $signal_horizontal_sync_positive
  * @property bool $signal_vertical_sync_positive
  * @property InfotainmentProfile $infotainmentProfile
+ * @property ?Carbon $created_at
+ * @property ?Carbon $updated_at
  */
 class InfotainmentProfileTimingBlock extends Model
 {

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @mixin Builder<InfotainmentManufacturer>
@@ -19,6 +20,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Collection<int, Infotainment> $infotainments
  * @property ?User $createdBy
  * @property ?User $updatedBy
+ * @property ?Carbon $created_at
+ * @property ?Carbon $updated_at
  */
 #[ObservedBy([InfotainmentManufacturerObserver::class])]
 class InfotainmentManufacturer extends Model

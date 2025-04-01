@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -40,6 +41,8 @@ use Illuminate\Support\Facades\DB;
  * @property ?InfotainmentProfileTimingBlock $extraTiming
  * @property ?User $createdBy
  * @property ?User $updatedBy
+ * @property ?Carbon $created_at
+ * @property ?Carbon $updated_at
  */
 #[ObservedBy([InfotainmentProfileObserver::class])]
 class InfotainmentProfile extends Model

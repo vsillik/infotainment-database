@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @mixin Builder<Infotainment>
@@ -29,6 +30,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Collection<int, User> $users
  * @property ?User $createdBy
  * @property ?User $updatedBy
+ * @property ?Carbon $created_at
+ * @property ?Carbon $updated_at
  */
 #[ObservedBy([InfotainmentObserver::class])]
 class Infotainment extends Model

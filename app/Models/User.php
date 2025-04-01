@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 
 /**
  * @mixin Builder<User>
@@ -38,6 +39,8 @@ use Illuminate\Notifications\Notifiable;
  * @property Collection<int, InfotainmentProfile> $createdInfotainmentProfiles
  * @property Collection<int, InfotainmentProfile> $updatedInfotainmentProfiles
  * @property Collection<int, User> $deletedUsers
+ * @property ?Carbon $created_at
+ * @property ?Carbon $updated_at
  */
 #[ObservedBy(UserObserver::class)]
 class User extends Authenticatable
