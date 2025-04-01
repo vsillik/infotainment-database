@@ -66,7 +66,7 @@ class InfotainmentProfileController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('infotainments.index') => 'Infotainments',
-                route('infotainments.show', $infotainment->id) => 'ID: '.$infotainment->id,
+                route('infotainments.show', $infotainment->id) => $infotainment->part_number,
                 'current' => 'Create profile',
             ],
             'colorBitDepths' => ColorBitDepth::labels(),
@@ -132,7 +132,7 @@ class InfotainmentProfileController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('infotainments.index') => 'Infotainments',
-                route('infotainments.show', $infotainment->id) => 'ID: '.$infotainment->id,
+                route('infotainments.show', $infotainment->id) => $infotainment->part_number,
                 'current' => 'Profile number '.$profile->profile_number,
             ],
             'colorBitDepths' => ColorBitDepth::labels(),
@@ -162,7 +162,7 @@ class InfotainmentProfileController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('infotainments.index') => 'Infotainments',
-                route('infotainments.show', $infotainment->id) => 'ID: '.$infotainment->id,
+                route('infotainments.show', $infotainment->id) => $infotainment->part_number,
                 route('infotainments.profiles.show', [$infotainment->id, $profile->id]) => 'Profile number '.$profile->profile_number,
                 'current' => 'Edit',
             ],
@@ -193,7 +193,7 @@ class InfotainmentProfileController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('infotainments.index') => 'Infotainments',
-                route('infotainments.show', $infotainment->id) => 'ID: '.$infotainment->id,
+                route('infotainments.show', $infotainment->id) => $infotainment->part_number,
                 route('infotainments.profiles.show', [$infotainment->id, $profile->id]) => 'Profile number '.$profile->profile_number,
                 'current' => 'Approve',
             ],
@@ -218,7 +218,7 @@ class InfotainmentProfileController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('infotainments.index') => 'Infotainments',
-                route('infotainments.show', $infotainment->id) => 'ID: '.$infotainment->id,
+                route('infotainments.show', $infotainment->id) => $infotainment->part_number,
                 route('infotainments.profiles.show', [$infotainment->id, $profile->id]) => 'Profile number '.$profile->profile_number,
                 'current' => 'Copy',
             ],

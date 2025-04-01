@@ -23,7 +23,7 @@
         @can('delete', $infotainment)
             <x-action-buttons.delete
                 :targetUrl="route('infotainments.destroy', $infotainment)"
-                confirmSubject="infotainment ID: {{ $infotainment->id }}"/>
+                confirmSubject="infotainment ID: {{ $infotainment->id }} ({{ $infotainment->part_number }})"/>
         @endcan
     </div>
 

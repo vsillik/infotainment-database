@@ -199,7 +199,7 @@ class InfotainmentController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('infotainments.index') => 'Infotainments',
-                'current' => 'ID: '.$infotainment->id,
+                'current' => $infotainment->part_number,
             ],
             'infotainment' => $infotainment,
             'infotainmentProfiles' => $infotainmentProfiles,
@@ -219,7 +219,7 @@ class InfotainmentController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('infotainments.index') => 'Infotainments',
-                route('infotainments.show', $infotainment->id) => 'ID: '.$infotainment->id,
+                route('infotainments.show', $infotainment->id) => $infotainment->part_number,
                 'current' => 'Edit',
             ],
             'infotainment' => $infotainment,
@@ -255,14 +255,14 @@ class InfotainmentController extends Controller
         if ($infotainment->profiles->isNotEmpty()) {
             return redirect()
                 ->back()
-                ->with('error', sprintf('Infotainment ID: %s can\'t be deleted because it has profiles assigned', $infotainment->id));
+                ->with('error', sprintf('Infotainment ID: %s (%s) can\'t be deleted because it has profiles assigned', $infotainment->id, $infotainment->part_number));
         }
 
         $infotainment->delete();
 
         return redirect()
             ->route('infotainments.index')
-            ->with('success', sprintf('Infotainment ID: %d deleted', $infotainment->id));
+            ->with('success', sprintf('Infotainment ID: %d (%s) deleted', $infotainment->id, $infotainment->part_number));
     }
 
     /**
