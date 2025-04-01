@@ -336,8 +336,8 @@ class InfotainmentProfileController extends Controller
             str_replace(' ', '-', $infotainment->infotainmentManufacturer->name),
             $infotainment->part_number,
             number_format($diagonalSize, 1, 'i', ''), // integer part and decimal part is separated by i
-            $profile->timing->horizontal_image_size,
-            $profile->timing->vertical_image_size,
+            $profile->timing->horizontal_pixels,
+            $profile->timing->vertical_lines,
             $profile->updated_at?->format('Ymd_Hi') ?? '00000000_0000',
         );
         $binary = pack('C*', ...$bytes);
