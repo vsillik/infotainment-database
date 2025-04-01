@@ -35,6 +35,10 @@
             <tr>
                 <td>
                     {{ $profileNumbers->get($infotainmentProfile->id) ?? 'N/A' }}
+
+                    @if(!$infotainmentProfile->is_approved)
+                        <span class="badge rounded-pill text-bg-warning">Unapproved</span>
+                    @endif
                 </td>
                 <td>
                     @if($infotainmentProfile->updated_at !== null)
