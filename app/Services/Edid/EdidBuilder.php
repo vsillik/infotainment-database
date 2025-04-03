@@ -9,6 +9,7 @@ use App\Models\Infotainment;
 use App\Models\InfotainmentProfile;
 use App\Models\InfotainmentProfileTimingBlock;
 use App\Services\Edid\Base\BaseBlock;
+use App\Services\Edid\Base\Section\ColorCharacteristicsSection;
 use App\Services\Edid\Base\Section\DataBlock\AlphanumericDisplayDescriptor;
 use App\Services\Edid\Base\Section\DataBlock\DetailedTimingDataBlock;
 use App\Services\Edid\Base\Section\DataBlock\DisplayProductNameDisplayDescriptor;
@@ -84,11 +85,23 @@ class EdidBuilder
             $infotainmentProfile->is_continuous_frequency,
         );
 
+        $colorCharacteristics = new ColorCharacteristicsSection(
+            floatval(Config::string('app.chromaticity.red_x')),
+            floatval(Config::string('app.chromaticity.red_y')),
+            floatval(Config::string('app.chromaticity.green_x')),
+            floatval(Config::string('app.chromaticity.green_y')),
+            floatval(Config::string('app.chromaticity.blue_x')),
+            floatval(Config::string('app.chromaticity.blue_y')),
+            floatval(Config::string('app.chromaticity.white_x')),
+            floatval(Config::string('app.chromaticity.white_y')),
+        );
+
         $dataBlocksSection = self::buildDataBlocksSection($infotainment, $infotainmentProfile);
 
         return new BaseBlock(
             $vendorSection,
             $parametersSection,
+            $colorCharacteristics,
             $dataBlocksSection,
             $extensionCount,
         );

@@ -131,4 +131,14 @@ return [
 
     'admin_email' => env('APP_ADMIN_EMAIL'),
     'vendor_id' => env('APP_VENDOR_ID', '000000'),
+    'chromaticity' => [
+        'red_x' => env('APP_CHROMATICITY_RED_X', 0),
+        'red_y' => env('APP_CHROMATICITY_RED_Y', 0),
+        'green_x' => env('APP_CHROMATICITY_GREEN_X', 0),
+        'green_y' => env('APP_CHROMATICITY_GREEN_Y', 0),
+        'blue_x' => env('APP_CHROMATICITY_BLUE_X', 0),
+        'blue_y' => env('APP_CHROMATICITY_BLUE_Y', 0),
+        'white_x' => env('APP_CHROMATICITY_WHITE_X', 0),
+        'white_y' => env('APP_CHROMATICITY_WHITE_Y', 0),
+    ],
 ];

@@ -25,6 +25,7 @@ class BaseBlock extends AbstractEdidBlock
     public function __construct(
         public readonly VendorProductIdentificationSection $vendorProductIdentification,
         public readonly ParametersAndFeaturesSection $displayParametersAndFeatures,
+        public readonly ColorCharacteristicsSection $colorCharacteristics,
         public readonly DataBlocksSection $dataBlocks,
         public readonly int $extensionCount,
     ) {
@@ -42,7 +43,7 @@ class BaseBlock extends AbstractEdidBlock
             $this->vendorProductIdentification->toBytes(),
             (new VersionRevisionSection)->toBytes(),
             $this->displayParametersAndFeatures->toBytes(),
-            (new ColorCharacteristicsSection)->toBytes(),
+            $this->colorCharacteristics->toBytes(),
             (new EstablishedTimingsSection)->toBytes(),
             (new StandardTimingsSection)->toBytes(),
             $this->dataBlocks->toBytes(),
