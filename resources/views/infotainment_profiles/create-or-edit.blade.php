@@ -660,4 +660,6 @@
             <button type="submit" class="btn btn-primary">Save</button>
         @endif
     </form>
+
+    <x-guide-modal :isDisabled="$mode === 'show'"/>
 </x-layout>
