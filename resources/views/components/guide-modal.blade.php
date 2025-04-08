@@ -11,6 +11,8 @@
                 </div>
 
                 <form action="#">
+                    <input type="hidden" name="guide_target" id="guide_target">
+
                     <x-forms.select
                         name="guide_payload_type"
                         label="Payload type"
@@ -122,6 +124,8 @@
                                     label="Custom Simulation ID"
                                     extraText="The value must contain up to 4 hexadecimal characters when Simulation ID is 'Custom'."
                                     :disabled="true"
+                                    min="0"
+                                    max="65535"
                                 />
                             </div>
                         </div>
@@ -151,6 +155,8 @@
                                     label="Custom ISO TP"
                                     extraText="The value must contain up to 4 hexadecimal characters when ISO TP is 'Custom'."
                                     :disabled="true"
+                                    min="0"
+                                    max="65535"
                                 />
                             </div>
                         </div>
@@ -304,8 +310,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" @disabled($isDisabled)>Apply</button>
+                <button type="button" id="modal-close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="modal-apply" class="btn btn-primary" @disabled($isDisabled)>Apply</button>
             </div>
         </div>
     </div>
@@ -314,6 +320,8 @@
 @pushonce('scripts')
     <script>
         const guideModal = document.getElementById('guide-modal');
+        const targetInput = document.getElementById('guide_target');
+        const guideApplyButton = document.getElementById('modal-apply');
         const invalidDataLoadedError = document.getElementById('invalid-data-loaded');
         const payloadSelect = document.getElementById('guide_payload_type');
         const canSimulationSection = document.getElementById('guide-can-simulation');
@@ -326,12 +334,39 @@
         const fpd3Section = document.getElementById('fpd-link-3');
         const gmslSection = document.getElementById('gmsl');
 
+        function setInputInvalid(elementName) {
+            const element = document.getElementById(elementName);
+            element.classList.add('is-invalid');
+
+            if (element.tagName === "INPUT") {
+                const additionalTextElement = element.parentElement.parentElement.querySelector('.form-text');
+                if (additionalTextElement !== null) {
+                    additionalTextElement.classList.add('invalid-feedback', 'd-block');
+                }
+            }
+        }
+
+        function resetInputInvalid(elementName) {
+            const element = document.getElementById(elementName);
+            element.classList.remove('is-invalid');
+
+            if (element.tagName === "INPUT") {
+                const additionalTextElement = element.parentElement.parentElement.querySelector('.form-text');
+                if (additionalTextElement !== null) {
+                    additionalTextElement.classList.remove('invalid-feedback', 'd-block');
+                }
+            }
+        }
+
         function getByteValue(elementName, byteNumber) {
             // byte 4 => element suffix _0, 5 => _1
             return document.getElementById(elementName + '_' + (byteNumber - 4)).value.trim().padStart(2, '0');
         }
 
         function setInputFromNumberValue(inputName, numberValue, minValidValue, maxValidValue) {
+            // reset validation if there is something left from previous guide apply
+            resetInputInvalid(inputName);
+
             const element = document.getElementById(inputName);
 
             if (numberValue >= minValidValue && numberValue <= maxValidValue) {
@@ -343,10 +378,40 @@
             }
         }
 
+        function getNumberValueFromInput(inputName, minValidValue, maxValidValue) {
+            const element = document.getElementById(inputName);
+
+            if (!/^-?\d+$/.test(element.value.trim())) {
+                setInputInvalid(inputName);
+                return {value: 0, valid: false};
+            }
+
+            const numberValue = Number(element.value.trim());
+            let resultValue = 0;
+            let valid = true;
+
+            if (numberValue >= minValidValue && numberValue <= maxValidValue) {
+                resultValue = numberValue;
+                resetInputInvalid(inputName);
+            } else {
+                valid = false;
+                setInputInvalid(inputName);
+            }
+
+            return {value: resultValue, valid: valid}
+        }
+
         // returns true if the hexValue was in valid range or false if not
         function setInputFromHexValue(inputName, hexValue, minValidValue, maxValidValue) {
             const numberValue = Number('0x' + hexValue)
             return setInputFromNumberValue(inputName, numberValue, minValidValue, maxValidValue);
+        }
+
+        // returns {value: <hex chars>, valid: true/false}
+        function getHexValueFromInput(inputName, minValidValue, maxValidValue) {
+            const {value, valid} = getNumberValueFromInput(inputName, minValidValue, maxValidValue);
+
+            return {value: value.toString(16).padStart(2, '0'), valid: valid}
         }
 
         function loadPayloadType(value) {
@@ -356,6 +421,16 @@
                 1,
                 2
             );
+        }
+
+        function getPayloadTypeBytes() {
+            const {value, valid} = getHexValueFromInput(
+                'guide_payload_type',
+                1,
+                2
+            );
+
+            return {bytes: [value], valid: valid};
         }
 
         function loadVersions(value) {
@@ -379,6 +454,38 @@
             return majorSuccess && minorSuccess;
         }
 
+        function getVersionsBytes() {
+            let majorVersionValue = '0';
+            let minorVersionValue = '0';
+            let bothValid = true;
+
+            const {value: valueMajor, valid: validMajor} = getHexValueFromInput(
+                'guide_major_version',
+                0,
+                15,
+            );
+
+            if (!validMajor) {
+                bothValid = false;
+            } else {
+                majorVersionValue = valueMajor.substring(1, 2); // take the second hex char only
+            }
+
+            const {value: valueMinor, valid: validMinor} = getHexValueFromInput(
+                'guide_minor_version',
+                0,
+                15,
+            );
+
+            if (!validMinor) {
+                bothValid = false;
+            } else {
+                minorVersionValue = valueMinor.substring(1, 2); // take the second hex char only
+            }
+
+            return {bytes: [majorVersionValue + minorVersionValue], valid: bothValid};
+        }
+
         function loadSimulation(value) {
             let numberValue = Number('0x' + value);
             let valuesIsValid = true;
@@ -391,8 +498,13 @@
             const binaryString = numberValue.toString(2).padStart(8, '0');
 
             // Bit 0 = CAN 1, bit 1 = CAN 2, ...
-            for (let i = 0; i < 7; i++) {
-                const checkbox = document.getElementById('guide_simulation_can_' + (i + 1));
+            for (let i = 0; i < 8; i++) {
+                const checkboxName = 'guide_simulation_can_' + (i + 1);
+
+                // reset validation if there is something left from previous guide apply
+                resetInputInvalid(checkboxName);
+
+                const checkbox = document.getElementById(checkboxName);
                 // iterating the binary string in reverse order
                 checkbox.checked = binaryString.substring(7 - i, 7 - i + 1) === '1';
             }
@@ -400,60 +512,118 @@
             return valuesIsValid;
         }
 
-        function loadSimulationId(lsbValue, msbValue) {
+        function getSimulationBytes() {
+            let value = 0;
+
+            for (let i = 0; i < 8; i++) {
+                const checkbox = document.getElementById('guide_simulation_can_' + (i + 1));
+                // CAN1 => 0b00000001, CAN2 => 0b00000010, ...
+                if (checkbox.checked) {
+                    value = value | (1 << i);
+                }
+            }
+
+            return {bytes: [value.toString(16).padStart(2, '0')], valid: true}
+        }
+
+        function loadCustomValue(elementBaseName, lsbValue, msbValue, maxValidSelectValue) {
+            const selectElementName = 'guide_' + elementBaseName;
+            const customElementName = 'guide_custom_' + elementBaseName;
+
+            // reset validation if there is something left from previous guide apply
+            resetInputInvalid(selectElementName);
+            resetInputInvalid(customElementName);
+
             const numberValue = Number('0x' + msbValue + lsbValue);
             let selectValue = 0;
             let hasValidValue = true;
 
             if (numberValue >= 0 && numberValue <= 65535) {
+                const customElement = document.getElementById(customElementName);
                 // custom value
-                if (numberValue > 2) {
+                if (numberValue > maxValidSelectValue) {
                     selectValue = -1;
-                    customSimulationId.value = numberValue.toString(16).padStart(4, '0');
+                    customElement.value = numberValue.toString(16).padStart(4, '0');
                 } else {
                     selectValue = numberValue;
-                    customSimulationId.value = '';
+                    customElement.value = '';
                 }
             } else {
                 hasValidValue = false;
             }
 
             setInputFromNumberValue(
-                'guide_simulation_id',
+                selectElementName,
                 selectValue,
                 -1,
-                2,
+                maxValidSelectValue,
             );
 
             return hasValidValue;
         }
 
-        function loadIsoTp(lsbValue, msbValue) {
-            const numberValue = Number('0x' + msbValue + lsbValue);
-            let selectValue = 0;
-            let hasValidValue = true;
+        function getCustomBytes(elementBaseName, maxValidSelectValue) {
+            const selectElementName = 'guide_' + elementBaseName;
+            const customElementName = 'guide_custom_' + elementBaseName;
 
-            if (numberValue >= 0 && numberValue <= 65535) {
-                // custom value
-                if (numberValue > 7) {
-                    selectValue = -1;
-                    customIsoTp.value = numberValue.toString(16).padStart(4, '0');
-                } else {
-                    selectValue = numberValue;
-                    customIsoTp.value = '';
-                }
-            } else {
-                hasValidValue = false;
+            const {value: selectValue, valid: selectValid} = getNumberValueFromInput(
+                selectElementName,
+                -1,
+                maxValidSelectValue
+            );
+            let value = selectValue;
+
+            if (!selectValid) {
+                return {bytes: [], valid: false};
             }
 
-            setInputFromNumberValue(
-                'guide_iso_tp',
-                selectValue,
-                -1,
+            if (selectValue === -1) {
+                const customElement = document.getElementById(customElementName);
+                const customNumberValue = Number('0x' + customElement.value);
+
+                if (customNumberValue >= 0 && customNumberValue <= 65535) {
+                    resetInputInvalid(customElementName);
+                    value = customNumberValue;
+                } else {
+                    setInputInvalid(customElementName);
+                    return {bytes: [], valid: false}
+                }
+            }
+
+            const valueHex = value.toString(16).padStart(4, '0');
+            return {bytes: [valueHex.substring(2, 4), valueHex.substring(0, 2)], valid: true};
+        }
+
+        function loadSimulationId(lsbValue, msbValue) {
+            return loadCustomValue(
+                'simulation_id',
+                lsbValue,
+                msbValue,
+                2
+            );
+        }
+
+        function getSimulationIdBytes() {
+            return getCustomBytes(
+                'simulation_id',
+                2
+            );
+        }
+
+        function loadIsoTp(lsbValue, msbValue) {
+            return loadCustomValue(
+                'iso_tp',
+                lsbValue,
+                msbValue,
                 7,
             );
+        }
 
-            return hasValidValue;
+        function getIsoTpBytes() {
+            return getCustomBytes(
+                'iso_tp',
+                7,
+            );
         }
 
         function loadMultiplicationX(value) {
@@ -465,6 +635,16 @@
             );
         }
 
+        function getMultiplicationXBytes() {
+            const {value, valid} = getHexValueFromInput(
+                'guide_display_multiplication_x',
+                0,
+                255,
+            );
+
+            return {bytes: [value], valid: valid};
+        }
+
         function loadMultiplicationY(value) {
             return setInputFromHexValue(
                 'guide_display_multiplication_y',
@@ -474,9 +654,26 @@
             );
         }
 
+        function getMultiplicationYBytes() {
+            const {value, valid} = getHexValueFromInput(
+                'guide_display_multiplication_y',
+                0,
+                255,
+            );
+
+            return {bytes: [value], valid: valid};
+        }
+
         function setRotationsElements(elementBaseName, numberValue) {
-            const elementMirroredCheckbox = document.getElementById(elementBaseName + '_mirrored');
-            const elementDegrees = document.getElementById(elementBaseName + '_rotated_degrees');
+            const elementMirroredName = elementBaseName + '_mirrored';
+            const elementDegreesName = elementBaseName + '_rotated_degrees';
+
+            // reset validation if there is something left from previous guide apply
+            resetInputInvalid(elementMirroredName);
+            resetInputInvalid(elementDegreesName);
+
+            const elementMirroredCheckbox = document.getElementById(elementMirroredName);
+            const elementDegrees = document.getElementById(elementDegreesName);
 
             // Bit 3 is 1 if it's mirrored, Bits 1--2 are the rotation value
             if (numberValue >= 0 && numberValue <= 0b111) {
@@ -508,7 +705,7 @@
                 return false;
             }
 
-            const digitizerNumberValue = (numberValue >> 3) & 0b111;
+            const digitizerNumberValue = (numberValue >> 4) & 0b111;
             const screenNumberValue = numberValue & 0b111;
 
             if (!setRotationsElements('guide_digitizer', digitizerNumberValue)) {
@@ -522,6 +719,49 @@
             return valuesAreValid;
         }
 
+        function getScreenRotationBytes() {
+            let value = 0;
+            let valuesAreValid = true;
+
+            const digitizerMirroredElement = document.getElementById('guide_digitizer_mirrored');
+            if (digitizerMirroredElement.checked) {
+                value = value | (1 << 6); // bit 6
+            }
+
+            const {value: digitizerRotationValue, valid: digitizerRotationValid} = getNumberValueFromInput(
+                'guide_digitizer_rotated_degrees',
+                0,
+                3,
+            )
+            if (!digitizerRotationValid) {
+                valuesAreValid = false;
+            } else {
+                value = value | (digitizerRotationValue << 4); // bits 5-4
+            }
+
+            const screenMirroredElement = document.getElementById('guide_screen_mirrored');
+            if (screenMirroredElement.checked) {
+                value = value | (1 << 2); // bit 2
+            }
+
+            const {value: screenRotationValue, valid: screenRotationValid} = getNumberValueFromInput(
+                'guide_screen_rotated_degrees',
+                0,
+                3,
+            );
+            if (!screenRotationValid) {
+                valuesAreValid = false;
+            } else {
+                value = value | (screenRotationValue); // bits 1-0
+            }
+
+            if (!valuesAreValid) {
+                return {bytes: [], valid: false};
+            }
+
+            return {bytes: [value.toString(16).padStart(2, '0')], valid: true};
+        }
+
         function loadOutputInterface(value) {
             return setInputFromHexValue(
                 'guide_output_interface',
@@ -529,6 +769,16 @@
                 0,
                 8,
             );
+        }
+
+        function getOutputInterfaceBytes() {
+            const {value, valid} = getHexValueFromInput(
+                'guide_output_interface',
+                0,
+                8,
+            );
+
+            return {bytes: [value], valid: valid};
         }
 
         function loadProcessedPixels(value) {
@@ -540,6 +790,16 @@
             );
         }
 
+        function getProcessedPixelsBytes() {
+            const {value, valid} = getHexValueFromInput(
+                'guide_processed_pixels',
+                0,
+                255,
+            );
+
+            return {bytes: [value], valid: valid};
+        }
+
         function loadColorMapping(value) {
             return setInputFromHexValue(
                 'guide_color_mapping',
@@ -547,6 +807,16 @@
                 0,
                 2,
             );
+        }
+
+        function getColorMappingBytes() {
+            const {value, valid} = getHexValueFromInput(
+                'guide_color_mapping',
+                0,
+                2,
+            );
+
+            return {bytes: [value], valid: valid};
         }
 
         function loadLinkCount(value) {
@@ -558,6 +828,16 @@
             );
         }
 
+        function getLinkCountBytes() {
+            const {value, valid} = getHexValueFromInput(
+                'guide_link_count',
+                0,
+                2,
+            );
+
+            return {bytes: [value], valid: valid};
+        }
+
         function loadLinkRate(value) {
             return setInputFromHexValue(
                 'guide_link_rate',
@@ -567,7 +847,20 @@
             );
         }
 
+        function getLinkRateBytes() {
+            const {value, valid} = getHexValueFromInput(
+                'guide_link_rate',
+                0,
+                255,
+            );
+
+            return {bytes: [value], valid: valid};
+        }
+
         function loadFec(value) {
+            // reset validation if there is something left from previous guide apply
+            resetInputInvalid('guide_fec_enabled');
+
             const numberValue = Number('0x' + value);
             const checkbox = document.getElementById('guide_fec_enabled');
 
@@ -580,6 +873,17 @@
             return true;
         }
 
+        function getFecBytes() {
+            let value = 0;
+
+            const checkbox = document.getElementById('guide_fec_enabled');
+            if (checkbox.checked) {
+                value = 1;
+            }
+
+            return {bytes: [value.toString(16).padStart(2, '0')], valid: true};
+        }
+
         function loadStreamId(value) {
             return setInputFromHexValue(
                 'guide_stream_id',
@@ -589,6 +893,16 @@
             );
         }
 
+        function getStreamIdBytes() {
+            const {value, valid} = getHexValueFromInput(
+                'guide_stream_id',
+                1,
+                4,
+            );
+
+            return {bytes: [value], valid: valid};
+        }
+
         function loadGmslOutput(value) {
             return setInputFromHexValue(
                 'guide_gmsl_output',
@@ -596,6 +910,16 @@
                 0,
                 3
             );
+        }
+
+        function getGmslOutputBytes() {
+            const {value, valid} = getHexValueFromInput(
+                'guide_gmsl_output',
+                0,
+                3,
+            );
+
+            return {bytes: [value], valid: valid};
         }
 
         function loadCan(name) {
@@ -609,6 +933,7 @@
                 return true;
             }
 
+            const bytesCountNumberValue = Number(document.getElementById(name + '_byte_count').value);
             let valuesAreValid = true;
 
             if (!loadSimulation(getByteValue(name, 8))) {
@@ -637,7 +962,64 @@
                 valuesAreValid = false;
             }
 
+            // 16 labeled bytes => 13 bytes = 16 - 3 for IEEE ID
+            if (bytesCountNumberValue < 13) {
+                valuesAreValid = false;
+            }
+
             return valuesAreValid;
+        }
+
+        function getCanBytes() {
+            let valuesAreValid = true;
+            let bytes = [];
+
+            const {bytes: simulationBytes, valid: simulationValid} = getSimulationBytes();
+            if (!simulationValid) {
+                valuesAreValid = false;
+            } else {
+                bytes = bytes.concat(simulationBytes);
+            }
+
+            const {bytes: simulationIdBytes, valid: simulationIdValid} = getSimulationIdBytes();
+            if (!simulationIdValid) {
+                valuesAreValid = false;
+            } else {
+                bytes = bytes.concat(simulationIdBytes);
+            }
+
+            const {bytes: isoTpBytes, valid: isoTpValid} = getIsoTpBytes();
+            if (!isoTpValid) {
+                valuesAreValid = false;
+            } else {
+                bytes = bytes.concat(isoTpBytes);
+            }
+
+            const {bytes: multiplicationXBytes, valid: multiplicationXValid} = getMultiplicationXBytes();
+            if (!multiplicationXValid) {
+                valuesAreValid = false;
+            } else {
+                bytes = bytes.concat(multiplicationXBytes);
+            }
+
+            const {bytes: multiplicationYBytes, valid: multiplicationYValid} = getMultiplicationYBytes();
+            if (!multiplicationYValid) {
+                valuesAreValid = false;
+            } else {
+                bytes = bytes.concat(multiplicationYBytes);
+            }
+
+            // byte 15 is reserved
+            bytes = bytes.concat('00');
+
+            const {bytes: rotationBytes, valid: rotationValid} = getScreenRotationBytes();
+            if (!rotationValid) {
+                valuesAreValid = false;
+            } else {
+                bytes = bytes.concat(rotationBytes);
+            }
+
+            return {bytes: bytes, valid: valuesAreValid};
         }
 
         function loadVideoParams(name) {
@@ -654,7 +1036,9 @@
                 return true;
             }
 
+            const bytesCountNumberValue = Number(document.getElementById(name + '_byte_count').value);
             let valuesAreValid = true;
+
             if (!loadOutputInterface(getByteValue(name, 8))) {
                 valuesAreValid = false;
             }
@@ -667,22 +1051,18 @@
 
             const outputInterfaceValue = document.getElementById('guide_output_interface').value;
 
-            // if the output interface is not FPD link III, reset the value
-            if (outputInterfaceValue !== '2') {
-                loadLinkCount('00');
-            } else {
+            if (outputInterfaceValue === '2') {
+                // if the output interface is FPD link III
                 if (!loadLinkCount(getByteValue(name, 11))) {
                     valuesAreValid = false;
                 }
-            }
 
-            // if the output interface is not GMSL 2 or GMSL 3, reset the value
-            if (outputInterfaceValue !== '5' && outputInterfaceValue !== '6') {
-                loadLinkRate('00');
-                loadFec('00');
-                loadStreamId('00');
-                loadGmslOutput('00');
-            } else {
+                // 11 labeled bytes => 8 bytes = 11 - 3 for IEEE ID
+                if (bytesCountNumberValue < 8) {
+                    valuesAreValid = false;
+                }
+            } else if (outputInterfaceValue === '5' || outputInterfaceValue === '6') {
+                // if the output interface is GMSL 2 or GMSL 3
                 if (!loadLinkRate(getByteValue(name, 11))) {
                     valuesAreValid = false;
                 }
@@ -695,9 +1075,93 @@
                 if (!loadGmslOutput(getByteValue(name, 14))) {
                     valuesAreValid = false;
                 }
+
+                // 14 labeled bytes => 11 bytes = 14 - 3 for IEEE ID
+                if (bytesCountNumberValue < 11) {
+                    valuesAreValid = false;
+                }
+            } else {
+                // reset the values
+                loadLinkCount('00');
+                loadLinkRate('00');
+                loadFec('00');
+                loadStreamId('00');
+                loadGmslOutput('00');
+
+                // 10 labeled bytes => 7 bytes = 10 - 3 for IEEE ID
+                if (bytesCountNumberValue < 7) {
+                    valuesAreValid = false;
+                }
             }
 
             return valuesAreValid;
+        }
+
+        function getVideoParamsBytes() {
+            let valuesAreValid = true;
+            let bytes = [];
+
+            const {bytes: outputInterfaceBytes, valid: outputInterfaceValid} = getOutputInterfaceBytes();
+            if (!outputInterfaceValid) {
+                valuesAreValid = false;
+            } else {
+                bytes = bytes.concat(outputInterfaceBytes);
+            }
+
+            const {bytes: processedPixelsBytes, valid: processedPixelsValid} = getProcessedPixelsBytes();
+            if (!processedPixelsValid) {
+                valuesAreValid = false;
+            } else {
+                bytes = bytes.concat(processedPixelsBytes);
+            }
+
+            const {bytes: colorMappingBytes, valid: colorMappingValid} = getColorMappingBytes();
+            if (!colorMappingValid) {
+                valuesAreValid = false;
+            } else {
+                bytes = bytes.concat(colorMappingBytes);
+            }
+
+            if (outputInterfaceBytes[0] === '02') {
+                // ldap III interface
+                const {bytes: linkCountBytes, valid: linkCountValid} = getLinkCountBytes();
+                if (!linkCountValid) {
+                    valuesAreValid = false;
+                } else {
+                    bytes = bytes.concat(linkCountBytes);
+                }
+            } else if (outputInterfaceBytes[0] === '05' || outputInterfaceBytes[0] === '06') {
+                // gmsl 2 or gmsl3 interface
+                const {bytes: linkRateBytes, valid: linkRateValid} = getLinkRateBytes();
+                if (!linkRateValid) {
+                    valuesAreValid = false;
+                } else {
+                    bytes = bytes.concat(linkRateBytes);
+                }
+
+                const {bytes: fecBytes, valid: fecValid} = getFecBytes();
+                if (!fecValid) {
+                    valuesAreValid = false;
+                } else {
+                    bytes = bytes.concat(fecBytes);
+                }
+
+                const {bytes: streamIdBytes, valid: streamIdValid} = getStreamIdBytes();
+                if (!streamIdValid) {
+                    valuesAreValid = false;
+                } else {
+                    bytes = bytes.concat(streamIdBytes);
+                }
+
+                const {bytes: gmslOutputBytes, valid: gmslOutputValid} = getGmslOutputBytes();
+                if (!gmslOutputValid) {
+                    valuesAreValid = false;
+                } else {
+                    bytes = bytes.concat(gmslOutputBytes);
+                }
+            }
+
+            return {bytes: bytes, valid: valuesAreValid};
         }
 
         function loadDataFromBytes(name) {
@@ -735,16 +1199,95 @@
             }
         }
 
+        function saveToBytes(name) {
+            const letterDHex = 'D'.charCodeAt(0).toString(16).padStart(2, '0');
+            const letterQHex = 'Q'.charCodeAt(0).toString(16).padStart(2, '0');
+
+            let bytesToWrite = [letterDHex, letterQHex];
+            let hasInvalidValues = false;
+
+            const {bytes: payloadBytes, valid: payloadValid} = getPayloadTypeBytes();
+            if (!payloadValid) {
+                hasInvalidValues = true;
+            } else {
+                bytesToWrite = bytesToWrite.concat(payloadBytes);
+            }
+
+            const {bytes: versionsBytes, valid: versionsValid} = getVersionsBytes();
+            if (!versionsValid) {
+                hasInvalidValues = true;
+            } else {
+                bytesToWrite = bytesToWrite.concat(versionsBytes);
+            }
+
+            if (payloadValid) {
+                if (payloadBytes[0] === '01') {
+                    const {bytes: canBytes, valid: canValid} = getCanBytes();
+                    if (!canValid) {
+                        hasInvalidValues = true;
+                    } else {
+                        bytesToWrite = bytesToWrite.concat(canBytes);
+                    }
+                } else {
+                    const {bytes: videoParamsBytes, valid: videoParamsValid} = getVideoParamsBytes();
+                    if (!videoParamsValid) {
+                        hasInvalidValues = true;
+                    } else {
+                        bytesToWrite = bytesToWrite.concat(videoParamsBytes);
+                    }
+                }
+            }
+
+            if (!hasInvalidValues) {
+                const bytesCountElement = document.getElementById(name + '_byte_count');
+                const addByteButton = document.getElementById('btn_add_byte_' + name);
+                const removeByteButton = document.getElementById('btn_remove_byte_' + name);
+
+                bytesCountElement.value = bytesToWrite.length;
+                addByteButton.classList.remove('disabled');
+                removeByteButton.classList.remove('disabled');
+
+                // iterate over all byte inputs
+                for (let i = 0; i < 28; i++) {
+                    const byteWrapperElement = document.getElementById(name + '_' + i + '_wrapper');
+                    const byteElement = document.getElementById(name + '_' + i);
+
+                    // the byte should be written to
+                    if (i < bytesToWrite.length) {
+                        byteWrapperElement.classList.remove('d-none');
+                        byteElement.disabled = false;
+                        byteElement.value = bytesToWrite[i];
+                    } else {
+                        byteWrapperElement.classList.add('d-none');
+                        byteElement.disabled = true;
+                    }
+                }
+
+                // simulate modal close click
+                document.getElementById('modal-close').dispatchEvent(new Event('click'));
+            }
+        }
+
         function init() {
             guideModal.addEventListener('show.bs.modal', e => {
                 const button = e.relatedTarget;
                 const target = button.dataset.target;
+                targetInput.value = target;
 
                 loadDataFromBytes(target);
                 payloadSelect.dispatchEvent(new Event('change'));
                 outputInterfaceSelect.dispatchEvent(new Event('change'));
                 simulationIdSelect.dispatchEvent(new Event('change'));
                 isoTpSelect.dispatchEvent(new Event('change'));
+            });
+
+            guideApplyButton.addEventListener('click', e => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                e.target.disabled = true;
+                saveToBytes(targetInput.value);
+                e.target.disabled = false;
             });
 
             // switch payload type
