@@ -12,7 +12,7 @@
 
                 <form action="#">
                     <x-forms.select
-                        name="payload_type"
+                        name="guide_payload_type"
                         label="Payload type"
                         :options="[1 => 'CAN Simulation', 2 => 'Video Interface Additional Parameters']"
                         required="true"
@@ -21,7 +21,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <x-forms.input
-                                name="major_version"
+                                name="guide_major_version"
                                 type="number"
                                 label="Major document version"
                                 extraText="The value must be between 0-15."
@@ -32,7 +32,7 @@
                         </div>
                         <div class="col-md-6">
                             <x-forms.input
-                                name="minor_version"
+                                name="guide_minor_version"
                                 type="number"
                                 label="Minor document version"
                                 extraText="The value must be between 0-15."
@@ -47,56 +47,56 @@
                         <div class="row mb-3">
                             <div class="col-md-3">
                                 <x-forms.checkbox
-                                    name="simulation_can_1"
+                                    name="guide_simulation_can_1"
                                     label="CAN 1"
                                 />
                             </div>
 
                             <div class="col-md-3">
                                 <x-forms.checkbox
-                                    name="simulation_can_2"
+                                    name="guide_simulation_can_2"
                                     label="CAN 2"
                                 />
                             </div>
 
                             <div class="col-md-3">
                                 <x-forms.checkbox
-                                    name="simulation_can_3"
+                                    name="guide_simulation_can_3"
                                     label="CAN 3"
                                 />
                             </div>
 
                             <div class="col-md-3">
                                 <x-forms.checkbox
-                                    name="simulation_can_4"
+                                    name="guide_simulation_can_4"
                                     label="CAN 4"
                                 />
                             </div>
 
                             <div class="col-md-3">
                                 <x-forms.checkbox
-                                    name="simulation_can_5"
+                                    name="guide_simulation_can_5"
                                     label="CAN 5"
                                 />
                             </div>
 
                             <div class="col-md-3">
                                 <x-forms.checkbox
-                                    name="simulation_can_6"
+                                    name="guide_simulation_can_6"
                                     label="CAN 6"
                                 />
                             </div>
 
                             <div class="col-md-3">
                                 <x-forms.checkbox
-                                    name="simulation_can_7"
+                                    name="guide_simulation_can_7"
                                     label="CAN 7"
                                 />
                             </div>
 
                             <div class="col-md-3">
                                 <x-forms.checkbox
-                                    name="simulation_can_8"
+                                    name="guide_simulation_can_8"
                                     label="CAN 8"
                                 />
                             </div>
@@ -105,7 +105,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <x-forms.select
-                                    name="simulation_id"
+                                    name="guide_simulation_id"
                                     label="Simulation ID"
                                     :options="[
                                         0 => 'No simulation',
@@ -118,7 +118,7 @@
                             </div>
                             <div class="col-md-6">
                                 <x-forms.input
-                                    name="custom_simulation_id"
+                                    name="guide_custom_simulation_id"
                                     label="Custom Simulation ID"
                                     extraText="The value must contain up to 4 hexadecimal characters when Simulation ID is 'Custom'."
                                     :disabled="true"
@@ -129,7 +129,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <x-forms.select
-                                    name="iso_tp"
+                                    name="guide_iso_tp"
                                     label="ISO TP"
                                     :options="[
                                         0 => 'None (blank)',
@@ -147,7 +147,7 @@
                             </div>
                             <div class="col-md-6">
                                 <x-forms.input
-                                    name="custom_iso_tp"
+                                    name="guide_custom_iso_tp"
                                     label="Custom ISO TP"
                                     extraText="The value must contain up to 4 hexadecimal characters when ISO TP is 'Custom'."
                                     :disabled="true"
@@ -156,7 +156,7 @@
                         </div>
 
                         <x-forms.input
-                            name="display_multiplication_x"
+                            name="guide_display_multiplication_x"
                             type="number"
                             label="Display multiplication coefficient X-axis"
                             extraText="The value must be between 0-255."
@@ -166,7 +166,7 @@
                         />
 
                         <x-forms.input
-                            name="display_multiplication_y"
+                            name="guide_display_multiplication_y"
                             type="number"
                             label="Display multiplication coefficient Y-axis"
                             extraText="The value must be between 0-255."
@@ -176,12 +176,12 @@
                         />
 
                         <x-forms.checkbox
-                            name="digitizer_mirrored"
+                            name="guide_digitizer_mirrored"
                             label="Touchscreen digitizer mirrored (horizontally)"
                         />
 
                         <x-forms.input
-                            name="digitizer_rotated_degrees"
+                            name="guide_digitizer_rotated_degrees"
                             type="number"
                             label="Relative touchscreen digitizer's orientation (clockwise rotation)"
                             suffixText="×90°"
@@ -192,12 +192,12 @@
                         />
 
                         <x-forms.checkbox
-                            name="screen_mirrored"
+                            name="guide_screen_mirrored"
                             label="Screen mirrored (horizontally)"
                         />
 
                         <x-forms.input
-                            name="screen_rotated_degrees"
+                            name="guide_screen_rotated_degrees"
                             type="number"
                             label="Relative screen's orientation (clockwise rotation)"
                             suffixText="×90°"
@@ -211,7 +211,7 @@
 
                     <div id="guide-video-params" class="d-none">
                         <x-forms.select
-                            name="output_interface"
+                            name="guide_output_interface"
                             label="Output interface"
                             :options="[
                                 0 => 'Native LVDS (OpenLDI)',
@@ -228,7 +228,7 @@
                         />
 
                         <x-forms.input
-                            name="processed_pixels"
+                            name="guide_processed_pixels"
                             type="number"
                             label="Processed pixels per pixel clock"
                             extraText="The value must be between 0-255."
@@ -238,7 +238,7 @@
                         />
 
                         <x-forms.select
-                            name="color_mapping"
+                            name="guide_color_mapping"
                             label="Color mapping"
                             :options="[
                                 0 => 'Unspecified or not applicable',
@@ -250,7 +250,7 @@
 
                         <div id="fpd-link-3" class="d-none">
                             <x-forms.select
-                                name="link_count"
+                                name="guide_link_count"
                                 label="Link count"
                                 :options="[
                                     0 => 'Automatic',
@@ -263,7 +263,7 @@
 
                         <div id="gmsl" class="d-none">
                             <x-forms.input
-                                name="link_rate"
+                                name="guide_link_rate"
                                 type="number"
                                 label="Link rate"
                                 suffixText="Gbps"
@@ -274,12 +274,12 @@
                             />
 
                             <x-forms.checkbox
-                                name="fec_enabled"
+                                name="guide_fec_enabled"
                                 label="FEC enabled"
                             />
 
                             <x-forms.input
-                                name="stream_id"
+                                name="guide_stream_id"
                                 type="number"
                                 label="Stream ID"
                                 extraText="The value must be between 1-4."
@@ -289,7 +289,7 @@
                             />
 
                             <x-forms.select
-                                name="gmsl_output"
+                                name="guide_gmsl_output"
                                 label="Output"
                                 :options="[
                                     0 => 'Unspecified',
@@ -315,14 +315,14 @@
     <script>
         const guideModal = document.getElementById('guide-modal');
         const invalidDataLoadedError = document.getElementById('invalid-data-loaded');
-        const payloadSelect = document.getElementById('payload_type');
+        const payloadSelect = document.getElementById('guide_payload_type');
         const canSimulationSection = document.getElementById('guide-can-simulation');
-        const simulationIdSelect = document.getElementById('simulation_id');
-        const customSimulationId = document.getElementById('custom_simulation_id');
-        const isoTpSelect = document.getElementById('iso_tp');
-        const customIsoTp = document.getElementById('custom_iso_tp');
+        const simulationIdSelect = document.getElementById('guide_simulation_id');
+        const customSimulationId = document.getElementById('guide_custom_simulation_id');
+        const isoTpSelect = document.getElementById('guide_iso_tp');
+        const customIsoTp = document.getElementById('guide_custom_iso_tp');
         const videoParamsSection = document.getElementById('guide-video-params');
-        const outputInterfaceSelect = document.getElementById('output_interface');
+        const outputInterfaceSelect = document.getElementById('guide_output_interface');
         const fpd3Section = document.getElementById('fpd-link-3');
         const gmslSection = document.getElementById('gmsl');
 
@@ -351,7 +351,7 @@
 
         function loadPayloadType(value) {
             return setInputFromHexValue(
-                'payload_type',
+                'guide_payload_type',
                 value,
                 1,
                 2
@@ -363,14 +363,14 @@
             const minorString = value.substring(1, 2);
 
             const majorSuccess = setInputFromHexValue(
-                'major_version',
+                'guide_major_version',
                 majorString,
                 0,
                 15,
             );
 
             const minorSuccess = setInputFromHexValue(
-                'minor_version',
+                'guide_minor_version',
                 minorString,
                 0,
                 15,
@@ -392,7 +392,7 @@
 
             // Bit 0 = CAN 1, bit 1 = CAN 2, ...
             for (let i = 0; i < 7; i++) {
-                const checkbox = document.getElementById('simulation_can_' + (i + 1));
+                const checkbox = document.getElementById('guide_simulation_can_' + (i + 1));
                 // iterating the binary string in reverse order
                 checkbox.checked = binaryString.substring(7 - i, 7 - i + 1) === '1';
             }
@@ -419,7 +419,7 @@
             }
 
             setInputFromNumberValue(
-                'simulation_id',
+                'guide_simulation_id',
                 selectValue,
                 -1,
                 2,
@@ -447,7 +447,7 @@
             }
 
             setInputFromNumberValue(
-                'iso_tp',
+                'guide_iso_tp',
                 selectValue,
                 -1,
                 7,
@@ -458,7 +458,7 @@
 
         function loadMultiplicationX(value) {
             return setInputFromHexValue(
-                'display_multiplication_x',
+                'guide_display_multiplication_x',
                 value,
                 0,
                 255,
@@ -467,7 +467,7 @@
 
         function loadMultiplicationY(value) {
             return setInputFromHexValue(
-                'display_multiplication_y',
+                'guide_display_multiplication_y',
                 value,
                 0,
                 255,
@@ -503,19 +503,19 @@
             const numberValue = Number('0x' + value);
 
             if (!(numberValue >= 0 && numberValue <= 255)) {
-                setRotationsElements('digitizer', 0);
-                setRotationsElements('screen', 0);
+                setRotationsElements('guide_digitizer', 0);
+                setRotationsElements('guide_screen', 0);
                 return false;
             }
 
             const digitizerNumberValue = (numberValue >> 3) & 0b111;
             const screenNumberValue = numberValue & 0b111;
 
-            if (!setRotationsElements('digitizer', digitizerNumberValue)) {
+            if (!setRotationsElements('guide_digitizer', digitizerNumberValue)) {
                 valuesAreValid = false;
             }
 
-            if (!setRotationsElements('screen', screenNumberValue)) {
+            if (!setRotationsElements('guide_screen', screenNumberValue)) {
                 valuesAreValid = false;
             }
 
@@ -524,7 +524,7 @@
 
         function loadOutputInterface(value) {
             return setInputFromHexValue(
-                'output_interface',
+                'guide_output_interface',
                 value,
                 0,
                 8,
@@ -533,7 +533,7 @@
 
         function loadProcessedPixels(value) {
             return setInputFromHexValue(
-                'processed_pixels',
+                'guide_processed_pixels',
                 value,
                 0,
                 255,
@@ -542,7 +542,7 @@
 
         function loadColorMapping(value) {
             return setInputFromHexValue(
-                'color_mapping',
+                'guide_color_mapping',
                 value,
                 0,
                 2,
@@ -551,7 +551,7 @@
 
         function loadLinkCount(value) {
             return setInputFromHexValue(
-                'link_count',
+                'guide_link_count',
                 value,
                 0,
                 2,
@@ -560,7 +560,7 @@
 
         function loadLinkRate(value) {
             return setInputFromHexValue(
-                'link_rate',
+                'guide_link_rate',
                 value,
                 0,
                 255,
@@ -569,7 +569,7 @@
 
         function loadFec(value) {
             const numberValue = Number('0x' + value);
-            const checkbox = document.getElementById('fec_enabled');
+            const checkbox = document.getElementById('guide_fec_enabled');
 
             if (numberValue !== 1 && numberValue !== 0) {
                 checkbox.checked = false;
@@ -582,7 +582,7 @@
 
         function loadStreamId(value) {
             return setInputFromHexValue(
-                'stream_id',
+                'guide_stream_id',
                 value,
                 1,
                 4,
@@ -591,7 +591,7 @@
 
         function loadGmslOutput(value) {
             return setInputFromHexValue(
-                'gmsl_output',
+                'guide_gmsl_output',
                 value,
                 0,
                 3
@@ -665,7 +665,7 @@
                 valuesAreValid = false;
             }
 
-            const outputInterfaceValue = document.getElementById('output_interface').value;
+            const outputInterfaceValue = document.getElementById('guide_output_interface').value;
 
             // if the output interface is not FPD link III, reset the value
             if (outputInterfaceValue !== '2') {
