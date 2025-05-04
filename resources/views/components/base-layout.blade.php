@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <meta name="description" content="Infotainment database application capable of exporting infotainment profiles in E-EDID format">
     <meta name="author" content="Vojtěch Sillik">
     <title>{{ config('app.name') }}</title>
 

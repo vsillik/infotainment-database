@@ -161,14 +161,6 @@
                                 </a>
                             </li>
                         @endcan
-
-                        <!--
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2" href="#">
-                                    Site settings
-                                </a>
-                            </li>
-                            -->
                     </ul>
                 </div>
             </div>

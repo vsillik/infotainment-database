@@ -3,7 +3,7 @@ name: Check code quality
 on: [ push ]
 
 jobs:
-  code-quality:
+  tests-and-code-quality:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -32,3 +32,6 @@ jobs:
 
       - name: PHPStan
         run: vendor/bin/phpstan
+
+      - name: Tests
+        run: php artisan test

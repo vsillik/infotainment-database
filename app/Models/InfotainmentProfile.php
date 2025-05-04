@@ -200,4 +200,10 @@ class InfotainmentProfile extends Model
 
         return $ids->mapWithKeys(fn (InfotainmentProfile $item, int $index) => [$item->id => $index + 1]);
     }
+
+    public function diagonalSize(): float
+    {
+        // diagonal size in cm = sqrt(width ** 2 + height ** 2) => in inches divided by 2.54
+        return sqrt($this->horizontal_size ** 2 + $this->vertical_size ** 2) / 2.54;
+    }
 }

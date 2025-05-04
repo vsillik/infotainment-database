@@ -328,14 +328,11 @@ class InfotainmentProfileController extends Controller
                 ->with('error', sprintf('Could not generate EDID file, the infotainment profile %d is invalid: %s.', $profile->profile_number, $e->getMessage()));
         }
 
-        // diagonal size in cm = sqrt(width ** 2 + height ** 2) => in inches divided by 2.54
-        $diagonalSize = sqrt($profile->horizontal_size ** 2 + $profile->vertical_size ** 2) / 2.54;
-
         // <manufacturer name>_<part_number>_<diagonal size>_<width pixels>x<height pixels>_<updated date>_<updated time>.bin
         $filename = sprintf('%s_%s_%s_%dx%d_%s.bin',
             str_replace(' ', '-', $infotainment->infotainmentManufacturer->name),
             $infotainment->part_number,
-            number_format($diagonalSize, 1, 'i', ''), // integer part and decimal part is separated by i
+            number_format($profile->diagonalSize(), 1, 'i', ''), // integer part and decimal part is separated by i
             $profile->timing->horizontal_pixels,
             $profile->timing->vertical_lines,
             $profile->updated_at?->format('Ymd_Hi') ?? '00000000_0000',
@@ -344,7 +341,10 @@ class InfotainmentProfileController extends Controller
 
         return response()->streamDownload(function () use ($binary) {
             echo $binary;
-        }, $filename);
+        }, $filename, [
+            'Content-Type' => 'application/octet-stream',
+            'Content-Length' => strlen($binary),
+        ]);
     }
 
     /**
