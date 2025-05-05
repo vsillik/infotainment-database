@@ -222,7 +222,6 @@ class EdidBuilderTest extends TestCase
         $result = EdidBuilder::build($infotainment, $infotainmentProfile);
 
         $this->assertEquals($expectedBytes, array_values($result));
-
     }
 
     public function test_build_second_profile(): void
@@ -231,6 +230,5 @@ class EdidBuilderTest extends TestCase
         $result = EdidBuilder::build($infotainment, $infotainmentProfile);
 
         $this->assertEquals($expectedBytes, array_values($result));
-
     }
 }

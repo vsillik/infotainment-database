@@ -1,4 +1,4 @@
-name: Check code quality
+name: Check code quality and run application tests
 
 on: [ push ]
 
