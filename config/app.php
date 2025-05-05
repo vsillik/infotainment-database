@@ -141,4 +141,8 @@ return [
         'white_x' => env('APP_CHROMATICITY_WHITE_X', 0),
         'white_y' => env('APP_CHROMATICITY_WHITE_Y', 0),
     ],
+    'vendor_guide' => [
+        'default_major' => env('APP_VENDOR_GUIDE_DEFAULT_MAJOR', 1),
+        'default_minor' => env('APP_VENDOR_GUIDE_DEFAULT_MINOR', 0),
+    ],
 ];

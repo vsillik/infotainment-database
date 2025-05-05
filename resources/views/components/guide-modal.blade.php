@@ -25,6 +25,7 @@
                             <x-forms.input
                                 name="guide_major_version"
                                 type="number"
+                                :defaultValue="config('app.vendor_guide.default_major')"
                                 label="Major document version"
                                 extraText="The value must be between 0-15."
                                 required="true"
@@ -36,6 +37,7 @@
                             <x-forms.input
                                 name="guide_minor_version"
                                 type="number"
+                                :defaultValue="config('app.vendor_guide.default_minor')"
                                 label="Minor document version"
                                 extraText="The value must be between 0-15."
                                 required="true"
@@ -363,6 +365,17 @@
             return document.getElementById(elementName + '_' + (byteNumber - 4)).value.trim().padStart(2, '0');
         }
 
+        function getByteValueWithDefault(elementName, byteNumber, defaultValue) {
+            // byte 4 => element suffix _0, 5 => _1
+            let elementValue = document.getElementById(elementName + '_' + (byteNumber - 4)).value.trim();
+
+            if (elementValue === null || elementValue === '') {
+                elementValue = defaultValue;
+            }
+
+            return elementValue.padStart(2, '0');
+        }
+
         function setInputFromNumberValue(inputName, numberValue, minValidValue, maxValidValue) {
             // reset validation if there is something left from previous guide apply
             resetInputInvalid(inputName);
@@ -403,7 +416,7 @@
 
         // returns true if the hexValue was in valid range or false if not
         function setInputFromHexValue(inputName, hexValue, minValidValue, maxValidValue) {
-            const numberValue = Number('0x' + hexValue)
+            const numberValue = Number('0x' + hexValue);
             return setInputFromNumberValue(inputName, numberValue, minValidValue, maxValidValue);
         }
 
@@ -1178,7 +1191,11 @@
                 hasInvalidValues = true;
             }
 
-            if(!loadVersions(getByteValue(name, 7))) {
+            // workaround for default major and minor versions
+            const defaultMajorVersionHex = '{{ base_convert(config('app.vendor_guide.default_major'), 10, 16) }}';
+            const defaultMinorVersionHex = '{{ base_convert(config('app.vendor_guide.default_minor'), 10, 16) }}';
+
+            if(!loadVersions(getByteValueWithDefault(name, 7, defaultMajorVersionHex + defaultMinorVersionHex))) {
                 hasInvalidValues = true;
             }
 
