@@ -52,26 +52,6 @@ class InfotainmentsFilter extends Filter
      * @param  Builder<Infotainment>  $query
      * @return Builder<Infotainment>
      */
-    protected function filterSerializerManufacturerName(Builder $query, string $value): Builder
-    {
-        return $query->whereHas('serializerManufacturer', function (Builder $query) use ($value) {
-            $query->whereLike('name', '%'.$value.'%');
-        });
-    }
-
-    /**
-     * @param  Builder<Infotainment>  $query
-     * @return Builder<Infotainment>
-     */
-    protected function filterProductId(Builder $query, string $value): Builder
-    {
-        return $this->columnContainsString($query, 'product_id', $value);
-    }
-
-    /**
-     * @param  Builder<Infotainment>  $query
-     * @return Builder<Infotainment>
-     */
     protected function filterModelYearFrom(Builder $query, string $value): Builder
     {
         return $query->where('model_year', '>=', $value);

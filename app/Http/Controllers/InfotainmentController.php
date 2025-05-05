@@ -47,8 +47,6 @@ class InfotainmentController extends Controller
         /** @var array<string, ?string> $filters */
         $filters = [
             'infotainment_manufacturer_name' => $request->query('infotainment_manufacturer_name'),
-            'serializer_manufacturer_name' => $request->query('serializer_manufacturer_name'),
-            'product_id' => $request->query('product_id'),
             'model_year_from' => $request->query('model_year_from'),
             'model_year_to' => $request->query('model_year_to'),
             'part_number' => $request->query('part_number'),
@@ -67,11 +65,13 @@ class InfotainmentController extends Controller
                     ->with([
                         'infotainmentManufacturer',
                         'serializerManufacturer',
+                        'latestProfile',
                     ])->getQuery();
             } else {
                 $infotainmentsQuery = Infotainment::with([
                     'infotainmentManufacturer',
                     'serializerManufacturer',
+                    'latestProfile',
                 ]);
             }
 
@@ -97,7 +97,6 @@ class InfotainmentController extends Controller
             'filters' => $filters,
             'hasActiveFilters' => $hasActiveFilters,
             'infotainments' => $infotainments,
-            'displayAdvancedColumns' => $user->role->value > UserRole::CUSTOMER->value,
         ]);
     }
 

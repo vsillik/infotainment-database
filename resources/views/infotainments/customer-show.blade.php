@@ -3,14 +3,36 @@
         Infotainment
     </x-slot:title>
 
-    <h4>Infotainment manufacturer</h4>
-    <p class="text-break">{{ $infotainment->infotainmentManufacturer->name }}</p>
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="mb-3">Infotainment parameters</h3>
 
-    <h4>Model year</h4>
-    <p>{{ $infotainment->model_year }}</p>
+            <h4>Infotainment manufacturer</h4>
+            <p class="text-break">{{ $infotainment->infotainmentManufacturer->name }}</p>
 
-    <h4>Part number</h4>
-    <p>{{ $infotainment->part_number }}</p>
+            <h4>Model year</h4>
+            <p>{{ $infotainment->model_year }}</p>
+
+            <h4>Part number</h4>
+            <p>{{ $infotainment->part_number }}</p>
+        </div>
+
+        <div class="col-md-6">
+            @if($infotainment->latestProfile !== null)
+                <h3 class="mb-3 text-body-secondary">
+                    Parameters of latest
+                    @if ($infotainment->latestProfile->is_approved)
+                        approved
+                    @endif
+                    profile
+                </h3>
+
+                <h4 class="text-body-secondary">Diagonal size</h4>
+                <p>{{ number_format($infotainment->latestProfile->diagonalSize(), 1) }}"</p>
+            @endif
+        </div>
+    </div>
+
 
     <h3>Infotainment profiles</h3>
     <hr/>

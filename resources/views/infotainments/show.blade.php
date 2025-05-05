@@ -27,39 +27,118 @@
         @endcan
     </div>
 
-    <h4>Infotainment manufacturer</h4>
-    <p class="text-break">{{ $infotainment->infotainmentManufacturer->name }}</p>
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="mb-3">Infotainment parameters</h3>
 
-    <h4>Serializer manufacturer</h4>
-    <p class="text-break">{{ $infotainment->serializerManufacturer->name }}</p>
+            <h4>Infotainment manufacturer</h4>
+            <p class="text-break">{{ $infotainment->infotainmentManufacturer->name }}</p>
 
-    <h4>Product ID</h4>
-    <p>{{ $infotainment->product_id }}</p>
+            <h4>Serializer manufacturer</h4>
+            <p class="text-break">{{ $infotainment->serializerManufacturer->name }}</p>
 
-    <h4>Model year</h4>
-    <p>{{ $infotainment->model_year }}</p>
+            <h4>Product ID</h4>
+            <p>{{ $infotainment->product_id }}</p>
 
-    <h4>Part number</h4>
-    <p>{{ $infotainment->part_number }}</p>
+            <h4>Model year</h4>
+            <p>{{ $infotainment->model_year }}</p>
 
-    <h4>Compatible platforms</h4>
-    <p class="text-break">{{ $infotainment->compatible_platforms ?? 'N/A' }}</p>
+            <h4>Part number</h4>
+            <p>{{ $infotainment->part_number }}</p>
 
-    <h4>Internal code</h4>
-    <p>{{ $infotainment->internal_code ?? 'N/A' }}</p>
+            <h4>Compatible platforms</h4>
+            <p class="text-break">{{ $infotainment->compatible_platforms ?? 'N/A' }}</p>
 
-    <h4>Internal notes</h4>
-    <p class="text-break">{{ $infotainment->internal_notes ?? 'N/A' }}</p>
+            <h4>Internal code</h4>
+            <p>{{ $infotainment->internal_code ?? 'N/A' }}</p>
 
-    <h4>Created at</h4>
-    <p>
-        <x-audit-date :timestamp="$infotainment->created_at" :by="$infotainment->createdBy" />
-    </p>
+            <h4>Internal notes</h4>
+            <p class="text-break">{{ $infotainment->internal_notes ?? 'N/A' }}</p>
 
-    <h4>Updated at</h4>
-    <p>
-        <x-audit-date :timestamp="$infotainment->updated_at" :by="$infotainment->updatedBy" />
-    </p>
+            <h4>Created at</h4>
+            <p>
+                <x-audit-date :timestamp="$infotainment->created_at" :by="$infotainment->createdBy" />
+            </p>
+
+            <h4>Updated at</h4>
+            <p>
+                <x-audit-date :timestamp="$infotainment->updated_at" :by="$infotainment->updatedBy" />
+            </p>
+        </div>
+
+        <div class="col-md-6">
+            @if($infotainment->latestProfile !== null)
+                <h3 class="mb-3 text-body-secondary">
+                    Parameters of latest
+                    @if ($infotainment->latestProfile->is_approved)
+                        approved
+                    @endif
+                    profile
+                </h3>
+
+                <h4 class="text-body-secondary">Diagonal size</h4>
+                <p>{{ number_format($infotainment->latestProfile->diagonalSize(), 1) }}"</p>
+
+                <button id="collapse-latest-profile-timings" class="btn btn-secondary btn-sm mb-3" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#latest-profile-timings" aria-expanded="false"
+                        aria-controls="latest-profile-timings">
+                    Toggle timing parameters
+                </button>
+
+                <div class="collapse" id="latest-profile-timings">
+                    <h4 class="text-body-secondary">Pixel clock</h4>
+                    <p>{{ $infotainment->latestProfile->timing->pixel_clock }}&nbsp;MHz</p>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="text-body-secondary">Horizontal active</h4>
+                            <p>{{ $infotainment->latestProfile->timing->horizontal_pixels }}&nbsp;pixels</p>
+
+                            <h4 class="text-body-secondary">Horizontal blank</h4>
+                            <p>{{ $infotainment->latestProfile->timing->horizontal_blank }}&nbsp;pixels</p>
+
+                            <h4 class="text-body-secondary">Horizontal front porch</h4>
+                            <p>{{ $infotainment->latestProfile->timing->horizontal_front_porch }}&nbsp;pixels</p>
+
+                            <h4 class="text-body-secondary">Horizontal sync width</h4>
+                            <p>{{ $infotainment->latestProfile->timing->horizontal_sync_width }}&nbsp;pixels</p>
+
+                            <h4 class="text-body-secondary">Horizontal image size</h4>
+                            <p>{{ $infotainment->latestProfile->timing->horizontal_image_size }}&nbsp;mm</p>
+
+                            <h4 class="text-body-secondary">Horizontal border</h4>
+                            <p>{{ $infotainment->latestProfile->timing->horizontal_border ?? 0 }}&nbsp;pixels</p>
+
+                            <h4 class="text-body-secondary">Horizontal signal sync</h4>
+                            <p>{{ $infotainment->latestProfile->timing->signal_horizontal_sync_positive ? 'positive' : 'negative' }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="text-body-secondary">Vertical lines</h4>
+                            <p>{{ $infotainment->latestProfile->timing->vertical_lines }}&nbsp;lines</p>
+
+                            <h4 class="text-body-secondary">Vertical blank</h4>
+                            <p>{{ $infotainment->latestProfile->timing->vertical_blank }}&nbsp;lines</p>
+
+                            <h4 class="text-body-secondary">Vertical front porch</h4>
+                            <p>{{ $infotainment->latestProfile->timing->vertical_front_porch }}&nbsp;lines</p>
+
+                            <h4 class="text-body-secondary">Vertical sync width</h4>
+                            <p>{{ $infotainment->latestProfile->timing->vertical_sync_width }}&nbsp;lines</p>
+
+                            <h4 class="text-body-secondary">Vertical image size</h4>
+                            <p>{{ $infotainment->latestProfile->timing->vertical_image_size }}&nbsp;mm</p>
+
+                            <h4 class="text-body-secondary">Vertical border</h4>
+                            <p>{{ $infotainment->latestProfile->timing->vertical_border ?? 0 }}&nbsp;lines</p>
+
+                            <h4 class="text-body-secondary">Vertical signal sync</h4>
+                            <p>{{ $infotainment->latestProfile->timing->signal_vertical_sync_positive ? 'positive' : 'negative' }}</p>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        </div>
+    </div>
 
     <h3>Infotainment profiles</h3>
     <hr/>

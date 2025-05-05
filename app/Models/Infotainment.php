@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 /**
@@ -60,6 +61,19 @@ class Infotainment extends Model
     public function serializerManufacturer(): BelongsTo
     {
         return $this->belongsTo(SerializerManufacturer::class);
+    }
+
+    /**
+     * Returns the latest approved profile or unapproved profile if there are no approved profiles
+     *
+     * @return HasOne<InfotainmentProfile, $this>
+     */
+    public function latestProfile(): HasOne
+    {
+        return $this->hasOne(InfotainmentProfile::class)
+            ->orderByDesc('is_approved') // first take in consideration approved profiles
+            ->orderByDesc('updated_at') // then order by updated timestamps
+            ->latest('updated_at'); // limit to only one profile
     }
 
     /**

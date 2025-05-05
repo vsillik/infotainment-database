@@ -9,6 +9,18 @@ $breadcrumb-divider: quote(">");
     }
 }
 
+// automatically show latest profile timings on md and larger screens
+@include media-breakpoint-up(md) {
+    #collapse-latest-profile-timings {
+        display: none;
+    }
+
+    #latest-profile-timings {
+        display: block;
+        height: auto;
+    }
+}
+
 .breadcrumb-item a {
     color: $blue-400;
 }

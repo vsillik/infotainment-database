@@ -37,14 +37,10 @@
                 @endcan
 
                 <th>Infotainment manufacturer</th>
-
-                @if($displayAdvancedColumns)
-                    <th>Serializer manufacturer</th>
-                    <th>Product ID</th>
-                @endif
-
                 <th>Model year</th>
                 <th>Part number</th>
+                <th>Diagonal size</th>
+                <th>Resolution</th>
                 <th class="text-end">Actions</th>
             </tr>
             @if(count($infotainments) > 0 || $hasActiveFilters)
@@ -59,23 +55,6 @@
                                                   :defaultValue="$filters['infotainment_manufacturer_name'] ?? null"
                         />
                     </td>
-                    @if($displayAdvancedColumns)
-                        <td>
-                            <x-forms.standalone-input name="serializer_manufacturer_name"
-                                                      class="form-control-sm"
-                                                      form="filter-form"
-                                                      :defaultValue="$filters['serializer_manufacturer_name'] ?? null"
-                            />
-                        </td>
-                        <td>
-                            <x-forms.standalone-input name="product_id"
-                                                      class="form-control-sm"
-                                                      form="filter-form"
-                                                      :defaultValue="$filters['product_id'] ?? null"
-                                                      style="max-width: 80px"
-                            />
-                        </td>
-                    @endif
                     <td>
                         <div class="row mb-1 justify-content-between">
                             <div class="col-auto col-form-label col-form-label-sm">
@@ -109,6 +88,7 @@
                                                   :defaultValue="$filters['part_number'] ?? null"
                         />
                     </td>
+                    <td colspan="2"></td>
                     <td class="text-end">
                         <button type="submit" class="btn btn-sm btn-outline-secondary" form="filter-form">Filter
                         </button>
@@ -135,14 +115,22 @@
                     @endcan
 
                     <td>{{ Str::limit($infotainment->infotainmentManufacturer->name, 35) }}</td>
-
-                    @if($displayAdvancedColumns)
-                        <td>{{ Str::limit($infotainment->serializerManufacturer->name, 35) }}</td>
-                        <td>{{ $infotainment->product_id }}</td>
-                    @endif
-
                     <td>{{ $infotainment->model_year }}</td>
                     <td>{{ $infotainment->part_number }}</td>
+                    <td>
+                        @if ($infotainment->latestProfile === null)
+                            N/A
+                        @else
+                            {{ number_format($infotainment->latestProfile->diagonalSize(), 1) }}"
+                        @endif
+                    </td>
+                    <td>
+                        @if ($infotainment->latestProfile === null)
+                            N/A
+                        @else
+                            {{ $infotainment->latestProfile->timing->horizontal_pixels }}x{{ $infotainment->latestProfile->timing->vertical_lines }}
+                        @endif
+                    </td>
                     <td class="text-end">
                         @can('view', $infotainment)
                             <x-action-buttons.show :targetUrl="route('infotainments.show', $infotainment)"/>
