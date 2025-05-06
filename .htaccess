@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Ensure the base URL is correct
+    RewriteBase /
+
+    # Redirect to Laravel's public folder
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ /public/$1 [L]
+
+    # Handle 404 errors by Laravel
+    ErrorDocument 404 /public/index.php
+</IfModule>
