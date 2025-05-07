@@ -6,7 +6,7 @@ Infotainment Database application is used to store infotainments' profiles with 
 
 Several user roles (customer, operator, validator and administrator) are used for users. Each offers specific capabilities.
 
-Laravel framework v11 is used for the application together with the Bootstrap CSS framework.
+Laravel framework v11 is used for the application together with the Bootstrap CSS framework v5.3.
 
 Docker images provided by Laravel Sail are available.
 

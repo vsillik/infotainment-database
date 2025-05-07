@@ -4,39 +4,41 @@
 
 <x-welcome-layout :breadcrumbs="$breadcrumbs">
     @if($userRole === UserRole::ADMINISTRATOR)
-        <h3>How to approve user</h3>
+        <h3>How to approve a user</h3>
         <ol>
             <li>
                 <p>
-                    You can either view all not approved users below in a table or approve a user from
-                    <a href="{{ route('users.index') }}">here</a>.
+                    You can either view all unapproved users in the table below, or go to the <a
+                        href="{{ route('users.index') }}">users list page</a> to approve users.
                 </p>
                 <p>
-                    You can approve the user via the
-                    <span class="btn btn-outline-success btn-sm disabled opacity-75">Approve</span> action in "Actions"
+                    To approve a user, click the button
+                    <span class="btn btn-outline-success btn-sm disabled opacity-75">Approve</span> in the "Actions"
                     column.
                 </p>
             </li>
         </ol>
     @endif
 
-    <h3>How to approve profile</h3>
+    <h3>How to approve a profile</h3>
     <ol>
         <li>
             <p>
-                You can either view all infotainments with not approved profiles below in a table or select
+                You can view all infotainments with unapproved profiles in the table below, or select an
                 infotainment from
-                <a href="{{ route('infotainments.index') }}">here</a> via the action
+                <a href="{{ route('infotainments.index') }}">this page</a> using the button
                 <span class="btn btn-outline-primary btn-sm disabled opacity-75">Show</span> in the "Actions"
                 column.
-            <p>
+            </p>
         </li>
         <li>
             <p>
-                From there select profile that is not approved (does not have the
-                <span class="badge rounded-pill text-bg-success">Approved</span> badge) to approve via the
-                <span class="btn btn-outline-success btn-sm disabled opacity-75">Approve</span> action in "Actions"
-                column. Then you can check there all the values and fix them if needed.
+                In the infotainment details, select a profile that is not approved (it will not have the
+                <span class="badge rounded-pill text-bg-success">Approved</span> badge). You can start reviewing it by
+                clicking the button
+                <span class="btn btn-outline-success btn-sm disabled opacity-75">Approve</span> in the "Actions"
+                column. After checking (and possibly fixing) the parameters, you can click the button <span
+                    class="btn btn-primary btn-sm disabled opacity-75">Approve</span> at the end of the page.
             </p>
         </li>
     </ol>
@@ -85,7 +87,7 @@
         @endif
     @endif
 
-    <h3 class="mt-4">Infotainments with not approved profiles</h3>
+    <h3 class="mt-4">Infotainments with unapproved profiles</h3>
     @if(count($infotainments) === 0)
         <p>All infotainments have all profiles already approved.</p>
     @else

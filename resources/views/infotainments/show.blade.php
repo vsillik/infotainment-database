@@ -66,7 +66,7 @@
             </p>
         </div>
 
-        <div class="col-md-6">
+        <div id="profile-timing-details" class="col-md-6">
             @if($infotainment->latestProfile !== null)
                 <h3 class="mb-3 text-body-secondary">
                     Parameters of latest
@@ -76,7 +76,7 @@
                     profile
                 </h3>
 
-                <h4 class="text-body-secondary">Diagonal size</h4>
+                <h4>Diagonal size</h4>
                 <p>{{ number_format($infotainment->latestProfile->diagonalSize(), 1) }}"</p>
 
                 <button id="collapse-latest-profile-timings" class="btn btn-secondary btn-sm mb-3" type="button"
@@ -86,52 +86,52 @@
                 </button>
 
                 <div class="collapse" id="latest-profile-timings">
-                    <h4 class="text-body-secondary">Pixel clock</h4>
+                    <h4>Pixel clock</h4>
                     <p>{{ $infotainment->latestProfile->timing->pixel_clock }}&nbsp;MHz</p>
 
                     <div class="row">
                         <div class="col-md-6">
-                            <h4 class="text-body-secondary">Horizontal active</h4>
+                            <h4>Horizontal active</h4>
                             <p>{{ $infotainment->latestProfile->timing->horizontal_pixels }}&nbsp;pixels</p>
 
-                            <h4 class="text-body-secondary">Horizontal blank</h4>
+                            <h4>Horizontal blank</h4>
                             <p>{{ $infotainment->latestProfile->timing->horizontal_blank }}&nbsp;pixels</p>
 
-                            <h4 class="text-body-secondary">Horizontal front porch</h4>
+                            <h4>Horizontal front porch</h4>
                             <p>{{ $infotainment->latestProfile->timing->horizontal_front_porch }}&nbsp;pixels</p>
 
-                            <h4 class="text-body-secondary">Horizontal sync width</h4>
+                            <h4>Horizontal sync width</h4>
                             <p>{{ $infotainment->latestProfile->timing->horizontal_sync_width }}&nbsp;pixels</p>
 
-                            <h4 class="text-body-secondary">Horizontal image size</h4>
+                            <h4>Horizontal image size</h4>
                             <p>{{ $infotainment->latestProfile->timing->horizontal_image_size }}&nbsp;mm</p>
 
-                            <h4 class="text-body-secondary">Horizontal border</h4>
+                            <h4>Horizontal border</h4>
                             <p>{{ $infotainment->latestProfile->timing->horizontal_border ?? 0 }}&nbsp;pixels</p>
 
-                            <h4 class="text-body-secondary">Horizontal signal sync</h4>
+                            <h4>Horizontal signal sync</h4>
                             <p>{{ $infotainment->latestProfile->timing->signal_horizontal_sync_positive ? 'positive' : 'negative' }}</p>
                         </div>
-                        <div class="col-md-6">
-                            <h4 class="text-body-secondary">Vertical lines</h4>
+                        <div id="profile-timing-vertical-details" class="col-md-6">
+                            <h4>Vertical lines</h4>
                             <p>{{ $infotainment->latestProfile->timing->vertical_lines }}&nbsp;lines</p>
 
-                            <h4 class="text-body-secondary">Vertical blank</h4>
+                            <h4>Vertical blank</h4>
                             <p>{{ $infotainment->latestProfile->timing->vertical_blank }}&nbsp;lines</p>
 
-                            <h4 class="text-body-secondary">Vertical front porch</h4>
+                            <h4>Vertical front porch</h4>
                             <p>{{ $infotainment->latestProfile->timing->vertical_front_porch }}&nbsp;lines</p>
 
-                            <h4 class="text-body-secondary">Vertical sync width</h4>
+                            <h4>Vertical sync width</h4>
                             <p>{{ $infotainment->latestProfile->timing->vertical_sync_width }}&nbsp;lines</p>
 
-                            <h4 class="text-body-secondary">Vertical image size</h4>
+                            <h4>Vertical image size</h4>
                             <p>{{ $infotainment->latestProfile->timing->vertical_image_size }}&nbsp;mm</p>
 
-                            <h4 class="text-body-secondary">Vertical border</h4>
+                            <h4>Vertical border</h4>
                             <p>{{ $infotainment->latestProfile->timing->vertical_border ?? 0 }}&nbsp;lines</p>
 
-                            <h4 class="text-body-secondary">Vertical signal sync</h4>
+                            <h4>Vertical signal sync</h4>
                             <p>{{ $infotainment->latestProfile->timing->signal_vertical_sync_positive ? 'positive' : 'negative' }}</p>
                         </div>
                     </div>

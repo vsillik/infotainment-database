@@ -19,6 +19,14 @@ $breadcrumb-divider: quote(">");
         display: block;
         height: auto;
     }
+
+    #profile-timing-details {
+        border-left: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
+    }
+
+    #profile-timing-vertical-details {
+        border-left: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
+    }
 }
 
 .breadcrumb-item a {
