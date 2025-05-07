@@ -103,7 +103,7 @@
             @forelse($users as $user)
                 <tr>
                     <td>
-                        {{ Str::limit($user->email, 35) }}
+                        <x-shorten-text :text="$user->email" />
                     </td>
                     <td>
                         @if($user->is_approved)
@@ -112,7 +112,7 @@
                             <span class="badge rounded-pill text-bg-danger">Unapproved</span>
                         @endif
                     </td>
-                    <td>{{ Str::limit($user->name, 40) }}</td>
+                    <td><x-shorten-text :text="$user->name" /></td>
                     <td>{{ $user->role->toHumanReadable() }}</td>
                     <td class="text-end">
                         @if($user->role === UserRole::CUSTOMER)

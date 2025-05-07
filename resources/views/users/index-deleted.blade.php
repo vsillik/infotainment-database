@@ -92,8 +92,8 @@
             <tbody>
             @forelse($users as $user)
                 <tr>
-                    <td>{{ Str::limit($user->email, 35) }}</td>
-                    <td>{{ Str::limit($user->name, 40) }}</td>
+                    <td><x-shorten-text :text="$user->email" /></td>
+                    <td><x-shorten-text :text="$user->name" /></td>
                     <td>{{ $user->role->toHumanReadable() }}</td>
                     <td>
                         <x-audit-date :timestamp="$user->deleted_at"

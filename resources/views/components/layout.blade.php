@@ -182,7 +182,7 @@
                                         <a href="{{ $url }}">
                                             @endunless
 
-                                            {{ $breadcrumb }}
+                                            <x-shorten-text :text="$breadcrumb" />
 
                                             @unless($loop->last)
                                         </a>

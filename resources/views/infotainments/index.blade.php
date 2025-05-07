@@ -114,7 +114,7 @@
                         </td>
                     @endcan
 
-                    <td>{{ Str::limit($infotainment->infotainmentManufacturer->name, 35) }}</td>
+                    <td><x-shorten-text :text="$infotainment->infotainmentManufacturer->name" /></td>
                     <td>{{ $infotainment->model_year }}</td>
                     <td>{{ $infotainment->part_number }}</td>
                     <td>

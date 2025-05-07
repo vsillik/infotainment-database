@@ -11,7 +11,6 @@ use App\Paginator\Paginator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class SerializerManufacturerController extends Controller
@@ -119,7 +118,7 @@ class SerializerManufacturerController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('serializer_manufacturers.index') => 'Serializer manufacturers',
-                'current' => Str::limit($serializerManufacturer->name, 30),
+                'current' => $serializerManufacturer->name,
             ],
             'serializerManufacturer' => $serializerManufacturer,
         ]);
@@ -136,7 +135,7 @@ class SerializerManufacturerController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('serializer_manufacturers.index') => 'Serializer manufacturers',
-                route('serializer_manufacturers.show', $serializerManufacturer) => Str::limit($serializerManufacturer->name, 30),
+                route('serializer_manufacturers.show', $serializerManufacturer) => $serializerManufacturer->name,
                 'current' => 'Edit',
             ],
             'serializerManufacturer' => $serializerManufacturer,

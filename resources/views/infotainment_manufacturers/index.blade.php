@@ -1,6 +1,5 @@
 @php
     use App\Models\InfotainmentManufacturer;
-    use Illuminate\Support\Str;
 @endphp
 
 <x-layout :breadcrumbs="$breadcrumbs">
@@ -107,7 +106,7 @@
             <tbody>
             @forelse($infotainmentManufacturers as $infotainmentManufacturer)
                 <tr>
-                    <td>{{ Str::limit($infotainmentManufacturer->name, 70) }}</td>
+                    <td><x-shorten-text :text="$infotainmentManufacturer->name" /></td>
                     <td>
                         <x-audit-date :timestamp="$infotainmentManufacturer->created_at"
                                       :by="$infotainmentManufacturer->createdBy"

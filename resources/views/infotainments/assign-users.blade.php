@@ -41,9 +41,9 @@
                                    value="{{ $infotainment->id }}"
                                    autocomplete="off"
                             >
-                            {{ Str::limit($infotainment->infotainmentManufacturer->name, 35) }}
+                            <x-shorten-text :text="$infotainment->infotainmentManufacturer->name" />
                         </td>
-                        <td>{{ Str::limit($infotainment->serializerManufacturer->name, 35) }}</td>
+                        <td><x-shorten-text :text="$infotainment->serializerManufacturer->name" /></td>
                         <td>{{ $infotainment->product_id }}</td>
                         <td>{{ $infotainment->model_year }}</td>
                         <td>{{ $infotainment->part_number }}</td>
@@ -81,9 +81,11 @@
                             />
                         </td>
                         <td>
-                            {{ Str::limit($user->email, 35) }}
+                            <x-shorten-text :text="$user->email" />
                         </td>
-                        <td>{{ Str::limit($user->name, 40) }}</td>
+                        <td>
+                            <x-shorten-text :text="$user->name" />
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>

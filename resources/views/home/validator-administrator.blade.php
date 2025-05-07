@@ -68,9 +68,9 @@
                     @foreach($users as $user)
                         <tr>
                             <td>
-                                {{ Str::limit($user->email, 35) }}
+                                <x-shorten-text :text="$user->email" />
                             </td>
-                            <td>{{ Str::limit($user->name, 40) }}</td>
+                            <td><x-shorten-text :text="$user->name" /></td>
                             <td>{{ $user->role->toHumanReadable() }}</td>
                             <td class="text-end">
                                 @if(!$user->is_approved)
@@ -101,21 +101,33 @@
                 <thead>
                 <tr>
                     <th>Infotainment manufacturer</th>
-                    <th>Serializer manufacturer</th>
-                    <th>Product ID</th>
                     <th>Model year</th>
                     <th>Part number</th>
+                    <th>Diagonal size</th>
+                    <th>Resolution</th>
                     <th class="text-end">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($infotainments as $infotainment)
                     <tr>
-                        <td>{{ Str::limit($infotainment->infotainmentManufacturer->name, 35) }}</td>
-                        <td>{{ Str::limit($infotainment->serializerManufacturer->name, 35) }}</td>
-                        <td>{{ $infotainment->product_id }}</td>
+                        <td><x-shorten-text :text="$infotainment->infotainmentManufacturer->name" /></td>
                         <td>{{ $infotainment->model_year }}</td>
                         <td>{{ $infotainment->part_number }}</td>
+                        <td>
+                            @if ($infotainment->latestProfile === null)
+                                N/A
+                            @else
+                                {{ number_format($infotainment->latestProfile->diagonalSize(), 1) }}"
+                            @endif
+                        </td>
+                        <td>
+                            @if ($infotainment->latestProfile === null)
+                                N/A
+                            @else
+                                {{ $infotainment->latestProfile->timing->horizontal_pixels }}x{{ $infotainment->latestProfile->timing->vertical_lines }}
+                            @endif
+                        </td>
                         <td class="text-end">
                             <x-action-buttons.show :targetUrl="route('infotainments.show', $infotainment)"/>
                         </td>

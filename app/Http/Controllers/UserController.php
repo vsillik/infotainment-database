@@ -17,7 +17,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class UserController extends Controller
@@ -126,7 +125,7 @@ class UserController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('users.index') => 'Users',
-                'current' => Str::limit($user->email, 30),
+                'current' => $user->email,
             ],
             'user' => $user,
         ]);
@@ -187,7 +186,7 @@ class UserController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('users.index') => 'Users',
-                route('users.show', $user) => Str::limit($user->email, 30),
+                route('users.show', $user) => $user->email,
                 'current' => 'Edit',
             ],
             'user' => $user,
@@ -339,7 +338,7 @@ class UserController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('users.index') => 'Users',
-                route('users.show', $user) => Str::limit($user->email, 30),
+                route('users.show', $user) => $user->email,
                 'current' => 'Assign infotainments',
             ],
             'user' => $user,

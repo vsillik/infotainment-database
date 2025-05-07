@@ -1,6 +1,5 @@
 @php
     use App\Models\SerializerManufacturer;
-    use Illuminate\Support\Str;
 @endphp
 <x-layout :breadcrumbs="$breadcrumbs">
     <x-slot:title>
@@ -115,7 +114,7 @@
             @forelse($serializerManufacturers as $serializerManufacturer)
                 <tr>
                     <td>{{ $serializerManufacturer->id }}</td>
-                    <td>{{ Str::limit($serializerManufacturer->name, 70) }}</td>
+                    <td><x-shorten-text :text="$serializerManufacturer->name" /></td>
                     <td>
                         <x-audit-date :timestamp="$serializerManufacturer->created_at"
                                       :by="$serializerManufacturer->createdBy"

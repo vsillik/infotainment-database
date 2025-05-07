@@ -11,7 +11,6 @@ use App\Paginator\Paginator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class InfotainmentManufacturerController extends Controller
@@ -119,7 +118,7 @@ class InfotainmentManufacturerController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('infotainment_manufacturers.index') => 'Infotainment manufacturers',
-                'current' => Str::limit($infotainmentManufacturer->name, 30),
+                'current' => $infotainmentManufacturer->name,
             ],
             'infotainmentManufacturer' => $infotainmentManufacturer,
         ]);
@@ -136,7 +135,7 @@ class InfotainmentManufacturerController extends Controller
             'breadcrumbs' => [
                 route('index') => 'Home',
                 route('infotainment_manufacturers.index') => 'Infotainment manufacturers',
-                route('infotainment_manufacturers.show', $infotainmentManufacturer) => Str::limit($infotainmentManufacturer->name, 30),
+                route('infotainment_manufacturers.show', $infotainmentManufacturer) => $infotainmentManufacturer->name,
                 'current' => 'Edit',
             ],
             'infotainmentManufacturer' => $infotainmentManufacturer,
