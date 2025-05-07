@@ -14,7 +14,7 @@ class ShortenText extends Component
         public readonly string $text,
         ?int $maxLength = null,
     ) {
-        $this->maxLength = $maxLength ?? 25;
+        $this->maxLength = $maxLength ?? 30;
     }
 
     public function render(): View|Closure|string
