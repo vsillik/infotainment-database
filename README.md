@@ -12,12 +12,20 @@ Docker images provided by Laravel Sail are available.
 
 PHPStan with Larastan extension and Laravel Pint are used for code quality checks, PHPUnit is used for testing of EDID export functionality. Both of these are being automatically run on push in GitHub Actions.
 
+User guide can be found in `user-guide.pdf` file.
+
 ## Application requirements
 
 - PHP 8.2+ with extensions specified in the [Laravel documentation](https://laravel.com/docs/11.x/deployment)
 - MySQL/MariaDB
 - HTTP server (tested with Apache)
 - SMTP server for sending email notifications
+
+## Application configuration
+
+Configuration of the application can be done with `.env` file. If this file is not present, you can create one from the `.env.example` file. All relevant configuration options are commented.
+
+If you want to set icon for this application, then replace the file `favicon.ico` in `public` directory with icon of your choice in the deployed application.
 
 ## How to run locally
 
