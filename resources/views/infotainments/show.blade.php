@@ -68,7 +68,7 @@
 
         <div id="profile-timing-details" class="col-md-6">
             @if($infotainment->latestProfile !== null)
-                <h3 class="mb-3 text-body-secondary">
+                <h3 class="mb-3">
                     Parameters of latest
                     @if ($infotainment->latestProfile->is_approved)
                         approved
