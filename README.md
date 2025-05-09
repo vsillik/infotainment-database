@@ -161,6 +161,8 @@ Then you can upload the application to the hosting via FTP. For proper functiona
 - .env
 - .htaccess
 - artisan
+- composer.json
+- composer.lock
 
 After uploading the files, check the permissions for the directory `bootstrap / cache` and all subdirectories (including this directory) of `storage`, so the PHP process can write into these directories. The advised permission is `770` (read, write, and execute allowed for both the owner and the group).
 
