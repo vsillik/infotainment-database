@@ -147,22 +147,7 @@ Next, you need to modify the configuration in the `.env` file for the production
   - Displayed sender email (`MAIL_FROM_ADDRESS`)
   - Displayed sender name (`MAIL_FROM_NAME`)
 
-Then you can upload the application to the hosting via FTP. For proper functionality, you need to upload (at least) the following directories and files to the directory `www / domains / <domain name>` (this directory is specific for Wedos):
-- app
-- bootstrap
-- config
-- database
-- lang
-- public
-- resources
-- routes
-- storage
-- vendor
-- .env
-- .htaccess
-- artisan
-- composer.json
-- composer.lock
+Then you can upload the application files to the hosting via FTP to the directory `www / domains / <domain name>` (this directory is specific for Wedos).
 
 After uploading the files, check the permissions for the directory `bootstrap / cache` and all subdirectories (including this directory) of `storage`, so the PHP process can write into these directories. The advised permission is `770` (read, write, and execute allowed for both the owner and the group).
 
